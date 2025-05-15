@@ -15,4 +15,7 @@ app.get("/api/data", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
+app.get("/", (req, res) => {
+  res.send("¡API funcionando correctamente!");
+});
 app.listen(PORT, () => console.log(`Servidor proxy escuchando en puerto ${PORT}`));
