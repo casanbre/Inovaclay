@@ -58,6 +58,16 @@ app.post('/api/paradas', async (req, res) => {
   }
 });
 
+// Ruta GET para obtener todas las paradas
+app.get('/api/paradas', async (req, res) => {
+  try {
+    const paradas = await Parada.find().sort({ FECHA: -1 }); // Ordenado por fecha descendente
+    res.json(paradas);
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error al obtener paradas.' });
+  }
+});
+
 // Ruta de prueba
 app.get('/api', (req, res) => {
   res.json({ mensaje: '¡Tu backend está funcionando!' });
