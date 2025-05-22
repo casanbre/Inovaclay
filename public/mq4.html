@@ -131,11 +131,34 @@
 
     area.addEventListener("change", function () {
       const valor = area.value;
-
-      document.getElementById("maquinaContainer").style.display = valor === "OPERATIVA" ? "none" : "block";
-      document.getElementById("opcionesContainer").style.display = valor === "OPERATIVA" ? "none" : "block";
-      document.getElementById("opcionesOperativaContainer").style.display = valor === "OPERATIVA" ? "block" : "none";
+    
+      const maquinaContainer = document.getElementById("maquinaContainer");
+      const opcionesContainer = document.getElementById("opcionesContainer");
+      const opcionesOperativaContainer = document.getElementById("opcionesOperativaContainer");
+    
+      const maquina = document.getElementById("maquina");
+      const opciones = document.getElementById("opciones");
+      const opcionesOperativa = document.getElementById("opcionesOperativa");
+    
+      if (valor === "OPERATIVA") {
+        maquinaContainer.style.display = "none";
+        opcionesContainer.style.display = "none";
+        opcionesOperativaContainer.style.display = "block";
+    
+        maquina.required = false;
+        opciones.required = false;
+        opcionesOperativa.required = true;
+      } else {
+        maquinaContainer.style.display = "block";
+        opcionesContainer.style.display = "block";
+        opcionesOperativaContainer.style.display = "none";
+    
+        maquina.required = true;
+        opciones.required = true;
+        opcionesOperativa.required = false;
+      }
     });
+    
 
     maquina.addEventListener("change", function () {
       const partes = opcionesPorMaquina[maquina.value] || [];
