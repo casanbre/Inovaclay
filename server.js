@@ -58,11 +58,25 @@ app.post('/api/paradas', async (req, res) => {
   }
 });
 
-// Ruta GET para obtener todas las paradas
+// Ruta GET para obtener todas las paradas (con fecha formateada)
 app.get('/api/paradas', async (req, res) => {
   try {
-    const paradas = await Parada.find().sort({ FECHA: -1 }); // Ordenado por fecha descendente
-    res.json(paradas);
+    const paradas = await Parada.find().sort({ FECHA: -1 });
+
+    const paradasFormateadas = paradas.map(parada => {
+      const fechaFormateada = new Date(parada.FECHA).toLocaleDateString('es-ES', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+
+      return {
+        ...parada.toObject(),
+        FECHA: fechaFormateada
+      };
+    });
+
+    res.json(paradasFormateadas);
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error al obtener paradas.' });
   }
