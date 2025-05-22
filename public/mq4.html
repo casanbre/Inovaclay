@@ -202,7 +202,7 @@
       observaciones: document.getElementById("observaciones").value
     };
 
-    fetch("https://inovaclay-1.onrender.com/", {
+    fetch("https://inovaclay-1.onrender.com/api/paradas", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
