@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Formulario</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../public/Estilos/estilo.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+</head>
+<body>
+
+<form id="signatureForm" class="custom-form p-4" method="post">
+
+  <div class="form-group mb-4">
+    <h2 class="titulo">REGISTRO DE PARADAS MAQUINA 4</h2>
+  </div>
+
+  <div class="form-group position-relative mb-3">
+    <label for="fecha">FECHA:</label>
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+      <input type="date" id="fecha" name="fechas" class="form-control" required />
+    </div>
+  </div>
+
+  <div class="form-group position-relative mb-3">
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+      <select id="operadores" name="operador" class="form-select" required>
+        <option value="">SELECCIONAR OPERADOR</option>
+        <option value="DAGOBERTO MARRUGO">DAGOBERTO MARRUGO</option>
+        <option value="CARLOS MARANTO">CARLOS MARANTO</option>
+        <option value="JHON CASTILLO">JHON CASTILLO</option>
+        <option value="JAIVER ARIAS">JAIVER ARIAS</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group position-relative mb-3">
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-tools"></i></span>
+      <select id="area" name="areas" class="form-select" required>
+        <option value="">TIPO DE PARADA</option>
+        <option value="MECANICA">MECÁNICA</option>
+        <option value="ELECTRICA">ELÉCTRICA</option>
+        <option value="OPERATIVA">OPERATIVA</option>
+        <option value="OTRAS">OTRAS SECCIONES</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="maquinaContainer" class="form-group position-relative mb-3">
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-gear-fill"></i></span>
+      <select id="maquina" name="maquinas" class="form-select" required>
+        <option value="">SELECCIONAR</option>
+        <option value="Mezclador">MEZCLADOR</option>
+        <option value="Laminador">LAMINADOR</option>
+        <option value="Banda corta">BANDA CORTA</option>
+        <option value="Banco de cadena 1">BANCO DE CADENA 1</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="opcionesContainer" class="form-group position-relative mb-3">
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-ui-checks"></i></span>
+      <select id="opciones" name="opcion" class="form-select" required>
+        <option value="">SELECCIONE PRIMERO</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="opcionesOperativaContainer" class="form-group position-relative mb-3" style="display: none;">
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-ui-checks-grid"></i></span>
+      <select id="opcionesOperativa" class="form-select">
+        <option value="">Selecciona</option>
+        <option value="ASEO">Aseo</option>
+        <option value="RUTINA">Rutina</option>
+        <option value="CAJON VACIO">Cajón vacío</option>
+        <option value="SIN CARGADOR">Sin cargador</option>
+        <option value="SIN ESTANTERIA">Sin estantería</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="horaInicial">HORA INICIAL:</label>
+    <input type="time" id="horaInicial" name="horainicials" class="form-control" required />
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="horaFinal">HORA FINAL:</label>
+    <input type="time" id="horaFinal" name="horafinals" class="form-control" required />
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="horaTotal">TIEMPO TOTAL:</label>
+    <input type="text" id="horaTotal" name="horatotals" class="form-control" readonly />
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="observaciones">OBSERVACIONES:</label>
+    <textarea id="observaciones" name="observaciones" rows="3" class="form-control" placeholder="Escribe aquí algún comentario..." required></textarea>
+  </div>
+
+  <div class="d-flex gap-2 mt-3">
+    <button type="button" class="btn btn-secondary" onclick="history.back();">
+      <i class="bi bi-arrow-left"></i> VOLVER
+    </button>
+    <button type="submit" class="btn btn-success">ENVIAR</button>
+  </div>
+
+</form>
+
+<script>
+  const opcionesPorMaquina = {
+    "Mezclador": ["MOTOR", "REDUCTOR", "PALETAS", "EJE"],
+    "Laminador": ["CORREA", "MASA", "PROTECTORES", "MOTOR"],
+    "Banda corta": ["MOTOR", "REDUCTOR", "BANDA", "ESTRUCTURA"],
+    "Banco de cadena 1": ["MOTOR", "CADENA", "RODILLOS", "CILINDRO"]
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const area = document.getElementById("area");
+    const maquina = document.getElementById("maquina");
+    const opciones = document.getElementById("opciones");
+    const operativa = document.getElementById("opcionesOperativa");
+
+    area.addEventListener("change", function () {
+      const valor = area.value;
+
+      document.getElementById("maquinaContainer").style.display = valor === "OPERATIVA" ? "none" : "block";
+      document.getElementById("opcionesContainer").style.display = valor === "OPERATIVA" ? "none" : "block";
+      document.getElementById("opcionesOperativaContainer").style.display = valor === "OPERATIVA" ? "block" : "none";
+    });
+
+    maquina.addEventListener("change", function () {
+      const partes = opcionesPorMaquina[maquina.value] || [];
+      opciones.innerHTML = partes.length
+        ? partes.map(p => `<option value="${p}">${p}</option>`).join("")
+        : `<option value="">Sin opciones</option>`;
+    });
+
+    function calcularTiempo() {
+      const inicio = document.getElementById("horaInicial").value;
+      const fin = document.getElementById("horaFinal").value;
+      if (inicio && fin) {
+        const [hi, mi] = inicio.split(":").map(Number);
+        const [hf, mf] = fin.split(":").map(Number);
+        let totalMin = (hf * 60 + mf) - (hi * 60 + mi);
+        if (totalMin < 0) totalMin += 1440;
+        const horas = Math.floor(totalMin / 60).toString().padStart(2, "0");
+        const mins = (totalMin % 60).toString().padStart(2, "0");
+        document.getElementById("horaTotal").value = `${horas}:${mins}`;
+      }
+    }
+
+    document.getElementById("horaInicial").addEventListener("input", calcularTiempo);
+    document.getElementById("horaFinal").addEventListener("input", calcularTiempo);
+  });
+
+  document.getElementById("signatureForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const data = {
+      fechas: document.getElementById("fecha").value,
+      operador: document.getElementById("operadores").value,
+      areas: document.getElementById("area").value,
+      maquinas: document.getElementById("maquina").value,
+      opcion: document.getElementById("area").value === "OPERATIVA"
+        ? document.getElementById("opcionesOperativa").value
+        : document.getElementById("opciones").value,
+      horainicials: document.getElementById("horaInicial").value,
+      horafinals: document.getElementById("horaFinal").value,
+      horatotals: document.getElementById("horaTotal").value,
+      observaciones: document.getElementById("observaciones").value
+    };
+
+    fetch("http://localhost:3000/api/paradas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(response => {
+      if (response.success) {
+        alert("Datos enviados correctamente.");
+        document.getElementById("signatureForm").reset();
+        document.getElementById("horaTotal").value = "";
+      } else {
+        alert("Error en el servidor: " + (response.message || "Sin mensaje."));
+      }
+    })
+    .catch(error => {
+      console.error("Error de red:", error);
+      alert("No se pudo conectar al servidor.");
+    });
+  });
+</script>
+
+</body>
+</html>

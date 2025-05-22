@@ -1,0 +1,21 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    background-image: url("../Img/Imagen1.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+
+@media (max-width: 768px) {
+    body {
+        background-size: contain;
+        background-position: top center;
+        background-attachment: scroll;
+    }
+}
