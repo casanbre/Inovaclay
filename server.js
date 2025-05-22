@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // Servir archivos estáticos desde la carpeta 'InovaClay/public'
-app.use(express.static('InovaClay/public'));
+app.use(express.static('public'));
 
 // Conectar a MongoDB
 mongoose.connect(process.env.MONGO_URI)
