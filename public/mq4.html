@@ -54,11 +54,20 @@
     <div class="input-group">
       <span class="input-group-text"><i class="bi bi-gear-fill"></i></span>
       <select id="maquina" name="maquinas" class="form-select" required>
-        <option value="">SELECCIONAR</option>
-        <option value="Mezclador">MEZCLADOR</option>
-        <option value="Laminador">LAMINADOR</option>
-        <option value="Banda corta">BANDA CORTA</option>
-        <option value="Banco de cadena 1">BANCO DE CADENA 1</option>
+          <option value="Laminador">LAMINADOR</option>
+          <option value="Banda corta">BANDA CORTA</option>
+          <option value="Banda 1">BANDA 1</option>
+          <option value="Banda 2">BANDA 2</option>
+          <option value="Cajon Alimentador 1">CAJÓN ALIMENTADOR 1</option>
+          <option value="Cajon Alimentador 2">CAJÓN ALIMENTADOR 2</option>
+          <option value="Extrusora">EXTRUSORA</option>
+          <option value="Corte">CORTE</option>
+          <option value="Banco de cadena 1">BANCO DE CADENA 1</option>
+          <option value="Banco de cadena 2">BANCO DE CADENA 2</option>
+          <option value="Banco de cadena 3">BANCO DE CADENA 3</option>
+          <option value="Banda Programadora">BANDA DE PROGRAMACIÓN</option>
+          <option value="Banda Elevadora">BANDA ELEVADORA</option>
+          <option value="Mesa de Rodillos">MESA DE RODILLOS</option>
       </select>
     </div>
   </div>
@@ -77,11 +86,10 @@
       <span class="input-group-text"><i class="bi bi-ui-checks-grid"></i></span>
       <select id="opcionesOperativa" class="form-select">
         <option value="">Selecciona</option>
-        <option value="ASEO">Aseo</option>
-        <option value="RUTINA">Rutina</option>
-        <option value="CAJON VACIO">Cajón vacío</option>
-        <option value="SIN CARGADOR">Sin cargador</option>
-        <option value="SIN ESTANTERIA">Sin estantería</option>
+        <option value="ASEO">ASEO</option>
+        <option value="SIN MATERIAL">SIN MATERIAL</option>
+        <option value="SIN CARGADOR">SIN CARGADOR</option>
+        <option value="SIN ESTANTERIA">SIN ESTANTERIA</option>
       </select>
     </div>
   </div>
@@ -118,10 +126,21 @@
 <script>
   const opcionesPorMaquina = {
     "Mezclador": ["MOTOR", "REDUCTOR", "PALETAS", "EJE"],
-    "Laminador": ["CORREA", "MASA", "PROTECTORES", "MOTOR"],
-    "Banda corta": ["MOTOR", "REDUCTOR", "BANDA", "ESTRUCTURA"],
-    "Banco de cadena 1": ["MOTOR", "CADENA", "RODILLOS", "CILINDRO"]
-  };
+    "Laminador": ["CORREA", "MASA", "PROTECTORES 2", "POLEAS", "MOTOR"],
+    "Banda corta": ["MOTOR", "REDUCTOR", "TAMBOR MOTRIZ", "TAMBOR CONDUCIDO", "RODILLOS", "BANDA", "CORREAS", "ESTRUCTURA"],
+    "Banda 1": ["MOTOR", "REDUCTOR", "TAMBOR MOTRIZ", "TAMBOR CONDUCIDO", "RODILLOS", "BANDA", "CORREAS", "ESTRUCTURA"],
+    "Banda 2": ["MOTOR", "REDUCTOR", "TAMBOR MOTRIZ", "TAMBOR CONDUCIDO", "RODILLOS", "BANDA", "CORREAS", "ESTRUCTURA"],
+    "Cajon Alimentador 1": ["MOTOR", "REDUCTOR", "TAMBOR MOTRIZ", "TAMBOR CONDUCIDO", "RODILLOS", "BANDAS", "CORREAS", "ESTRUCTURA"],
+    "Cajon Alimentador 2": ["MOTOR", "REDUCTOR", "TAMBOR MOTRIZ", "TAMBOR CONDUCIDO", "RODILLOS", "BANDAS", "CORREAS", "ESTRUCTURA"],
+    "Extrusora": ["PALETA", "MANITO", "CARACOLES", "VÁSTAGO", "ESTRELLAS"],
+    "Corte": ["PRECORTE", "TORNILLO", "CORREAS", "RODILLOS", "FINAL DE CARRERA", "RODAMIENTO", "CHUMACERA", "POLEAS", "MOTOR", "REDUCTO", "ESTRUCTURA", "CABLEADO", "FLUIDO ELECTRICO"],
+    "Banco de cadena 1": ["SENSOR", "CABLEADO", "MOTOR", "REDUCTOR", "ENCODER", "CADENA", "PIÑÓN", "RODILLOS", "CILINDRO NEUMÁTICO", "ELECTROVÁLVULAS", "FLUIDO ELÉCTRICO"],
+    "Banco de cadena 2": ["SENSOR", "CABLEADO", "MOTOR", "REDUCTOR", "ENCODER", "CADENA", "PIÑÓN", "RODILLOS", "CILINDRO NEUMÁTICO", "ELECTROVÁLVULAS", "FLUIDO ELÉCTRICO"],
+    "Banco de cadena 3": ["SENSOR", "CABLEADO", "MOTOR", "REDUCTOR", "ENCODER", "CADENA", "PIÑÓN", "RODILLOS", "CILINDRO NEUMÁTICO", "ELECTROVÁLVULAS", "FLUIDO ELÉCTRICO"],
+    "Banda Programadora": ["BANDA PVC", "SENSOR", "MOTOR", "REDUCTOR", "ESTRUCTURA", "RODILLOS", "CHUMACERA", "RODAMIENTO"],
+    "Banda Elevadora": ["BANDA PVC", "SENSOR", "MOTOR", "REDUCTOR", "ESTRUCTURA", "RODILLOS", "CHUMACERA", "RODAMIENTO", "FINAL DE CARRERA", "CILINDRO NEUMATICO", "ELECTRO VALVULA", "UNIDAD DE MTTO", "ESLINGA",                   "CADENA", "PIÑON"],
+    "Mesa de Rodillos": ["RODILLOS", "CADENA", "CILINDRO NEUMATICO", "ESLINGA", "EXTRUCTURA"]
+};  
 
   document.addEventListener("DOMContentLoaded", function () {
     const area = document.getElementById("area");
