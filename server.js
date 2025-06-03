@@ -23,7 +23,7 @@ const paradaSchema = new mongoose.Schema({
   FECHA: { type: Date, required: true },
   OPERADOR: { type: String, required: true },
   AREA: { type: String, required: true },
-  MAQUINA: { type: String, default: 'OPERATIVA' },
+  MAQUINA: { type: String, default: 'operativa' },
   OPCION: { type: String, required: true },
   HORA_INICIAL: { type: String, required: true },
   HORA_FINAL: { type: String, required: true },
