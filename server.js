@@ -23,7 +23,7 @@ const paradaSchema = new mongoose.Schema({
   FECHA: { type: Date, required: true },
   OPERADOR: { type: String, required: true },
   AREA: { type: String, required: true },
-  MAQUINA: { type: String, default: null },
+  MAQUINA: { type: String, default: 'OPERATIVA' },
   OPCION: { type: String, required: true },
   HORA_INICIAL: { type: String, required: true },
   HORA_FINAL: { type: String, required: true },
@@ -38,11 +38,16 @@ app.post('/api/paradas', async (req, res) => {
   try {
     const datos = req.body;
 
+    const maquinaFinal =
+      !datos.maquinas || datos.maquinas === 'null'
+        ? 'OPERATIVA'
+        : datos.maquinas;
+
     const nuevaParada = new Parada({
       FECHA: datos.fechas,
       OPERADOR: datos.operador,
       AREA: datos.areas,
-      MAQUINA: datos.areas === "OPERATIVA" ? null : datos.maquinas,
+      MAQUINA: maquinaFinal,
       OPCION: datos.opcion,
       HORA_INICIAL: datos.horainicials,
       HORA_FINAL: datos.horafinals,
