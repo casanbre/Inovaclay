@@ -201,9 +201,9 @@
         const [hf, mf] = fin.split(":").map(Number);
     
         let totalMin = (hf * 60 + mf) - (hi * 60 + mi);
-        if (totalMin < 0) totalMin += 1440; // para manejar casos que cruzan medianoche
+        if (totalMin < 0) totalMin += 1440; 
     
-        document.getElementById("horaTotal").value = totalMin + " minutos";
+        document.getElementById("horaTotal").value = totalMin ;
       }
     }
     
