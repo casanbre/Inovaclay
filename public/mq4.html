@@ -219,7 +219,7 @@
       fechas: document.getElementById("fecha").value,
       operador: document.getElementById("operadores").value,
       areas: document.getElementById("area").value,
-      maquinas: document.getElementById("maquina").value,
+      maquinas: document.getElementById("area").value === "OPERATIVA" ? "" : document.getElementById("maquina").value,
       opcion: document.getElementById("area").value === "OPERATIVA"
         ? document.getElementById("opcionesOperativa").value
         : document.getElementById("opciones").value,
@@ -228,6 +228,7 @@
       horatotals: document.getElementById("horaTotal").value,
       observaciones: document.getElementById("observaciones").value
     };
+    
 
     fetch("https://inovaclay-1.onrender.com/api/paradas", {
       method: "POST",
