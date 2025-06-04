@@ -1,30 +1,66 @@
-body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  .container {
-    background-color: rgb(255 140 78 / 73%);
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 0 12px rgba(241, 245, 228, 0);
-  }
-  
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background-image: url("../Img/ladrillo.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 0 12px rgba(241, 245, 228, 0);
+}
+
+h2 {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #000;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+input[type="date"] {
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+}
+
+.table-dark th {
+  background-color: #000 !important;
+  color: #ffcc00 !important;
+}
+
+.table-dark tr {
+  border-radius: 20px;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 576px) {
   h2 {
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  
-  .table th, .table td {
-    vertical-align: middle;
+    font-size: 1.5rem;
   }
 
-  .table-dark th {
-    background-color: #000000 !important;
-    color: #ffcc00 !important;
-   
+  .container {
+    padding: 1rem 0.5rem;
   }
-  .table-dark tr{
-    border-radius: 20px;
+
+  .table th, .table td {
+    font-size: 0.8rem;
   }
+}
