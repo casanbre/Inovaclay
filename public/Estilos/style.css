@@ -9,7 +9,7 @@ body, html {
 .container {
   width: 100%;
   min-height: 100vh;
-  background-image: url("./Imagenes/ladrillo.jpg");
+  background-image: url("../Img/ladrillo.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
