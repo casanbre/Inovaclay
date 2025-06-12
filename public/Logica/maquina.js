@@ -1,141 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Formulario</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="./Estilos/estilo.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-</head>
-<body>
-
-<form id="signatureForm" class="custom-form p-4" method="post">
-
-  <div class="form-group mb-4">
-    <h2 class="titulo">REGISTRO DE PARADAS MAQUINA 4</h2>
-  </div>
-
-  <div class="form-group position-relative mb-3">
-    <label for="fecha">FECHA:</label>
-    <div class="input-group">
-      <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
-      <input type="date" id="fecha" name="fechas" class="form-control" required />
-    </div>
-  </div>
-
-  <div class="form-group position-relative mb-3">
-    <div class="input-group">
-      <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-      <select id="operadores" name="operador" class="form-select" required>
-        <option value="">SELECCIONAR OPERADOR</option>
-        <option value="DAGOBERTO MARRUGO">DAGOBERTO MARRUGO</option>
-        <option value="CARLOS MARANTO">CARLOS MARANTO</option>
-        <option value="JHON CASTILLO">JHON CASTILLO</option>
-        <option value="JAIVER ARIAS">JAIVER ARIAS</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="form-group position-relative mb-3">
-    <div class="input-group">
-      <span class="input-group-text"><i class="bi bi-tools"></i></span>
-      <select id="area" name="areas" class="form-select" required>
-        <option value="">TIPO DE PARADA</option>
-        <option value="MECANICA">MECÁNICA</option>
-        <option value="ELECTRICA">ELÉCTRICA</option>
-        <option value="OPERATIVA">OPERATIVA</option>
-        <option value="OTRAS">OTRAS SECCIONES</option>
-      </select>
-    </div>
-  </div>
-
-  <div id="maquinaContainer" class="form-group position-relative mb-3">
-    <div class="input-group">
-      <span class="input-group-text"><i class="bi bi-gear-fill"></i></span>
-      <select id="maquina" name="maquinas" class="form-select" required>
-          <option value="Laminador">LAMINADOR</option>
-          <option value="Banda corta">BANDA CORTA</option>
-          <option value="Banda 1">BANDA 1</option>
-          <option value="Banda 2">BANDA 2</option>
-          <option value="Cajon Alimentador 1">CAJÓN ALIMENTADOR 1</option>
-          <option value="Cajon Alimentador 2">CAJÓN ALIMENTADOR 2</option>
-          <option value="Extrusora">EXTRUSORA</option>
-          <option value="Corte">CORTE</option>
-          <option value="Banco de cadena 1">BANCO DE CADENA 1</option>
-          <option value="Banco de cadena 2">BANCO DE CADENA 2</option>
-          <option value="Banco de cadena 3">BANCO DE CADENA 3</option>
-          <option value="Banda Programadora">BANDA DE PROGRAMACIÓN</option>
-          <option value="Banda Elevadora">BANDA ELEVADORA</option>
-          <option value="Mesa de Rodillos">MESA DE RODILLOS</option>
-          <option value="Falla electrica">FALLA ELECTRICA</option>
-          <option value="Amasadora"> AMASADORA</option>
-          <option value="Rieles de estanteria">RIELES DE ESTANTERIA</option>
-          <option value="Mantenimiento general">MANTENIMIENTO GENERAL </option>
-      </select>
-    </div>
-  </div>
-
-  <div id="opcionesContainer" class="form-group position-relative mb-3">
-    <div class="input-group">
-      <span class="input-group-text"><i class="bi bi-ui-checks"></i></span>
-      <select id="opciones" name="opcion" class="form-select" required>
-        <option value="">SELECCIONE PRIMERO</option>
-      </select>
-    </div>
-  </div>
-
-  <div id="opcionesOperativaContainer" class="form-group position-relative mb-3" style="display: none;">
-    <div class="input-group">
-      <span class="input-group-text"><i class="bi bi-ui-checks-grid"></i></span>
-      <select id="opcionesOperativa" class="form-select">
-        <option value="">Selecciona</option>
-        <option value="ASEO">ASEO</option>
-        <option value="SIN MATERIAL">SIN MATERIAL</option>
-        <option value="SIN CARGADOR">SIN CARGADOR</option>
-        <option value="CAMBIO DE ALAMBRE">CAMBIO DE ALAMBRE</option>
-        <option value="CAMBIO DE MOLDE">CAMBIO DE MOLDE</option>
-        <option value="LLUVIAS ">LLUVIAS</option>
-        <option value="SIN ESTANTERIAS ">SIN ESTANTERIAS</option>
-        <option value="BALLENA ">BALLENA</option>
-        <option value="ESTANTERIA EN MAL ESTADO ">ESTANTERIA EN MAL ESTADO</option>
-        <option value="PRUEBA DE SALIDA ">PRUEBA DE SALIDA</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="form-group mb-3">
-    <label for="horaInicial">HORA INICIAL:</label>
-    <input type="time" id="horaInicial" name="horainicials" class="form-control" required />
-  </div>
-
-  <div class="form-group mb-3">
-    <label for="horaFinal">HORA FINAL:</label>
-    <input type="time" id="horaFinal" name="horafinals" class="form-control" required />
-  </div>
-
-  <div class="form-group mb-3">
-    <label for="horaTotal">TIEMPO TOTAL:</label>
-    <input type="text" id="horaTotal" name="horatotals" class="form-control" readonly />
-  </div>
-
-  <div class="form-group mb-3">
-    <label for="observaciones">OBSERVACIONES:</label>
-    <textarea id="observaciones" name="observaciones" rows="3" class="form-control" placeholder="Escribe aquí algún comentario..." required></textarea>
-  </div>
-
-  <div class="d-flex gap-2 mt-3">
-    <button type="button" class="btn btn-secondary" onclick="history.back();">
-      <i class="bi bi-arrow-left"></i> VOLVER
-    </button>
-    <button type="submit" class="btn btn-success">ENVIAR</button>
-  </div>
-
-</form>
-
-<script src="./Logica/maquina.js"></script>
-<!-- <script>
-  const opcionesPorMaquina = {
+const opcionesPorMaquina = {
     "Mezclador": ["MOTOR", "REDUCTOR", "PALETAS", "EJE"],
     "Laminador": ["CORREA", "MASA", "PROTECTORES 2", "POLEAS", "MOTOR"],
     "Banda corta": ["MOTOR", "REDUCTOR", "TAMBOR MOTRIZ", "TAMBOR CONDUCIDO", "RODILLOS", "BANDA", "CORREAS", "ESTRUCTURA"],
@@ -153,9 +16,8 @@
     "Mesa de Rodillos": ["RODILLOS", "CADENA", "CILINDRO NEUMATICO", "ESLINGA", "EXTRUCTURA"],
     "Falla electrica": ["FALLA ELECTRICA GENERAL"],
     "Amasadora": ["REDUCTOR","ESTRUCTURA","EJE","PALETAS","VASTAGO"],
-    "Rieles de estanteria":["RODILLOS", "ESTRUCTURA"],
-    "Mantenimeinto": ["MANTENIMIENTO GENERAL"]
-  };  
+    "Rieles de estanteria":["RODILLOS", "ESTRUCTURA"]
+};  
 
   document.addEventListener("DOMContentLoaded", function () {
     const area = document.getElementById("area");
@@ -259,7 +121,3 @@
       alert("No se pudo conectar al servidor.");
     });
   });
-</script> -->
-
-</body>
-</html>
