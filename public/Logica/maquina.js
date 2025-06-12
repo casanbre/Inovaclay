@@ -16,7 +16,8 @@ const opcionesPorMaquina = {
     "Mesa de Rodillos": ["RODILLOS", "CADENA", "CILINDRO NEUMATICO", "ESLINGA", "EXTRUCTURA"],
     "Falla electrica": ["FALLA ELECTRICA GENERAL"],
     "Amasadora": ["REDUCTOR","ESTRUCTURA","EJE","PALETAS","VASTAGO"],
-    "Rieles de estanteria":["RODILLOS", "ESTRUCTURA"]
+    "Rieles de estanteria":["RODILLOS", "ESTRUCTURA"],
+    "Mantenimiento general" ["MANTENIMIENTO GENERAL"]
 };  
 
   document.addEventListener("DOMContentLoaded", function () {
