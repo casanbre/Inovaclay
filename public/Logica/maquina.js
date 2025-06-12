@@ -17,7 +17,7 @@ const opcionesPorMaquina = {
     "Falla electrica": ["FALLA ELECTRICA GENERAL"],
     "Amasadora": ["REDUCTOR","ESTRUCTURA","EJE","PALETAS","VASTAGO"],
     "Rieles de estanteria":["RODILLOS", "ESTRUCTURA"],
-    "Mantenimiento general" ["MANTENIMIENTO GENERAL"]
+    "Mantenimiento general": ["MANTENIMIENTO GENERAL"]
 };  
 
   document.addEventListener("DOMContentLoaded", function () {
