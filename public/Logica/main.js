@@ -18,6 +18,7 @@ function renderizarFilas(data) {
     fila.innerHTML = `
       <td>${index + 1}</td>
       <td>${usuario.FECHA}</td>
+      <td>${usuario.AREA}</td>
       <td>${usuario.MAQUINA}</td>
       <td>${usuario.OPCION}</td>
       <td>${usuario.HORA_TOTAL}</td>

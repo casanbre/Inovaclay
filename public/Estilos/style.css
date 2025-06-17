@@ -9,13 +9,14 @@ body, html {
 .container {
   width: 100%;
   min-height: 100vh;
-  background-image: url("../Img/ladrillo.jpg");
+  background-image: url("../Img/ladrillo.jpg"); 
+  background-color: aquamarine;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 12px;
   padding: 1rem;
-  box-shadow: 0 0 12px rgba(241, 245, 228, 0);
+  box-shadow: 0 0 12px rgba(193, 247, 16, 0);
 }
 
 h2 {
@@ -50,7 +51,7 @@ input[type="date"] {
   border-radius: 20px;
 }
 
-/* Responsive para pantallas pequeñas */
+
 @media (max-width: 576px) {
   h2 {
     font-size: 1.5rem;
