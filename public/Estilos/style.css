@@ -1,15 +1,16 @@
-body, html {
+body,
+html {
   height: 100%;
   margin: 0;
   padding: 0;
   background-color: #f8f9fa;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 .container {
   width: 100%;
   min-height: 100vh;
-  background-image: url("../Img/ladrillo.jpg"); 
+  background-image: url("../Img/ladrillo.jpg");
   background-color: aquamarine;
   background-size: cover;
   background-repeat: no-repeat;
@@ -38,7 +39,8 @@ input[type="date"] {
   border: 1px solid #ccc;
 }
 
-.table th, .table td {
+.table th,
+.table td {
   vertical-align: middle;
 }
 
@@ -51,7 +53,6 @@ input[type="date"] {
   border-radius: 20px;
 }
 
-
 @media (max-width: 576px) {
   h2 {
     font-size: 1.5rem;
@@ -61,15 +62,15 @@ input[type="date"] {
     padding: 1rem 0.5rem;
   }
 
-  .table th, .table td {
+  .table th,
+  .table td {
     font-size: 0.8rem;
   }
 }
 
-.form-label{
+.form-label {
   font-size: 17px;
   color: #000000;
   background-color: rgba(255, 255, 255, 0.684);
   border-radius: 10px;
 }
-
