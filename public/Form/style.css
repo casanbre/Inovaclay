@@ -6,30 +6,28 @@ body {
   margin: 0;
   padding: 20px;
   background-image: url("./Imagenes/fondo_1.jpg");
-  background-position: center center;
+  background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-size: cover; /* ← Cambiado aquí */
-}
-
-
-h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 1.8rem;
-  color: #222;
+  background-size: cover;
 }
 
 form {
   max-width: 600px;
-  margin: 0 auto;
-  background: #fff;
+  width: 100%;
+  background: #ffffffd9;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1rem;
+}
+
+h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 label {
@@ -42,22 +40,12 @@ input,
 select,
 textarea {
   width: 100%;
-  padding: 0.7rem;
+  padding: 0.9rem;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
-  background-color: #fff;
   box-sizing: border-box;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: #007bff;
-  outline: none;
+  background-color: #fff;
 }
 
 textarea {
@@ -65,49 +53,58 @@ textarea {
 }
 
 button {
-  padding: 0.75rem;
+  padding: 0.9rem;
+  font-size: 1rem;
+  border-radius: 8px;
   background-color: #007bff;
   color: white;
-  font-size: 1rem;
   border: none;
-  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
   background-color: #0056b3;
 }
 
-.section {
-  border-top: 1px solid #eee;
-  padding-top: 1rem;
-  margin-top: 1rem;
-}
-
-@media (max-width: 768px) {
-  body {
-    background-size: contain;
-    background-position: top center;
-    background-attachment: scroll;
-  
-}
-
-  form {
-    padding: 1.5rem;
-  }
-}
 .botonTurno {
-  background-color: #09b7d6;  /* Color azul moderno */
-  color: white;               /* Texto blanco */
+  background-color: #09b7d6;
+  color: white;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.25rem;
   font-size: 1rem;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  margin-bottom: 1rem;
 }
 
 .botonTurno:hover {
-  background-color: #0056b3; 
+  background-color: #007799;
+}
+
+/* ✅ RESPONSIVE para móviles */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll;
+  }
+
+  form {
+    padding: 1.2rem;
+    width: 100%;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 1.1rem;
+    padding: 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
 }
