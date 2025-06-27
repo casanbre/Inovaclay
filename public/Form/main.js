@@ -64,6 +64,12 @@ window.addEventListener("DOMContentLoaded", () => {
   
     document.getElementById("material").value = "4";
   
-    deshabilitarTurno(true); // Vuelve a bloquear los campos después de enviar
+    deshabilitarTurno(true); 
   });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const hoy = new Date().toISOString().split('T')[0];
+    document.getElementById('fecha').value = hoy;
+  });
+  
   

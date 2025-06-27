@@ -6,7 +6,7 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>Registro de Vagonetas</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./Form/style.css" />
   </head>
   <body>
     <form id="vagonetaForm">
@@ -31,13 +31,14 @@
       <label for="fecha">Fecha:</label>
       <input type="date" id="fecha" required />
 
-      <label for="vagoneta">Número de Vagoneta (1 - 99):</label>
+
+      <label for="vagoneta">Número de Vagoneta :</label>
       <input type="number" id="vagoneta" min="1" max="99" required />
 
       <label for="material">Material:</label>
       <select id="material">
-        <option value="4" selected>4</option>
-        <option value="1/2">1/2</option>
+        <option value="4" selected>#4</option>
+        <option value="1/2 4">1/2 4</option>
         <option value="5">5</option>
       </select>
 
@@ -67,7 +68,7 @@
 
       <button type="submit">Guardar Registro</button>
 
-      <script src="/Form/main.js"></script>
+      <script src="./Form/main.js"></script>
     </form>
   </body>
 </html>
