@@ -79,7 +79,7 @@ app.get('/api/paradas', async (req, res) => {
 
     const paradasFormateadas = paradas.map(parada => ({
       ...parada.toObject(),
-      FECHA: new Date(parada.FECHA).toLocaleDateString('es-ES')
+      FECHA: new Date(parada.FECHA).toISOString().split('T')[0]
     }));
 
     res.json(paradasFormateadas);
@@ -121,11 +121,18 @@ app.post('/api/vagonetas', async (req, res) => {
 app.get('/api/vagonetas', async (req, res) => {
   try {
     const registros = await RegistroVagoneta.find().sort({ FECHA: -1 });
-    res.json(registros);
+
+    const registrosFormateados = registros.map(registro => ({
+      ...registro.toObject(),
+      FECHA: new Date(registro.FECHA).toISOString().split('T')[0]  
+    }));
+
+    res.json(registrosFormateados);
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error al obtener los registros' });
   }
 });
+
 
 
 app.get('/vagonetas', (req, res) => {
