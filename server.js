@@ -15,12 +15,7 @@ console.log("🔍 URI leída del .env:", process.env.MONGO_URI);
 
 
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log('✅ Conectado a MongoDB'))
-.catch(err => console.error('❌ Error al conectar a MongoDB:', err));
+mongoose.connect(process.env.MONGO_URI)
 
 const paradaSchema = new mongoose.Schema({
   FECHA: { type: Date, required: true },
