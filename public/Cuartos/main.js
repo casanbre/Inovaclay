@@ -1,8 +1,16 @@
+// ✅ Función para combinar hora con la fecha actual
+function combinarHoraConFecha(horaStr) {
+  const hoy = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+  return new Date(`${hoy}T${horaStr}`);
+}
+
+// Variables del DOM
 const productoSelect = document.getElementById("producto");
 const subproductoSelect = document.getElementById("subproducto");
 const subproductoGroup = document.getElementById("subproducto-group");
 const formulario = document.getElementById("cuartoForm");
 
+// Lista de subproductos por categoría
 const subproductos = {
   Ladrillo: [
     "Ladrillo N°4",
@@ -32,7 +40,7 @@ const subproductos = {
   PlacaFacil: ["Bloquelon"]
 };
 
-// Cuando cambia el producto, mostrar subproductos si existen
+// Mostrar subproductos cuando cambia el producto
 productoSelect.addEventListener("change", () => {
   const selected = productoSelect.value;
   const opciones = subproductos[selected] || [];
@@ -57,11 +65,10 @@ productoSelect.addEventListener("change", () => {
   }
 });
 
-// Validación + Envío con fetch()
+// Validación y envío de formulario
 formulario.addEventListener("submit", async function (e) {
-  e.preventDefault(); // Evita recargar la página
+  e.preventDefault(); // Evita recarga
 
-  // Validar subproducto si es visible
   if (subproductoGroup.classList.contains("visible") && !subproductoSelect.value) {
     alert("Por favor, selecciona un subproducto.");
     subproductoSelect.focus();
@@ -79,7 +86,6 @@ formulario.addEventListener("submit", async function (e) {
     horaFinal: document.getElementById("horaFinal").value ? combinarHoraConFecha(document.getElementById("horaFinal").value) : null,
     observaciones: document.getElementById("observaciones").value
   };
-  
 
   try {
     const res = await fetch("https://inovaclay-1.onrender.com/api/cuartos", {
