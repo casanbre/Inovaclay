@@ -90,41 +90,28 @@ h2 {
   opacity: 1;
 }
 
-/* ✅ MEDIA QUERY para pantallas menores de 600px (teléfonos) */
-@media (max-width: 600px) {
-  body {
-    padding: 10px;
-    background: linear-gradient(to bottom, #ffffff, #FF5722);
-  }
-
+@media (max-width: 768px) {
   .form-group {
     flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .form-group i {
-    margin-bottom: 5px;
+    align-items: stretch;
   }
 
   .form-group label {
-    width: 100%;
     margin-bottom: 4px;
+    width: 100%;
   }
 
-  .form-group select,
-  .form-group input,
-  .form-group textarea {
-    flex: unset;
-    width: 100%;
+  .form-group i {
+    margin-bottom: 6px;
   }
 
   h2 {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
 
   .logo-izq {
-    position: static;
-    margin-bottom: 10px;
     display: block;
+    position: static;
+    margin: 0 auto 10px;
   }
 }
