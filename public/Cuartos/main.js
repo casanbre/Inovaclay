@@ -69,16 +69,17 @@ formulario.addEventListener("submit", async function (e) {
   }
 
   const datos = {
-    cuarto: document.getElementById("cuarto").value,
+    cuarto: parseInt(document.getElementById("cuarto").value),
     producto: productoSelect.value,
     subproducto: subproductoSelect.value,
     hornillero1: document.getElementById("hornillero1").value,
     hornillero2: document.getElementById("hornillero2").value,
-    horaInicio: document.getElementById("horaInicio").value,
-    horaCierre: document.getElementById("horaCierre").value,
-    horaFinal: document.getElementById("horaFinal").value,
+    horaInicio: combinarHoraConFecha(document.getElementById("horaInicio").value),
+    horaCierre: document.getElementById("horaCierre").value ? combinarHoraConFecha(document.getElementById("horaCierre").value) : null,
+    horaFinal: document.getElementById("horaFinal").value ? combinarHoraConFecha(document.getElementById("horaFinal").value) : null,
     observaciones: document.getElementById("observaciones").value
   };
+  
 
   try {
     const res = await fetch("https://inovaclay-1.onrender.com/api/cuartos", {
