@@ -94,6 +94,11 @@ h2 {
 }
 
 @media (max-width: 600px) {
+
+  body {
+      align-items: flex-start; /* ⬅️ empieza desde arriba */
+      padding-top: 20px;       /* asegúrate de tener espacio arriba */
+    }
   form {
     width: 90%; /* ✅ Usa el 90% del ancho del celular */
     padding: 15px;
