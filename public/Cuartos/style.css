@@ -80,7 +80,7 @@ h2 {
 
 #subproducto-group {
   display: flex !important;
-  align-items: center;
+  align-items: right;
   margin: 12px 0;
   visibility: hidden;
   height: 0;

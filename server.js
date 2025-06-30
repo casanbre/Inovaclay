@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -6,17 +7,19 @@ const path = require('path');
 
 const app = express();
 
-
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
 console.log("🔍 URI leída del .env:", process.env.MONGO_URI);
 
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => console.log("✅ Conectado a MongoDB Atlas"))
+  .catch(err => console.error("❌ Error de conexión:", err));
 
-
-mongoose.connect(process.env.MONGO_URI)
-
+// MODELOS
 const paradaSchema = new mongoose.Schema({
   FECHA: { type: Date, required: true },
   OPERADOR: { type: String, required: true },
@@ -48,6 +51,84 @@ const registroVagonetaSchema = new mongoose.Schema({
 });
 const RegistroVagoneta = mongoose.model('RegistroVagoneta', registroVagonetaSchema);
 
+const cuartoSchema = new mongoose.Schema({
+  cuarto: { type: Number, required: true },
+  producto: { type: String },
+  subproducto: { type: String },
+  hornillero1: { type: String },
+  hornillero2: { type: String },
+  horaInicio: { type: Date },
+  horaCierre: { type: Date },
+  horaFinal: { type: Date },
+  observaciones: { type: String },
+  completado: { type: Boolean, default: false }
+});
+cuartoSchema.index({ cuarto: 1, completado: 1 }, { unique: true, partialFilterExpression: { completado: false } });
+const CuartoSecado = mongoose.model('CuartoSecado', cuartoSchema);
+
+// RUTAS
+app.post('/api/cuartos', async (req, res) => {
+  const { cuarto, producto, subproducto, hornillero1, hornillero2, horaInicio, horaCierre, horaFinal, observaciones } = req.body;
+
+  if (!cuarto || isNaN(cuarto)) {
+    return res.status(400).json({ mensaje: 'Cuarto inválido' });
+  }
+
+  try {
+    let registro = await CuartoSecado.findOne({ cuarto, completado: false });
+
+    if (!registro) {
+      const nuevo = new CuartoSecado({
+        cuarto,
+        producto,
+        subproducto,
+        hornillero1,
+        hornillero2,
+        horaInicio: horaInicio ? new Date(horaInicio) : null,
+        observaciones
+      });
+
+      await nuevo.save();
+      return res.status(201).json({ mensaje: 'Registro creado con hora de inicio.' });
+    }
+
+    if (horaCierre && !registro.horaCierre) {
+      registro.horaCierre = new Date(horaCierre);
+    }
+
+    if (horaFinal && !registro.horaFinal) {
+      registro.horaFinal = new Date(horaFinal);
+      registro.completado = true;
+    }
+
+    await registro.save();
+    res.status(200).json({ mensaje: 'Registro actualizado correctamente.' });
+  } catch (error) {
+    console.error('❌ Error en el servidor:', error);
+    res.status(500).json({ mensaje: 'Error al guardar los datos.' });
+  }
+});
+
+app.get('/api/cuartos', async (req, res) => {
+  try {
+    const registros = await CuartoSecado.find().sort({ horaInicio: -1 });
+    const datos = registros.map(r => {
+      const duracionIngreso = r.horaCierre && r.horaInicio ? Math.round((r.horaCierre - r.horaInicio) / 60000) : null;
+      const duracionTotal = r.horaFinal && r.horaInicio ? Math.round((r.horaFinal - r.horaInicio) / 60000) : null;
+
+      return {
+        ...r.toObject(),
+        duracionIngreso: duracionIngreso ? `${duracionIngreso} min` : '-',
+        duracionTotal: duracionTotal ? `${duracionTotal} min` : '-'
+      };
+    });
+    res.json(datos);
+  } catch (err) {
+    console.error('❌ Error al obtener cuartos:', err);
+    res.status(500).json({ mensaje: 'Error al obtener cuartos' });
+  }
+});
+
 app.post('/api/paradas', async (req, res) => {
   try {
     const datos = req.body;
@@ -76,23 +157,19 @@ app.post('/api/paradas', async (req, res) => {
 app.get('/api/paradas', async (req, res) => {
   try {
     const paradas = await Parada.find().sort({ FECHA: -1 });
-
     const paradasFormateadas = paradas.map(parada => ({
       ...parada.toObject(),
       FECHA: new Date(parada.FECHA).toISOString().split('T')[0]
     }));
-
     res.json(paradasFormateadas);
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error al obtener paradas.' });
   }
 });
 
-
 app.post('/api/vagonetas', async (req, res) => {
   try {
     const datos = req.body;
-
     const nuevoRegistro = new RegistroVagoneta({
       FECHA: datos.fecha,
       OPERADOR: datos.operador,
@@ -109,7 +186,6 @@ app.post('/api/vagonetas', async (req, res) => {
       SEGUNDA: datos.segunda,
       OBSERVACIONES: datos.observaciones
     });
-
     await nuevoRegistro.save();
     res.status(201).json({ success: true, message: 'Registro guardado correctamente' });
   } catch (error) {
@@ -121,20 +197,17 @@ app.post('/api/vagonetas', async (req, res) => {
 app.get('/api/vagonetas', async (req, res) => {
   try {
     const registros = await RegistroVagoneta.find().sort({ FECHA: -1 });
-
     const registrosFormateados = registros.map(registro => ({
       ...registro.toObject(),
-      FECHA: new Date(registro.FECHA).toISOString().split('T')[0]  
+      FECHA: new Date(registro.FECHA).toISOString().split('T')[0]
     }));
-
     res.json(registrosFormateados);
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error al obtener los registros' });
   }
 });
 
-
-
+// HTML Routes
 app.get('/vagonetas', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'vagonetas.html'));
 });
