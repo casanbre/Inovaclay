@@ -41,7 +41,7 @@ productoSelect.addEventListener("change", () => {
 
   if (opciones.length > 0) {
     subproductoGroup.classList.add("visible");
-    subproductoSelect.innerHTML = '<option value="">-- Seleccione --</option>'; // Placeholder
+    subproductoSelect.innerHTML = '<option value="">-- Seleccione --</option>';
 
     opciones.forEach((op) => {
       const option = document.createElement("option");
@@ -57,23 +57,47 @@ productoSelect.addEventListener("change", () => {
   }
 });
 
-// Validación al enviar el formulario
-formulario.addEventListener("submit", function (e) {
-  // Si el grupo subproducto está visible, validar que tenga valor
-  if (subproductoGroup.classList.contains("visible")) {
-    if (!subproductoSelect.value) {
-      alert("Por favor, selecciona un subproducto.");
-      subproductoSelect.focus();
-      e.preventDefault(); // Detiene el envío
-      return;
+// Validación + Envío con fetch()
+formulario.addEventListener("submit", async function (e) {
+  e.preventDefault(); // Evita recargar la página
+
+  // Validar subproducto si es visible
+  if (subproductoGroup.classList.contains("visible") && !subproductoSelect.value) {
+    alert("Por favor, selecciona un subproducto.");
+    subproductoSelect.focus();
+    return;
+  }
+
+  const datos = {
+    cuarto: document.getElementById("cuarto").value,
+    producto: productoSelect.value,
+    subproducto: subproductoSelect.value,
+    hornillero1: document.getElementById("hornillero1").value,
+    hornillero2: document.getElementById("hornillero2").value,
+    horaInicio: document.getElementById("horaInicio").value,
+    horaCierre: document.getElementById("horaCierre").value,
+    horaFinal: document.getElementById("horaFinal").value,
+    observaciones: document.getElementById("observaciones").value
+  };
+
+  try {
+    const res = await fetch("https://inovaclay-1.onrender.com/api/cuartos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(datos)
+    });
+
+    const resultado = await res.json();
+
+    if (res.ok) {
+      alert("✅ Datos guardados correctamente");
+      formulario.reset();
+      subproductoGroup.classList.remove("visible");
+    } else {
+      alert("❌ Error al guardar: " + resultado.mensaje);
     }
+  } catch (error) {
+    console.error("❌ Error al enviar:", error);
+    alert("Error de conexión con el servidor");
   }
-
-  // [OPCIONAL] Mostrar los datos enviados en consola para verificar
-  const formData = new FormData(formulario);
-  for (let [key, value] of formData.entries()) {
-    console.log(`${key}: ${value}`);
-  }
-
-  // Aquí puedes agregar tu fetch() si lo haces por JS (AJAX)
 });
