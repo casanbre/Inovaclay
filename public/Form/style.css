@@ -82,7 +82,7 @@ button:hover {
   background-color: #007799;
 }
 
-/* ✅ RESPONSIVE para móviles */
+
 @media (max-width: 768px) {
   body {
     padding: 10px;
