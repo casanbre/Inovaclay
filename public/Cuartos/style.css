@@ -1,21 +1,22 @@
 body {
-    
-    height: 100vh;
-    padding: 70px;
-    align-items: center;        
-    justify-content: center;    
-    background: linear-gradient(to bottom, #d5d5d5, #FF5722);
-    font-family: Arial, sans-serif;
+  height: 100vh;
+  padding: 20px; /* reducido para móviles */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom, #d5d5d5, #FF5722);
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
 }
 
 form {
-
+  width: 100%;
   max-width: 600px;
-  margin: auto;
-  background: #f8f8f8b5;  
+  background: #f8f8f8b5;
   padding: 20px;
   border-radius: 25px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.05);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
 }
 
 .form-group {
@@ -39,7 +40,7 @@ form {
 .form-group input,
 .form-group textarea {
   flex: 3;
-  width: 100%; /* ✅ Asegura el mismo ancho */
+  width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -62,28 +63,68 @@ button:hover {
   background: #0056b3;
 }
 
-h2{
-    text-align: center;
+h2 {
+  text-align: center;
+  font-size: 1.4rem;
 }
 
 .logo-izq {
-    width: 150px;
-    position: absolute;
-    top: 20px;
-    left: 20px;
+  width: 120px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
+
 #subproducto-group {
-    display: flex !important;
-    align-items: center;
-    margin: 12px 0;
-    visibility: hidden;
-    height: 0;
-    opacity: 0;
-    transition: all 0.3s ease;
+  display: flex !important;
+  align-items: center;
+  margin: 12px 0;
+  visibility: hidden;
+  height: 0;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+#subproducto-group.visible {
+  visibility: visible;
+  height: auto;
+  opacity: 1;
+}
+
+/* ✅ MEDIA QUERY para pantallas menores de 600px (teléfonos) */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+    background: linear-gradient(to bottom, #ffffff, #FF5722);
   }
-  #subproducto-group.visible {
-    visibility: visible;
-    height: auto;
-    opacity: 1;
+
+  .form-group {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
+
+  .form-group i {
+    margin-bottom: 5px;
+  }
+
+  .form-group label {
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
+  .form-group select,
+  .form-group input,
+  .form-group textarea {
+    flex: unset;
+    width: 100%;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  .logo-izq {
+    position: static;
+    margin-bottom: 10px;
+    display: block;
+  }
+}
