@@ -1,6 +1,6 @@
 body {
-  height: 100vh;
-  padding: 20px; /* reducido para móviles */
+  min-height: 100vh;
+  padding: 20px; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -96,11 +96,11 @@ h2 {
 @media (max-width: 600px) {
 
   body {
-      align-items: flex-start; /* ⬅️ empieza desde arriba */
-      padding-top: 20px;       /* asegúrate de tener espacio arriba */
+      align-items: flex-start; 
+      padding-top: 20px;      
     }
   form {
-    width: 90%; /* ✅ Usa el 90% del ancho del celular */
+    width: 90%; 
     padding: 15px;
   }
 
