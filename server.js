@@ -81,6 +81,10 @@ app.post('/api/cuartos', async (req, res) => {
   try {
     let registro = await CuartoSecado.findOne({ cuarto, completado: false });
 
+    const parsedInicio = horaInicio && horaInicio !== "" ? new Date(horaInicio) : undefined;
+    const parsedCierre = horaCierre && horaCierre !== "" ? new Date(horaCierre) : undefined;
+    const parsedFinal  = horaFinal  && horaFinal  !== "" ? new Date(horaFinal)  : undefined;
+
     if (!registro) {
       const nuevo = new CuartoSecado({
         cuarto,
@@ -88,26 +92,23 @@ app.post('/api/cuartos', async (req, res) => {
         subproducto,
         hornillero1,
         hornillero2,
-        horaInicio: horaInicio ? new Date(horaInicio) : null,
-        horaCierre: horaCierre ? new Date(horaCierre) : null,
-        horaFinal: horaFinal ? new Date(horaFinal) : null,
-        observaciones
+        horaInicio: parsedInicio,
+        horaCierre: parsedCierre,
+        horaFinal: parsedFinal,
+        observaciones,
+        completado: !!parsedFinal
       });
-
-      // Si viene horaFinal, lo marcamos como completado
-      if (horaFinal) nuevo.completado = true;
 
       await nuevo.save();
       return res.status(201).json({ mensaje: 'Registro creado con hora(s).' });
     }
 
-    // Si ya existe, actualizamos campos si no están definidos aún
-    if (horaCierre && !registro.horaCierre) {
-      registro.horaCierre = new Date(horaCierre);
+    if (parsedCierre && !registro.horaCierre) {
+      registro.horaCierre = parsedCierre;
     }
 
-    if (horaFinal && !registro.horaFinal) {
-      registro.horaFinal = new Date(horaFinal);
+    if (parsedFinal && !registro.horaFinal) {
+      registro.horaFinal = parsedFinal;
       registro.completado = true;
     }
 
@@ -118,6 +119,7 @@ app.post('/api/cuartos', async (req, res) => {
     res.status(500).json({ mensaje: 'Error al guardar los datos.' });
   }
 });
+
 
 app.get('/api/cuartos', async (req, res) => {
   try {

@@ -1,16 +1,8 @@
-// ✅ Función para combinar hora con la fecha actual
-function combinarHoraConFecha(horaStr) {
-  const hoy = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-  return new Date(`${hoy}T${horaStr}`);
-}
-
-// Variables del DOM
 const productoSelect = document.getElementById("producto");
 const subproductoSelect = document.getElementById("subproducto");
 const subproductoGroup = document.getElementById("subproducto-group");
 const formulario = document.getElementById("cuartoForm");
 
-// Lista de subproductos por categoría
 const subproductos = {
   Ladrillo: [
     "Ladrillo N°4",
@@ -40,7 +32,6 @@ const subproductos = {
   PlacaFacil: ["Bloquelon"]
 };
 
-// Mostrar subproductos cuando cambia el producto
 productoSelect.addEventListener("change", () => {
   const selected = productoSelect.value;
   const opciones = subproductos[selected] || [];
@@ -65,9 +56,15 @@ productoSelect.addEventListener("change", () => {
   }
 });
 
-// Validación y envío de formulario
+function combinarHoraConFecha(horaStr) {
+  const hoy = new Date();
+  const [h, m] = horaStr.split(":");
+  hoy.setHours(parseInt(h), parseInt(m), 0, 0);
+  return hoy.toISOString();
+}
+
 formulario.addEventListener("submit", async function (e) {
-  e.preventDefault(); // Evita recarga
+  e.preventDefault();
 
   if (subproductoGroup.classList.contains("visible") && !subproductoSelect.value) {
     alert("Por favor, selecciona un subproducto.");
@@ -75,15 +72,19 @@ formulario.addEventListener("submit", async function (e) {
     return;
   }
 
+  const horaInicioValue = document.getElementById("horaInicio").value;
+  const horaCierreValue = document.getElementById("horaCierre").value;
+  const horaFinalValue = document.getElementById("horaFinal").value;
+
   const datos = {
     cuarto: parseInt(document.getElementById("cuarto").value),
     producto: productoSelect.value,
     subproducto: subproductoSelect.value,
     hornillero1: document.getElementById("hornillero1").value,
     hornillero2: document.getElementById("hornillero2").value,
-    horaInicio: combinarHoraConFecha(document.getElementById("horaInicio").value),
-    horaCierre: document.getElementById("horaCierre").value ? combinarHoraConFecha(document.getElementById("horaCierre").value) : null,
-    horaFinal: document.getElementById("horaFinal").value ? combinarHoraConFecha(document.getElementById("horaFinal").value) : null,
+    horaInicio: horaInicioValue ? combinarHoraConFecha(horaInicioValue) : null,
+    horaCierre: horaCierreValue ? combinarHoraConFecha(horaCierreValue) : null,
+    horaFinal: horaFinalValue ? combinarHoraConFecha(horaFinalValue) : null,
     observaciones: document.getElementById("observaciones").value
   };
 
