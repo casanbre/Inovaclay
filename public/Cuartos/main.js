@@ -60,8 +60,8 @@ productoSelect.addEventListener("change", () => {
 // Combina hora "hh:mm" con la fecha actual
 function combinarHoraConFecha(horaStr) {
   const [h, m] = horaStr.split(":");
-  const fecha = new Date(); // Nueva instancia cada vez
-  fecha.setHours(parseInt(h), parseInt(m), 0, 0);
+  const hoy = new Date();
+  const fecha = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate(), parseInt(h), parseInt(m), 0);
   return fecha.toISOString();
 }
 
