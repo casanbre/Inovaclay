@@ -32,7 +32,7 @@ const subproductos = {
   PlacaFacil: ["Bloquelon"]
 };
 
-// Mostrar subproductos según producto seleccionado
+// Mostrar subproductos según el producto elegido
 productoSelect.addEventListener("change", () => {
   const selected = productoSelect.value;
   const opciones = subproductos[selected] || [];
@@ -57,12 +57,12 @@ productoSelect.addEventListener("change", () => {
   }
 });
 
-// Combina hora "hh:mm" con la fecha actual
-function convertirLocalDateTimeAISO(datetimeLocalStr) {
-  return datetimeLocalStr ? datetimeLocalStr + ":00" : null; // Le agrega los segundos para que sea ISO válido
+// ✅ Función para procesar datetime-local correctamente
+function combinarHoraConFecha(datetimeLocalStr) {
+  return datetimeLocalStr ? datetimeLocalStr + ":00" : null;
 }
 
-// Validar y enviar formulario
+// Envío del formulario con fetch()
 formulario.addEventListener("submit", async function (e) {
   e.preventDefault();
 
@@ -72,19 +72,15 @@ formulario.addEventListener("submit", async function (e) {
     return;
   }
 
-  const horaInicioValue = document.getElementById("horaInicio").value;
-  const horaCierreValue = document.getElementById("horaCierre").value;
-  const horaFinalValue = document.getElementById("horaFinal").value;
-
   const datos = {
     cuarto: parseInt(document.getElementById("cuarto").value),
     producto: productoSelect.value,
     subproducto: subproductoSelect.value,
     hornillero1: document.getElementById("hornillero1").value,
     hornillero2: document.getElementById("hornillero2").value,
-    horaInicio: horaInicioValue ? combinarHoraConFecha(horaInicioValue) : null,
-    horaCierre: horaCierreValue ? combinarHoraConFecha(horaCierreValue) : null,
-    horaFinal: horaFinalValue ? combinarHoraConFecha(horaFinalValue) : null,
+    horaInicio: combinarHoraConFecha(document.getElementById("horaInicio").value),
+    horaCierre: combinarHoraConFecha(document.getElementById("horaCierre").value),
+    horaFinal: combinarHoraConFecha(document.getElementById("horaFinal").value),
     observaciones: document.getElementById("observaciones").value
   };
 
