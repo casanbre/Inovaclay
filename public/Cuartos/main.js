@@ -105,3 +105,53 @@ formulario.addEventListener("submit", async function (e) {
     alert("Error de conexión con el servidor");
   }
 });
+
+
+document.getElementById("cuarto").addEventListener("change", async function () {
+  const cuartoSeleccionado = parseInt(this.value);
+
+  if (!cuartoSeleccionado) return;
+
+  try {
+    const res = await fetch("https://inovaclay-1.onrender.com/api/cuartos");
+    const cuartos = await res.json();
+
+    const activo = cuartos.find(c => c.cuarto === cuartoSeleccionado && !c.completado);
+
+    const deshabilitar = !!activo;
+
+    // Campos a bloquear si ya fue iniciado
+    const camposABloquear = [
+      "producto",
+      "subproducto",
+      "hornillero1",
+      "hornillero2",
+      "horaInicio"
+    ];
+
+    camposABloquear.forEach(id => {
+      const campo = document.getElementById(id);
+      campo.disabled = deshabilitar;
+    });
+
+    // Si se bloquean, rellena los valores previos en los campos
+    if (activo) {
+      document.getElementById("producto").value = activo.producto || "";
+      productoSelect.dispatchEvent(new Event("change")); // para cargar subproducto
+      setTimeout(() => {
+        document.getElementById("subproducto").value = activo.subproducto || "";
+      }, 100);
+
+      document.getElementById("hornillero1").value = activo.hornillero1 || "";
+      document.getElementById("hornillero2").value = activo.hornillero2 || "";
+      document.getElementById("horaInicio").value = activo.horaInicio
+        ? activo.horaInicio.slice(0, 16)
+        : "";
+    } else {
+      formulario.reset();
+      subproductoGroup.classList.remove("visible");
+    }
+  } catch (error) {
+    console.error("❌ Error al verificar el cuarto:", error);
+  }
+});
