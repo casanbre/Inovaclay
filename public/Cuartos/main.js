@@ -32,7 +32,7 @@ const subproductos = {
   PlacaFacil: ["Bloquelon"]
 };
 
-// Mostrar subproductos según el producto elegido
+// Mostrar subproductos según el producto seleccionado
 productoSelect.addEventListener("change", () => {
   const selected = productoSelect.value;
   const opciones = subproductos[selected] || [];
@@ -57,12 +57,7 @@ productoSelect.addEventListener("change", () => {
   }
 });
 
-// ✅ Función para procesar datetime-local correctamente
-function combinarHoraConFecha(datetimeLocalStr) {
-  return datetimeLocalStr ? datetimeLocalStr + ":00" : null;
-}
-
-// Envío del formulario con fetch()
+// Enviar formulario con validación
 formulario.addEventListener("submit", async function (e) {
   e.preventDefault();
 
@@ -73,14 +68,20 @@ formulario.addEventListener("submit", async function (e) {
   }
 
   const datos = {
-    cuarto: parseInt(document.getElementById("cuarto").value),
+    cuarto: document.getElementById("cuarto").value,
     producto: productoSelect.value,
     subproducto: subproductoSelect.value,
     hornillero1: document.getElementById("hornillero1").value,
     hornillero2: document.getElementById("hornillero2").value,
-    horaInicio: combinarHoraConFecha(document.getElementById("horaInicio").value),
-    horaCierre: combinarHoraConFecha(document.getElementById("horaCierre").value),
-    horaFinal: combinarHoraConFecha(document.getElementById("horaFinal").value),
+    horaInicio: document.getElementById("horaInicio").value
+      ? new Date(document.getElementById("horaInicio").value).toISOString()
+      : null,
+    horaCierre: document.getElementById("horaCierre").value
+      ? new Date(document.getElementById("horaCierre").value).toISOString()
+      : null,
+    horaFinal: document.getElementById("horaFinal").value
+      ? new Date(document.getElementById("horaFinal").value).toISOString()
+      : null,
     observaciones: document.getElementById("observaciones").value
   };
 
@@ -106,10 +107,9 @@ formulario.addEventListener("submit", async function (e) {
   }
 });
 
-
+// Verificar si el cuarto ya fue iniciado y bloquear campos si es necesario
 document.getElementById("cuarto").addEventListener("change", async function () {
   const cuartoSeleccionado = parseInt(this.value);
-
   if (!cuartoSeleccionado) return;
 
   try {
@@ -117,10 +117,8 @@ document.getElementById("cuarto").addEventListener("change", async function () {
     const cuartos = await res.json();
 
     const activo = cuartos.find(c => c.cuarto === cuartoSeleccionado && !c.completado);
-
     const deshabilitar = !!activo;
 
-    // Campos a bloquear si ya fue iniciado
     const camposABloquear = [
       "producto",
       "subproducto",
@@ -129,15 +127,15 @@ document.getElementById("cuarto").addEventListener("change", async function () {
       "horaInicio"
     ];
 
+    // Habilitar todo primero
     camposABloquear.forEach(id => {
-      const campo = document.getElementById(id);
-      campo.disabled = deshabilitar;
+      document.getElementById(id).disabled = false;
     });
 
-    // Si se bloquean, rellena los valores previos en los campos
     if (activo) {
       document.getElementById("producto").value = activo.producto || "";
-      productoSelect.dispatchEvent(new Event("change")); // para cargar subproducto
+      productoSelect.dispatchEvent(new Event("change"));
+
       setTimeout(() => {
         document.getElementById("subproducto").value = activo.subproducto || "";
       }, 100);
@@ -147,8 +145,16 @@ document.getElementById("cuarto").addEventListener("change", async function () {
       document.getElementById("horaInicio").value = activo.horaInicio
         ? activo.horaInicio.slice(0, 16)
         : "";
+
+      camposABloquear.forEach(id => {
+        document.getElementById(id).disabled = true;
+      });
     } else {
-      formulario.reset();
+      camposABloquear.forEach(id => {
+        document.getElementById(id).value = "";
+      });
+
+      document.getElementById("horaInicio").disabled = false;
       subproductoGroup.classList.remove("visible");
     }
   } catch (error) {
