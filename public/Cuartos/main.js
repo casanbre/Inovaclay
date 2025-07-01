@@ -58,11 +58,8 @@ productoSelect.addEventListener("change", () => {
 });
 
 // Combina hora "hh:mm" con la fecha actual
-function combinarHoraConFecha(horaStr) {
-  const [h, m] = horaStr.split(":");
-  const hoy = new Date();
-  const fecha = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate(), parseInt(h), parseInt(m), 0);
-  return fecha.toISOString();
+function convertirLocalDateTimeAISO(datetimeLocalStr) {
+  return datetimeLocalStr ? datetimeLocalStr + ":00" : null; // Le agrega los segundos para que sea ISO válido
 }
 
 // Validar y enviar formulario
