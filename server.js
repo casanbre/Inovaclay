@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -13,13 +12,15 @@ app.use(express.static('public'));
 
 console.log("🔍 URI leída del .env:", process.env.MONGO_URI);
 
+// Conexión a MongoDB Atlas
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log("✅ Conectado a MongoDB Atlas"))
   .catch(err => console.error("❌ Error de conexión:", err));
 
-// MODELOS
+// --------------------- MODELOS ---------------------
+
 const paradaSchema = new mongoose.Schema({
   FECHA: { type: Date, required: true },
   OPERADOR: { type: String, required: true },
@@ -66,9 +67,12 @@ const cuartoSchema = new mongoose.Schema({
 cuartoSchema.index({ cuarto: 1, completado: 1 }, { unique: true, partialFilterExpression: { completado: false } });
 const CuartoSecado = mongoose.model('CuartoSecado', cuartoSchema);
 
-// RUTAS
+// --------------------- RUTAS ---------------------
+
 app.post('/api/cuartos', async (req, res) => {
   const { cuarto, producto, subproducto, hornillero1, hornillero2, horaInicio, horaCierre, horaFinal, observaciones } = req.body;
+
+  console.log("📩 Datos recibidos en /api/cuartos:", req.body);
 
   if (!cuarto || isNaN(cuarto)) {
     return res.status(400).json({ mensaje: 'Cuarto inválido' });
@@ -85,13 +89,19 @@ app.post('/api/cuartos', async (req, res) => {
         hornillero1,
         hornillero2,
         horaInicio: horaInicio ? new Date(horaInicio) : null,
+        horaCierre: horaCierre ? new Date(horaCierre) : null,
+        horaFinal: horaFinal ? new Date(horaFinal) : null,
         observaciones
       });
 
+      // Si viene horaFinal, lo marcamos como completado
+      if (horaFinal) nuevo.completado = true;
+
       await nuevo.save();
-      return res.status(201).json({ mensaje: 'Registro creado con hora de inicio.' });
+      return res.status(201).json({ mensaje: 'Registro creado con hora(s).' });
     }
 
+    // Si ya existe, actualizamos campos si no están definidos aún
     if (horaCierre && !registro.horaCierre) {
       registro.horaCierre = new Date(horaCierre);
     }
@@ -207,7 +217,8 @@ app.get('/api/vagonetas', async (req, res) => {
   }
 });
 
-// HTML Routes
+// --------------------- HTML ROUTES ---------------------
+
 app.get('/vagonetas', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'vagonetas.html'));
 });
@@ -219,6 +230,8 @@ app.get('/', (req, res) => {
 app.get('/api', (req, res) => {
   res.json({ mensaje: '¡Tu backend está funcionando!' });
 });
+
+// --------------------- INICIAR SERVIDOR ---------------------
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
