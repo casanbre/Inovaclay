@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Formulario Cuarto de Horno</title>
-  <link rel="stylesheet" href="../Cuartos/style.css" />
+  <link rel="stylesheet" href="./style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   
 </head>
@@ -46,8 +46,6 @@
         <label for="subproducto">Subproducto:</label>
         <select id="subproducto" name="subproducto"></select>
       </div>
-      
-      
 
     <div class="form-group">
       <i class="fas fa-user"></i>
@@ -61,32 +59,33 @@
     </div>
 
     <div class="form-group">
-      <i class="fas fa-user"></i>
-      <label for="hornillero2">Hornillero 2:</label>
-      <select id="hornillero2" name="hornillero2">
-        <option value="">-- Seleccione --</option>
-        <option value="Hornillero 1">Hornillero 1</option>
-        <option value="Hornillero 2">Hornillero 2</option>
-        <option value="Hornillero 3">Hornillero 3</option>
-      </select>
-    </div>
+        <i class="fas fa-user"></i>
+        <label for="hornillero2">Hornillero 2:</label>
+        <select id="hornillero2" name="hornillero2">
+          <option value="">-- Seleccione --</option>
+          <option value="Hornillero 1">Hornillero 1</option>
+          <option value="Hornillero 2">Hornillero 2</option>
+          <option value="Hornillero 3">Hornillero 3</option>
+        </select>
+      </div>
+
 
     <div class="form-group">
       <i class="fas fa-clock"></i>
-      <label for="horaInicio">Hora de Inicio:</label>
-      <input type="time" id="horaInicio" name="horaInicio" required />
+      <label for="horaInicio">Fecha y hora inicial:</label>
+      <input type="datetime-local" id="horaInicio" name="horaInicio" required />
     </div>
 
     <div class="form-group">
       <i class="fas fa-door-closed"></i>
-      <label for="horaCierre">Hora de Cierre:</label>
-      <input type="time" id="horaCierre" name="horaCierre" />
+      <label for="horaCierre">Fecha y hora de cierre:</label>
+      <input type="datetime-local" id="horaCierre" name="horaCierre" />
     </div>
 
     <div class="form-group">
       <i class="fas fa-clock"></i>
-      <label for="horaFinal">Hora Final:</label>
-      <input type="time" id="horaFinal" name="horaFinal" required />
+      <label for="horaFinal">Fecha y hora final:</label>
+      <input type="datetime-local" id="horaFinal" name="horaFinal" required />
     </div>
 
     <div class="form-group">
