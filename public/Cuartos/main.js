@@ -5,34 +5,22 @@ const formulario = document.getElementById("cuartoForm");
 
 const subproductos = {
   Ladrillo: [
-    "Ladrillo N°4",
-    "Ladrillo N°3",
-    "Ladrillo H6 #4",
-    "Ladrillo N°5",
-    "Ladrillo N°5 de 33",
-    "Ladrillo N°6",
-    "Ladrillo N°6 de 33",
-    "Ladrillo N°8",
-    "Ladrillo liso N°4"
+    "Ladrillo N°4", "Ladrillo N°3", "Ladrillo H6 #4", "Ladrillo N°5",
+    "Ladrillo N°5 de 33", "Ladrillo N°6", "Ladrillo N°6 de 33",
+    "Ladrillo N°8", "Ladrillo liso N°4"
   ],
   Adoquinesytoletes: [
-    "Adoquin corbatin",
-    "Tolete macizo",
-    "Tolete perforado",
-    "Tolete estructural",
-    "Panela española"
+    "Adoquin corbatin", "Tolete macizo", "Tolete perforado",
+    "Tolete estructural", "Panela española"
   ],
   Estructurales: [
-    "Estructural N°4 de perforacion vertical",
-    "Estructural N°4 de 33 perforacion vertical",
-    "Ladrillo estructural N°5",
-    "Ladrillo estructural N°5 de 33",
-    "Ladrillo estructural N°6"
+    "Estructural N°4 de perforacion vertical", "Estructural N°4 de 33 perforacion vertical",
+    "Ladrillo estructural N°5", "Ladrillo estructural N°5 de 33", "Ladrillo estructural N°6"
   ],
   PlacaFacil: ["Bloquelon"]
 };
 
-// Mostrar subproductos según el producto seleccionado
+// Mostrar subproductos según el producto
 productoSelect.addEventListener("change", () => {
   const selected = productoSelect.value;
   const opciones = subproductos[selected] || [];
@@ -42,14 +30,12 @@ productoSelect.addEventListener("change", () => {
   if (opciones.length > 0) {
     subproductoGroup.classList.add("visible");
     subproductoSelect.innerHTML = '<option value="">-- Seleccione --</option>';
-
-    opciones.forEach((op) => {
+    opciones.forEach(op => {
       const option = document.createElement("option");
       option.value = op;
       option.textContent = op;
       subproductoSelect.appendChild(option);
     });
-
     subproductoSelect.required = true;
   } else {
     subproductoGroup.classList.remove("visible");
@@ -57,7 +43,7 @@ productoSelect.addEventListener("change", () => {
   }
 });
 
-// Enviar formulario con validación
+// Enviar formulario
 formulario.addEventListener("submit", async function (e) {
   e.preventDefault();
 
@@ -107,7 +93,7 @@ formulario.addEventListener("submit", async function (e) {
   }
 });
 
-// Verificar si el cuarto ya fue iniciado y bloquear campos si es necesario
+// Verificar cuarto existente y aplicar bloqueo por pasos
 document.getElementById("cuarto").addEventListener("change", async function () {
   const cuartoSeleccionado = parseInt(this.value);
   if (!cuartoSeleccionado) return;
@@ -116,46 +102,48 @@ document.getElementById("cuarto").addEventListener("change", async function () {
     const res = await fetch("https://inovaclay-1.onrender.com/api/cuartos");
     const cuartos = await res.json();
 
-    const activo = cuartos.find(c => c.cuarto === cuartoSeleccionado && !c.completado);
-    const deshabilitar = !!activo;
+    const existente = cuartos.find(c => c.cuarto === cuartoSeleccionado && !c.completado);
 
-    const camposABloquear = [
-      "producto",
-      "subproducto",
-      "hornillero1",
-      "hornillero2",
-      "horaInicio"
+    // Reset
+    const ids = [
+      "producto", "subproducto", "hornillero1", "hornillero2",
+      "horaInicio", "horaCierre", "horaFinal"
     ];
-
-    // Habilitar todo primero
-    camposABloquear.forEach(id => {
-      document.getElementById(id).disabled = false;
+    ids.forEach(id => {
+      const campo = document.getElementById(id);
+      campo.disabled = false;
+      campo.value = "";
     });
+    subproductoGroup.classList.remove("visible");
 
-    if (activo) {
-      document.getElementById("producto").value = activo.producto || "";
+    if (existente) {
+      document.getElementById("producto").value = existente.producto || "";
       productoSelect.dispatchEvent(new Event("change"));
 
       setTimeout(() => {
-        document.getElementById("subproducto").value = activo.subproducto || "";
+        document.getElementById("subproducto").value = existente.subproducto || "";
       }, 100);
 
-      document.getElementById("hornillero1").value = activo.hornillero1 || "";
-      document.getElementById("hornillero2").value = activo.hornillero2 || "";
-      document.getElementById("horaInicio").value = activo.horaInicio
-        ? activo.horaInicio.slice(0, 16)
-        : "";
+      document.getElementById("hornillero1").value = existente.hornillero1 || "";
+      document.getElementById("hornillero2").value = existente.hornillero2 || "";
+      document.getElementById("horaInicio").value = existente.horaInicio?.slice(0, 16) || "";
+      document.getElementById("horaCierre").value = existente.horaCierre?.slice(0, 16) || "";
+      document.getElementById("horaFinal").value = existente.horaFinal?.slice(0, 16) || "";
 
-      camposABloquear.forEach(id => {
+      // Paso 1 ya registrado
+      ["producto", "subproducto", "hornillero1", "hornillero2", "horaInicio"].forEach(id => {
         document.getElementById(id).disabled = true;
       });
-    } else {
-      camposABloquear.forEach(id => {
-        document.getElementById(id).value = "";
-      });
 
-      document.getElementById("horaInicio").disabled = false;
-      subproductoGroup.classList.remove("visible");
+      // Si ya está cerrado, también bloquear horaCierre
+      if (existente.horaCierre) {
+        document.getElementById("horaCierre").disabled = true;
+      }
+
+      // Si ya está finalizado, bloquear todo
+      if (existente.horaFinal) {
+        document.getElementById("horaFinal").disabled = true;
+      }
     }
   } catch (error) {
     console.error("❌ Error al verificar el cuarto:", error);
