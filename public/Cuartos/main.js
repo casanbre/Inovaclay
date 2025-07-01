@@ -32,6 +32,7 @@ const subproductos = {
   PlacaFacil: ["Bloquelon"]
 };
 
+// Mostrar subproductos según producto seleccionado
 productoSelect.addEventListener("change", () => {
   const selected = productoSelect.value;
   const opciones = subproductos[selected] || [];
@@ -56,13 +57,15 @@ productoSelect.addEventListener("change", () => {
   }
 });
 
+// Combina hora "hh:mm" con la fecha actual
 function combinarHoraConFecha(horaStr) {
-  const hoy = new Date();
   const [h, m] = horaStr.split(":");
-  hoy.setHours(parseInt(h), parseInt(m), 0, 0);
-  return hoy.toISOString();
+  const fecha = new Date(); // Nueva instancia cada vez
+  fecha.setHours(parseInt(h), parseInt(m), 0, 0);
+  return fecha.toISOString();
 }
 
+// Validar y enviar formulario
 formulario.addEventListener("submit", async function (e) {
   e.preventDefault();
 
