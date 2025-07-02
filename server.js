@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -13,14 +12,14 @@ app.use(express.static('public'));
 
 console.log("🔍 URI leída del .env:", process.env.MONGO_URI);
 
+// ------------------- CONEXIÓN MONGODB -------------------
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log("✅ Conectado a MongoDB Atlas"))
   .catch(err => console.error("❌ Error de conexión:", err));
 
-// --------------------- MODELOS ---------------------
-
+// ------------------- ESQUEMAS -------------------
 const paradaSchema = new mongoose.Schema({
   FECHA: { type: Date, required: true },
   OPERADOR: { type: String, required: true },
@@ -69,15 +68,16 @@ const cuartoSchema = new mongoose.Schema({
 cuartoSchema.index({ cuarto: 1, completado: 1 }, { unique: true, partialFilterExpression: { completado: false } });
 const CuartoSecado = mongoose.model('CuartoSecado', cuartoSchema);
 
-// --------------------- RUTAS ---------------------
+// ------------------- RUTAS API -------------------
 
+// 👉 POST cuartos
 app.post('/api/cuartos', async (req, res) => {
   const { cuarto, producto, subproducto, hornillero1, hornillero2, horaInicio, horaCierre, horaFinal, observaciones } = req.body;
-  console.log("📩 Datos recibidos en /api/cuartos:", req.body);
   if (!cuarto || isNaN(cuarto)) return res.status(400).json({ mensaje: 'Cuarto inválido' });
 
   try {
     let registro = await CuartoSecado.findOne({ cuarto, completado: false });
+
     const parsedInicio = horaInicio ? new Date(horaInicio) : undefined;
     const parsedCierre = horaCierre ? new Date(horaCierre) : undefined;
     const parsedFinal = horaFinal ? new Date(horaFinal) : undefined;
@@ -91,6 +91,7 @@ app.post('/api/cuartos', async (req, res) => {
         observaciones,
         completado: !!parsedFinal
       });
+
       if (parsedCierre && parsedInicio) {
         const min = Math.floor((parsedCierre - parsedInicio) / 60000);
         nuevo.duracionIngreso = `${Math.floor(min / 60)}h ${min % 60}min`;
@@ -99,6 +100,7 @@ app.post('/api/cuartos', async (req, res) => {
         const min = Math.floor((parsedFinal - parsedInicio) / 60000);
         nuevo.duracionTotal = `${Math.floor(min / 60)}h ${min % 60}min`;
       }
+
       await nuevo.save();
       return res.status(201).json({ mensaje: 'Registro creado con hora(s).' });
     }
@@ -123,11 +125,12 @@ app.post('/api/cuartos', async (req, res) => {
     await registro.save();
     res.status(200).json({ mensaje: 'Registro actualizado correctamente.' });
   } catch (error) {
-    console.error('❌ Error en el servidor:', error);
+    console.error('❌ Error en /api/cuartos:', error);
     res.status(500).json({ mensaje: 'Error al guardar los datos.' });
   }
 });
 
+// 👉 GET cuartos
 app.get('/api/cuartos', async (req, res) => {
   try {
     const registros = await CuartoSecado.find().sort({ horaInicio: -1 });
@@ -138,33 +141,20 @@ app.get('/api/cuartos', async (req, res) => {
   }
 });
 
+// 👉 POST vagonetas
 app.post('/api/vagonetas', async (req, res) => {
   try {
     const datos = req.body;
-    const nuevoRegistro = new RegistroVagoneta({
-      FECHA: datos.FECHA,
-      OPERADOR: datos.OPERADOR,
-      AYUDANTE1: datos.AYUDANTE1,
-      AYUDANTE2: datos.AYUDANTE2,
-      VAGONETA: datos.VAGONETA,
-      MATERIAL: datos.MATERIAL,
-      HORA_INICIO: datos.HORA_INICIO,
-      HORA_FINAL: datos.HORA_FINAL,
-      UNIDADES_ANTES: datos.UNIDADES_ANTES,
-      ESTIBAS: datos.ESTIBAS,
-      POR_ESTIBA: datos.POR_ESTIBA,
-      UNIDADES_DESPUES: datos.UNIDADES_DESPUES,
-      SEGUNDA: datos.SEGUNDA,
-      OBSERVACIONES: datos.OBSERVACIONES
-    });
+    const nuevoRegistro = new RegistroVagoneta(datos);
     await nuevoRegistro.save();
     res.status(201).json({ success: true, message: 'Registro de vagoneta guardado correctamente.' });
   } catch (error) {
-    console.error('❌ Error al guardar registro de vagoneta:', error);
-    res.status(500).json({ success: false, message: 'Error al guardar registro de vagoneta.' });
+    console.error('❌ Error en /api/vagonetas:', error);
+    res.status(500).json({ success: false, message: 'Error al guardar vagoneta.' });
   }
 });
 
+// 👉 GET vagonetas
 app.get('/api/vagonetas', async (req, res) => {
   try {
     const registros = await RegistroVagoneta.find().sort({ FECHA: -1 });
@@ -179,14 +169,39 @@ app.get('/api/vagonetas', async (req, res) => {
   }
 });
 
+// 👉 POST paradas
+app.post('/api/paradas', async (req, res) => {
+  try {
+    const nuevaParada = new Parada(req.body);
+    await nuevaParada.save();
+    res.status(201).json({ success: true, message: 'Parada registrada correctamente.' });
+  } catch (error) {
+    console.error('❌ Error en /api/paradas:', error);
+    res.status(500).json({ success: false, message: 'Error al guardar parada.' });
+  }
+});
 
+// 👉 GET paradas
+app.get('/api/paradas', async (req, res) => {
+  try {
+    const paradas = await Parada.find().sort({ FECHA: -1 });
+    const formateadas = paradas.map(p => ({
+      ...p.toObject(),
+      FECHA: p.FECHA.toISOString().split('T')[0]
+    }));
+    res.json(formateadas);
+  } catch (error) {
+    console.error('❌ Error al obtener paradas:', error);
+    res.status(500).json({ success: false, message: 'Error al obtener paradas.' });
+  }
+});
 
+// ------------------- HTML DEFAULT -------------------
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'mq4.html'));
 });
 
-
-
+// ------------------- INICIAR SERVIDOR -------------------
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
