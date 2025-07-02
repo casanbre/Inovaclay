@@ -4,27 +4,16 @@ const subproductoGroup = document.getElementById("subproducto-group");
 const formulario = document.getElementById("cuartoForm");
 
 const subproductos = {
-  Ladrillo: [
-    "Ladrillo N°4", "Ladrillo N°3", "Ladrillo H6 #4", "Ladrillo N°5",
-    "Ladrillo N°5 de 33", "Ladrillo N°6", "Ladrillo N°6 de 33",
-    "Ladrillo N°8", "Ladrillo liso N°4"
-  ],
-  Adoquinesytoletes: [
-    "Adoquin corbatin", "Tolete macizo", "Tolete perforado",
-    "Tolete estructural", "Panela española"
-  ],
-  Estructurales: [
-    "Estructural N°4 de perforacion vertical", "Estructural N°4 de 33 perforacion vertical",
-    "Ladrillo estructural N°5", "Ladrillo estructural N°5 de 33", "Ladrillo estructural N°6"
-  ],
+  Ladrillo: ["Ladrillo N°4", "Ladrillo N°3", "Ladrillo H6 #4", "Ladrillo N°5", "Ladrillo N°5 de 33", "Ladrillo N°6", "Ladrillo N°6 de 33", "Ladrillo N°8", "Ladrillo liso N°4"],
+  Adoquinesytoletes: ["Adoquin corbatin", "Tolete macizo", "Tolete perforado", "Tolete estructural", "Panela española"],
+  Estructurales: ["Estructural N°4 de perforacion vertical", "Estructural N°4 de 33 perforacion vertical", "Ladrillo estructural N°5", "Ladrillo estructural N°5 de 33", "Ladrillo estructural N°6"],
   PlacaFacil: ["Bloquelon"]
 };
 
-// Mostrar subproductos según el producto
+// Asocia subproductos al producto
 productoSelect.addEventListener("change", () => {
   const selected = productoSelect.value;
   const opciones = subproductos[selected] || [];
-
   subproductoSelect.innerHTML = "";
 
   if (opciones.length > 0) {
@@ -43,7 +32,15 @@ productoSelect.addEventListener("change", () => {
   }
 });
 
-// Enviar formulario
+// Devuelve una fecha local en formato ISO sin ajuste de zona horaria
+function toLocalISOString(datetimeStr) {
+  if (!datetimeStr) return null;
+  const dt = new Date(datetimeStr);
+  dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset());
+  return dt.toISOString();
+}
+
+// Envío del formulario
 formulario.addEventListener("submit", async function (e) {
   e.preventDefault();
 
@@ -59,15 +56,9 @@ formulario.addEventListener("submit", async function (e) {
     subproducto: subproductoSelect.value,
     hornillero1: document.getElementById("hornillero1").value,
     hornillero2: document.getElementById("hornillero2").value,
-    horaInicio: document.getElementById("horaInicio").value
-      ? new Date(document.getElementById("horaInicio").value).toISOString()
-      : null,
-    horaCierre: document.getElementById("horaCierre").value
-      ? new Date(document.getElementById("horaCierre").value).toISOString()
-      : null,
-    horaFinal: document.getElementById("horaFinal").value
-      ? new Date(document.getElementById("horaFinal").value).toISOString()
-      : null,
+    horaInicio: toLocalISOString(document.getElementById("horaInicio").value),
+    horaCierre: toLocalISOString(document.getElementById("horaCierre").value),
+    horaFinal: toLocalISOString(document.getElementById("horaFinal").value),
     observaciones: document.getElementById("observaciones").value
   };
 
@@ -93,7 +84,7 @@ formulario.addEventListener("submit", async function (e) {
   }
 });
 
-// Verificar cuarto existente y aplicar bloqueo por pasos
+// Verifica si hay un cuarto sin completar y bloquea campos según el paso
 document.getElementById("cuarto").addEventListener("change", async function () {
   const cuartoSeleccionado = parseInt(this.value);
   if (!cuartoSeleccionado) return;
@@ -104,10 +95,9 @@ document.getElementById("cuarto").addEventListener("change", async function () {
 
     const existente = cuartos.find(c => c.cuarto === cuartoSeleccionado && !c.completado);
 
-    // Reset
     const ids = [
       "producto", "subproducto", "hornillero1", "hornillero2",
-      "horaInicio", "horaCierre", "horaFinal"
+      "horaInicio", "horaCierre", "horaFinal", "observaciones"
     ];
     ids.forEach(id => {
       const campo = document.getElementById(id);
@@ -129,18 +119,19 @@ document.getElementById("cuarto").addEventListener("change", async function () {
       document.getElementById("horaInicio").value = existente.horaInicio?.slice(0, 16) || "";
       document.getElementById("horaCierre").value = existente.horaCierre?.slice(0, 16) || "";
       document.getElementById("horaFinal").value = existente.horaFinal?.slice(0, 16) || "";
+      document.getElementById("observaciones").value = existente.observaciones || "";
 
-      // Paso 1 ya registrado
+      // Paso 1 completado: bloquear campos de ingreso
       ["producto", "subproducto", "hornillero1", "hornillero2", "horaInicio"].forEach(id => {
         document.getElementById(id).disabled = true;
       });
 
-      // Si ya está cerrado, también bloquear horaCierre
+      // Paso 2 completado: bloquear horaCierre
       if (existente.horaCierre) {
         document.getElementById("horaCierre").disabled = true;
       }
 
-      // Si ya está finalizado, bloquear todo
+      // Paso 3 completado: bloquear horaFinal
       if (existente.horaFinal) {
         document.getElementById("horaFinal").disabled = true;
       }
