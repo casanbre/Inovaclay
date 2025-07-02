@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -18,7 +19,7 @@ mongoose.connect(process.env.MONGO_URI, {
 }).then(() => console.log("✅ Conectado a MongoDB Atlas"))
   .catch(err => console.error("❌ Error de conexión:", err));
 
-
+// --------------------- MODELOS ---------------------
 
 const paradaSchema = new mongoose.Schema({
   FECHA: { type: Date, required: true },
@@ -68,38 +69,28 @@ const cuartoSchema = new mongoose.Schema({
 cuartoSchema.index({ cuarto: 1, completado: 1 }, { unique: true, partialFilterExpression: { completado: false } });
 const CuartoSecado = mongoose.model('CuartoSecado', cuartoSchema);
 
-
+// --------------------- RUTAS ---------------------
 
 app.post('/api/cuartos', async (req, res) => {
   const { cuarto, producto, subproducto, hornillero1, hornillero2, horaInicio, horaCierre, horaFinal, observaciones } = req.body;
-
   console.log("📩 Datos recibidos en /api/cuartos:", req.body);
-
-  if (!cuarto || isNaN(cuarto)) {
-    return res.status(400).json({ mensaje: 'Cuarto inválido' });
-  }
+  if (!cuarto || isNaN(cuarto)) return res.status(400).json({ mensaje: 'Cuarto inválido' });
 
   try {
     let registro = await CuartoSecado.findOne({ cuarto, completado: false });
-
-    const parsedInicio = horaInicio && horaInicio !== "" ? new Date(horaInicio) : undefined;
-    const parsedCierre = horaCierre && horaCierre !== "" ? new Date(horaCierre) : undefined;
-    const parsedFinal  = horaFinal  && horaFinal  !== "" ? new Date(horaFinal)  : undefined;
+    const parsedInicio = horaInicio ? new Date(horaInicio) : undefined;
+    const parsedCierre = horaCierre ? new Date(horaCierre) : undefined;
+    const parsedFinal = horaFinal ? new Date(horaFinal) : undefined;
 
     if (!registro) {
       const nuevo = new CuartoSecado({
-        cuarto,
-        producto,
-        subproducto,
-        hornillero1,
-        hornillero2,
+        cuarto, producto, subproducto, hornillero1, hornillero2,
         horaInicio: parsedInicio,
         horaCierre: parsedCierre,
         horaFinal: parsedFinal,
         observaciones,
         completado: !!parsedFinal
       });
-
       if (parsedCierre && parsedInicio) {
         const min = Math.floor((parsedCierre - parsedInicio) / 60000);
         nuevo.duracionIngreso = `${Math.floor(min / 60)}h ${min % 60}min`;
@@ -108,7 +99,6 @@ app.post('/api/cuartos', async (req, res) => {
         const min = Math.floor((parsedFinal - parsedInicio) / 60000);
         nuevo.duracionTotal = `${Math.floor(min / 60)}h ${min % 60}min`;
       }
-
       await nuevo.save();
       return res.status(201).json({ mensaje: 'Registro creado con hora(s).' });
     }
@@ -145,6 +135,47 @@ app.get('/api/cuartos', async (req, res) => {
   } catch (err) {
     console.error('❌ Error al obtener cuartos:', err);
     res.status(500).json({ mensaje: 'Error al obtener cuartos' });
+  }
+});
+
+app.post('/api/vagonetas', async (req, res) => {
+  try {
+    const datos = req.body;
+    const nuevoRegistro = new RegistroVagoneta({
+      FECHA: datos.FECHA,
+      OPERADOR: datos.OPERADOR,
+      AYUDANTE1: datos.AYUDANTE1,
+      AYUDANTE2: datos.AYUDANTE2,
+      VAGONETA: datos.VAGONETA,
+      MATERIAL: datos.MATERIAL,
+      HORA_INICIO: datos.HORA_INICIO,
+      HORA_FINAL: datos.HORA_FINAL,
+      UNIDADES_ANTES: datos.UNIDADES_ANTES,
+      ESTIBAS: datos.ESTIBAS,
+      POR_ESTIBA: datos.POR_ESTIBA,
+      UNIDADES_DESPUES: datos.UNIDADES_DESPUES,
+      SEGUNDA: datos.SEGUNDA,
+      OBSERVACIONES: datos.OBSERVACIONES
+    });
+    await nuevoRegistro.save();
+    res.status(201).json({ success: true, message: 'Registro de vagoneta guardado correctamente.' });
+  } catch (error) {
+    console.error('❌ Error al guardar registro de vagoneta:', error);
+    res.status(500).json({ success: false, message: 'Error al guardar registro de vagoneta.' });
+  }
+});
+
+app.get('/api/vagonetas', async (req, res) => {
+  try {
+    const registros = await RegistroVagoneta.find().sort({ FECHA: -1 });
+    const formateados = registros.map(reg => ({
+      ...reg.toObject(),
+      FECHA: reg.FECHA.toISOString().split('T')[0]
+    }));
+    res.json(formateados);
+  } catch (error) {
+    console.error('❌ Error al obtener vagonetas:', error);
+    res.status(500).json({ success: false, message: 'Error al obtener registros de vagonetas.' });
   }
 });
 
