@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+  <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Formulario Cuarto de Horno</title>
-  <link rel="stylesheet" href="./style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
-</head>
-<body>
+    <title>Formulario Cuarto de Horno</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <form id="cuartoForm">
+      <img src="./Img/Logo.png" alt="Logo de la empresa" class="logo-izq" />
 
-  <form id="cuartoForm">
-    <img src="./Img/Logo.png" alt="Logo de la empresa" class="logo-izq">
+      <h2>Control de Cuartos de secado</h2>
 
-    <h2>Control de Cuartos de secado</h2>
+      <div class="form-group">
+        <i class="fa-solid fa-dumpster-fire"></i>
+        <label for="cuarto">Cuarto</label>
+        <select id="cuarto" name="cuarto" required>
+          <option value="">-- Seleccione --</option>
+          <script>
+            for (let i = 1; i <= 14; i++) {
+              document.write(`<option value="${i}">${i}</option>`);
+            }
+          </script>
+        </select>
+      </div>
 
-  
-    <div class="form-group">
-      <i class="fa-solid fa-dumpster-fire"></i>
-      <label for="cuarto">Cuarto</label>
-      <select id="cuarto" name="cuarto" required>
-        <option value="">-- Seleccione --</option>
-        <script>
-          for (let i = 1; i <= 14; i++) {
-            document.write(`<option value="${i}">${i}</option>`);
-          }
-        </script>
-      </select>
-    </div>
-
-    <div class="form-group">
+      <div class="form-group">
         <i class="fa-solid fa-trowel-bricks"></i>
         <label for="producto">Producto:</label>
         <select id="producto" name="producto" required>
@@ -39,29 +39,18 @@
           <option value="Estructurales">Estructurales</option>
           <option value="PlacaFacil">Placa Fácil</option>
         </select>
-    </div>
-      
-    <div class="form-group" id="subproducto-group">
+      </div>
+
+      <div class="form-group" id="subproducto-group">
         <i class="fa-solid fa-box-open"></i>
         <label for="subproducto">Subproducto:</label>
         <select id="subproducto" name="subproducto"></select>
       </div>
 
-    <div class="form-group">
-      <i class="fas fa-user"></i>
-      <label for="hornillero1">Hornillero 1:</label>
-      <select id="hornillero1" name="hornillero1" required>
-        <option value="">-- Seleccione --</option>
-        <option value="Hornillero 1">Hornillero 1</option>
-        <option value="Hornillero 2">Hornillero 2</option>
-        <option value="Hornillero 3">Hornillero 3</option>
-      </select>
-    </div>
-
-    <div class="form-group">
+      <div class="form-group">
         <i class="fas fa-user"></i>
-        <label for="hornillero2">Hornillero 2:</label>
-        <select id="hornillero2" name="hornillero2">
+        <label for="hornillero1">Hornillero 1:</label>
+        <select id="hornillero1" name="hornillero1" required>
           <option value="">-- Seleccione --</option>
           <option value="Hornillero 1">Hornillero 1</option>
           <option value="Hornillero 2">Hornillero 2</option>
@@ -69,35 +58,58 @@
         </select>
       </div>
 
+      <div class="form-group">
+        <i class="fas fa-user"></i>
+        <label for="hornillero2">Hornillero 2:</label>
+        <select id="hornillero2" name="hornillero2">
+          <option value="">-- Seleccione --</option>
+          <option value="Gustavo Julio">Gustavo Julio</option>
+          <option value="Jorge Rojas">Jorge Rojas</option>
+          <option value="Ricardo Porto">Ricardo Porto</option>
+          <option value="Adalberto Guerra">Adalberto Guerra</option>
+          <option value="Onel Medina">Onel Medina</option>
+          <option value="Danelsi Castro">Danelsi Castro</option>
+          <option value="Edwin Peña">Edwin Peña</option>
+          <option value="David Torres">David Torres</option>
+        </select>
+      </div>
 
-    <div class="form-group">
-      <i class="fas fa-clock"></i>
-      <label for="horaInicio">Fecha y hora inicial:</label>
-      <input type="datetime-local" id="horaInicio" name="horaInicio" required />
-    </div>
+      <div class="form-group">
+        <i class="fas fa-clock"></i>
+        <label for="horaInicio">Fecha y hora inicial:</label>
+        <input
+          type="datetime-local"
+          id="horaInicio"
+          name="horaInicio"
+          required
+        />
+      </div>
 
-    <div class="form-group">
-      <i class="fas fa-door-closed"></i>
-      <label for="horaCierre">Fecha y hora de cierre:</label>
-      <input type="datetime-local" id="horaCierre" name="horaCierre" />
-    </div>
+      <div class="form-group">
+        <i class="fas fa-door-closed"></i>
+        <label for="horaCierre">Fecha y hora de cierre:</label>
+        <input type="datetime-local" id="horaCierre" name="horaCierre" />
+      </div>
 
-    <div class="form-group">
-      <i class="fas fa-clock"></i>
-      <label for="horaFinal">Fecha y hora de descarga:</label>
-      <input type="datetime-local" id="horaFinal" name="horaFinal"  />
-    </div>
+      <div class="form-group">
+        <i class="fas fa-clock"></i>
+        <label for="horaFinal">Fecha y hora de descarga:</label>
+        <input type="datetime-local" id="horaFinal" name="horaFinal" />
+      </div>
 
-    <div class="form-group">
-      <i class="fa-solid fa-comments"></i>
-      <label for="observaciones">Observaciones:</label>
-      <textarea id="observaciones" name="observaciones" rows="4" placeholder="Escriba alguna observación..."></textarea>
-    </div>
+      <div class="form-group">
+        <i class="fa-solid fa-comments"></i>
+        <label for="observaciones">Observaciones:</label>
+        <textarea
+          id="observaciones"
+          name="observaciones"
+          rows="4"
+          placeholder="Escriba alguna observación..."
+        ></textarea>
+      </div>
 
-    <button type="submit">Guardar</button>
-
-    
-  </form>
-  <script src="./main.js"></script>
-</body>
+      <button type="submit">Guardar</button>
+    </form>
+    <script src="./main.js"></script>
+  </body>
 </html>
