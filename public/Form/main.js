@@ -47,18 +47,22 @@ document.getElementById("vagonetaForm").addEventListener("submit", function (e) 
   };
 
   const registroVagoneta = {
-    ...datosTurno,
-    vagoneta: document.getElementById("vagoneta").value,
-    material: document.getElementById("material").value,
-    horaInicio: document.getElementById("horaInicio").value,
-    horaFinal: document.getElementById("horaFinal").value,
-    unidadesAntes: document.getElementById("unidadesAntes").value,
-    estibas: document.getElementById("estibas").value,
-    porEstiba: document.getElementById("porEstiba").value,
-    unidadesDespues: document.getElementById("unidadesDespues").value,
-    segunda: document.getElementById("segunda").value,
-    observaciones: document.getElementById("observaciones").value
+    FECHA: new Date(datosTurno.fecha),
+    OPERADOR: datosTurno.operador,
+    AYUDANTE1: datosTurno.ayudante1,
+    AYUDANTE2: datosTurno.ayudante2,
+    VAGONETA: parseInt(document.getElementById("vagoneta").value),
+    MATERIAL: document.getElementById("material").value,
+    HORA_INICIO: document.getElementById("horaInicio").value,
+    HORA_FINAL: document.getElementById("horaFinal").value,
+    UNIDADES_ANTES: parseInt(document.getElementById("unidadesAntes").value) || 0,
+    ESTIBAS: parseInt(document.getElementById("estibas").value) || 0,
+    POR_ESTIBA: parseInt(document.getElementById("porEstiba").value) || 0,
+    UNIDADES_DESPUES: parseInt(document.getElementById("unidadesDespues").value) || 0,
+    SEGUNDA: parseInt(document.getElementById("segunda").value) || 0,
+    OBSERVACIONES: document.getElementById("observaciones").value || ""
   };
+  
 
   
   if (!registroVagoneta.operador || !registroVagoneta.ayudante1 || !registroVagoneta.vagoneta || !registroVagoneta.horaInicio || !registroVagoneta.horaFinal) {
