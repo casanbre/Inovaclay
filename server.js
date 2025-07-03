@@ -48,15 +48,15 @@ const registroVagonetaSchema = new mongoose.Schema({
   UNIDADES_DESPUES: Number,
   SEGUNDA: Number,
   OBSERVACIONES: String,
-  PORCENTAJE_ROTURA: Number 
+  PORCENTAJE_ROTURA: Number,
+  PNC: Number
 });
 const RegistroVagoneta = mongoose.model('RegistroVagoneta', registroVagonetaSchema);
 
-
+// ✅ Actualizar registros antiguos con rotura y PNC
 async function actualizarRoturaEnVagonetas() {
   try {
     const registros = await RegistroVagoneta.find();
-;
 
     for (const reg of registros) {
       const unidadesAntes = reg.UNIDADES_ANTES || 0;
@@ -72,16 +72,18 @@ async function actualizarRoturaEnVagonetas() {
         ? Number(((rotura / unidadesAntes) * 100).toFixed(1))
         : 0;
 
+      reg.PNC = unidadesAntes > 0
+        ? Number((((rotura + segunda) / unidadesAntes) * 100).toFixed(1))
+        : 0;
+
       await reg.save();
     }
 
-    console.log(`✅ ${registros.length} registros de vagonetas actualizados con PORCENTAJE_ROTURA`);
+    console.log(`✅ ${registros.length} registros de vagonetas actualizados con PORCENTAJE_ROTURA y PNC`);
   } catch (error) {
-    console.error('❌ Error al actualizar porcentaje de rotura:', error);
+    console.error('❌ Error al actualizar porcentaje de rotura y PNC:', error);
   }
 }
-
-
 
 const cuartoSchema = new mongoose.Schema({
   cuarto: { type: Number, required: true },
@@ -173,7 +175,7 @@ app.get('/api/cuartos', async (req, res) => {
   }
 });
 
-// 👉 POST vagonetas (con cálculo de porcentaje de rotura)
+// 👉 POST vagonetas (con PORCENTAJE_ROTURA y PNC)
 app.post('/api/vagonetas', async (req, res) => {
   try {
     const datos = req.body;
@@ -188,15 +190,19 @@ app.post('/api/vagonetas', async (req, res) => {
     const rotura = unidadesAntes - totalBuenas;
 
     let porcentajeRotura = 0;
+    let pnc = 0;
+
     if (unidadesAntes > 0) {
       porcentajeRotura = (rotura / unidadesAntes) * 100;
+      pnc = ((rotura / unidadesAntes) * 100) + ((segunda / unidadesAntes) * 100);
     }
 
     datos.PORCENTAJE_ROTURA = Number(porcentajeRotura.toFixed(1));
+    datos.PNC = Number(pnc.toFixed(1));
 
     const nuevoRegistro = new RegistroVagoneta(datos);
     await nuevoRegistro.save();
-    res.status(201).json({ success: true, message: 'Registro de vagoneta guardado correctamente.', porcentaje: datos.PORCENTAJE_ROTURA });
+    res.status(201).json({ success: true, message: 'Registro de vagoneta guardado correctamente.', porcentaje: datos.PORCENTAJE_ROTURA, pnc: datos.PNC });
   } catch (error) {
     console.error('❌ Error en /api/vagonetas:', error);
     res.status(500).json({ success: false, message: 'Error al guardar vagoneta.' });
@@ -254,6 +260,5 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  actualizarRoturaEnVagonetas(); // Ejecutar al iniciar
 });
-
-actualizarRoturaEnVagonetas();
