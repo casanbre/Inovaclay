@@ -47,7 +47,8 @@ const registroVagonetaSchema = new mongoose.Schema({
   POR_ESTIBA: Number,
   UNIDADES_DESPUES: Number,
   SEGUNDA: Number,
-  OBSERVACIONES: String
+  OBSERVACIONES: String,
+  PORCENTAJE_ROTURA: Number 
 });
 const RegistroVagoneta = mongoose.model('RegistroVagoneta', registroVagonetaSchema);
 
@@ -141,13 +142,30 @@ app.get('/api/cuartos', async (req, res) => {
   }
 });
 
-// 👉 POST vagonetas
+// 👉 POST vagonetas (con cálculo de porcentaje de rotura)
 app.post('/api/vagonetas', async (req, res) => {
   try {
     const datos = req.body;
+
+    const unidadesAntes = datos.UNIDADES_ANTES || 0;
+    const estibas = datos.ESTIBAS || 0;
+    const porEstiba = datos.POR_ESTIBA || 0;
+    const unidadesDespues = datos.UNIDADES_DESPUES || 0;
+    const segunda = datos.SEGUNDA || 0;
+
+    const totalBuenas = (estibas * porEstiba) + unidadesDespues + segunda;
+    const rotura = unidadesAntes - totalBuenas;
+
+    let porcentajeRotura = 0;
+    if (unidadesAntes > 0) {
+      porcentajeRotura = (rotura / unidadesAntes) * 100;
+    }
+
+    datos.PORCENTAJE_ROTURA = Number(porcentajeRotura.toFixed(1));
+
     const nuevoRegistro = new RegistroVagoneta(datos);
     await nuevoRegistro.save();
-    res.status(201).json({ success: true, message: 'Registro de vagoneta guardado correctamente.' });
+    res.status(201).json({ success: true, message: 'Registro de vagoneta guardado correctamente.', porcentaje: datos.PORCENTAJE_ROTURA });
   } catch (error) {
     console.error('❌ Error en /api/vagonetas:', error);
     res.status(500).json({ success: false, message: 'Error al guardar vagoneta.' });
