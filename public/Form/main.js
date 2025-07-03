@@ -1,41 +1,3 @@
-window.addEventListener("DOMContentLoaded", () => {
-  const turno = localStorage.getItem("turnoDatos");
-  const hoy = new Date().toISOString().split('T')[0];
-  document.getElementById("fecha").value = hoy;
-
-  if (turno) {
-    const datos = JSON.parse(turno);
-    document.getElementById("operador").value = datos.operador;
-    document.getElementById("ayudante1").value = datos.ayudante1;
-    document.getElementById("ayudante2").value = datos.ayudante2;
-    document.getElementById("fecha").value = datos.fecha;
-
-    deshabilitarTurno(true);
-    mostrarMensajeTurno("✅ Turno cargado. Puedes registrar vagonetas.");
-  }
-});
-
-function deshabilitarTurno(valor) {
-  document.getElementById("operador").disabled = valor;
-  document.getElementById("ayudante1").disabled = valor;
-  document.getElementById("ayudante2").disabled = valor;
-  document.getElementById("fecha").disabled = valor;
-}
-
-function mostrarMensajeTurno(mensaje) {
-  const mensajeTurno = document.getElementById("mensajeTurno");
-  if (mensajeTurno) {
-    mensajeTurno.textContent = mensaje;
-    mensajeTurno.style.color = "green";
-  }
-}
-
-document.getElementById("editarTurno").addEventListener("click", () => {
-  deshabilitarTurno(false);
-  localStorage.removeItem("turnoDatos");
-  mostrarMensajeTurno("✏️ Puedes editar el turno.");
-});
-
 document.getElementById("vagonetaForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -62,6 +24,20 @@ document.getElementById("vagonetaForm").addEventListener("submit", function (e) 
     SEGUNDA: parseInt(document.getElementById("segunda").value) || 0,
     OBSERVACIONES: document.getElementById("observaciones").value || ""
   };
+
+  // ✅ Cálculo oculto del porcentaje de rotura
+  const totalBuenas =
+    registroVagoneta.ESTIBAS * registroVagoneta.POR_ESTIBA +
+    registroVagoneta.UNIDADES_DESPUES +
+    registroVagoneta.SEGUNDA;
+
+  const rotura = registroVagoneta.UNIDADES_ANTES - totalBuenas;
+
+  if (registroVagoneta.UNIDADES_ANTES > 0) {
+    registroVagoneta.PORCENTAJE_ROTURA = Number(((rotura / registroVagoneta.UNIDADES_ANTES) * 100).toFixed(1));
+  } else {
+    registroVagoneta.PORCENTAJE_ROTURA = 0;
+  }
 
   if (!registroVagoneta.OPERADOR || !registroVagoneta.AYUDANTE1 || !registroVagoneta.VAGONETA || !registroVagoneta.HORA_INICIO || !registroVagoneta.HORA_FINAL) {
     alert("⚠️ Por favor completa todos los campos obligatorios.");
