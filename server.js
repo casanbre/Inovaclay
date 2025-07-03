@@ -52,6 +52,37 @@ const registroVagonetaSchema = new mongoose.Schema({
 });
 const RegistroVagoneta = mongoose.model('RegistroVagoneta', registroVagonetaSchema);
 
+
+async function actualizarRoturaEnVagonetas() {
+  try {
+    const registros = await RegistroVagoneta.find();
+;
+
+    for (const reg of registros) {
+      const unidadesAntes = reg.UNIDADES_ANTES || 0;
+      const estibas = reg.ESTIBAS || 0;
+      const porEstiba = reg.POR_ESTIBA || 0;
+      const unidadesDespues = reg.UNIDADES_DESPUES || 0;
+      const segunda = reg.SEGUNDA || 0;
+
+      const totalBuenas = estibas * porEstiba + unidadesDespues + segunda;
+      const rotura = unidadesAntes - totalBuenas;
+
+      reg.PORCENTAJE_ROTURA = unidadesAntes > 0
+        ? Number(((rotura / unidadesAntes) * 100).toFixed(1))
+        : 0;
+
+      await reg.save();
+    }
+
+    console.log(`✅ ${registros.length} registros de vagonetas actualizados con PORCENTAJE_ROTURA`);
+  } catch (error) {
+    console.error('❌ Error al actualizar porcentaje de rotura:', error);
+  }
+}
+
+
+
 const cuartoSchema = new mongoose.Schema({
   cuarto: { type: Number, required: true },
   producto: { type: String },
@@ -224,3 +255,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
+
+actualizarRoturaEnVagonetas();
