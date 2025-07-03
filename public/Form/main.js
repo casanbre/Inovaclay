@@ -62,20 +62,16 @@ document.getElementById("vagonetaForm").addEventListener("submit", function (e) 
     SEGUNDA: parseInt(document.getElementById("segunda").value) || 0,
     OBSERVACIONES: document.getElementById("observaciones").value || ""
   };
-  
 
-  
-  if (!registroVagoneta.operador || !registroVagoneta.ayudante1 || !registroVagoneta.vagoneta || !registroVagoneta.horaInicio || !registroVagoneta.horaFinal) {
+  if (!registroVagoneta.OPERADOR || !registroVagoneta.AYUDANTE1 || !registroVagoneta.VAGONETA || !registroVagoneta.HORA_INICIO || !registroVagoneta.HORA_FINAL) {
     alert("⚠️ Por favor completa todos los campos obligatorios.");
     return;
   }
 
-  
   if (!localStorage.getItem("turnoDatos")) {
     localStorage.setItem("turnoDatos", JSON.stringify(datosTurno));
   }
 
-  
   fetch('/api/vagonetas', {
     method: 'POST',
     headers: {
@@ -96,10 +92,8 @@ document.getElementById("vagonetaForm").addEventListener("submit", function (e) 
     alert("❌ Error de conexión con el servidor.");
   });
 
-  
   localStorage.setItem("ultimoRegistro", JSON.stringify(registroVagoneta));
 
-  
   [
     'vagoneta', 'material', 'horaInicio', 'horaFinal',
     'unidadesAntes', 'estibas', 'porEstiba',
