@@ -73,7 +73,7 @@ async function actualizarRoturaEnVagonetas() {
         : 0;
 
       reg.PNC = unidadesAntes > 0
-        ? Number((((rotura + segunda) / unidadesAntes) * 100).toFixed(1))
+        ? Number(((((rotura + segunda) / unidadesAntes) * 100)).toFixed(1))
         : 0;
 
       await reg.save();
@@ -94,8 +94,8 @@ const cuartoSchema = new mongoose.Schema({
   horaInicio: { type: Date },
   horaCierre: { type: Date },
   horaFinal: { type: Date },
-  duracionIngreso: { type: String },
-  duracionTotal: { type: String },
+  duracionIngreso: { type: Number },
+  duracionTotal: { type: Number },
   observaciones: { type: String },
   completado: { type: Boolean, default: false }
 });
@@ -128,11 +128,11 @@ app.post('/api/cuartos', async (req, res) => {
 
       if (parsedCierre && parsedInicio) {
         const min = Math.floor((parsedCierre - parsedInicio) / 60000);
-        nuevo.duracionIngreso = `${Math.floor(min / 60)}h ${min % 60}min`;
+        nuevo.duracionIngreso = min;
       }
       if (parsedFinal && parsedInicio) {
         const min = Math.floor((parsedFinal - parsedInicio) / 60000);
-        nuevo.duracionTotal = `${Math.floor(min / 60)}h ${min % 60}min`;
+        nuevo.duracionTotal = min;
       }
 
       await nuevo.save();
@@ -143,7 +143,7 @@ app.post('/api/cuartos', async (req, res) => {
       registro.horaCierre = parsedCierre;
       if (registro.horaInicio) {
         const min = Math.floor((parsedCierre - registro.horaInicio) / 60000);
-        registro.duracionIngreso = `${Math.floor(min / 60)}h ${min % 60}min`;
+        registro.duracionIngreso = min;
       }
     }
 
@@ -152,7 +152,7 @@ app.post('/api/cuartos', async (req, res) => {
       registro.completado = true;
       if (registro.horaInicio) {
         const min = Math.floor((parsedFinal - registro.horaInicio) / 60000);
-        registro.duracionTotal = `${Math.floor(min / 60)}h ${min % 60}min`;
+        registro.duracionTotal = min;
       }
     }
 
@@ -194,7 +194,7 @@ app.post('/api/vagonetas', async (req, res) => {
 
     if (unidadesAntes > 0) {
       porcentajeRotura = (rotura / unidadesAntes) * 100;
-      pnc = ((rotura / unidadesAntes) * 100) + ((segunda / unidadesAntes) * 100);
+      pnc = ((rotura + segunda) / unidadesAntes) * 100;
     }
 
     datos.PORCENTAJE_ROTURA = Number(porcentajeRotura.toFixed(1));
@@ -209,7 +209,7 @@ app.post('/api/vagonetas', async (req, res) => {
   }
 });
 
-// 👉 GET vagonetas
+// GET vagonetas
 app.get('/api/vagonetas', async (req, res) => {
   try {
     const registros = await RegistroVagoneta.find().sort({ FECHA: -1 });
@@ -224,7 +224,7 @@ app.get('/api/vagonetas', async (req, res) => {
   }
 });
 
-// 👉 POST paradas
+// POST paradas
 app.post('/api/paradas', async (req, res) => {
   try {
     const nuevaParada = new Parada(req.body);
@@ -236,7 +236,7 @@ app.post('/api/paradas', async (req, res) => {
   }
 });
 
-// 👉 GET paradas
+// GET paradas
 app.get('/api/paradas', async (req, res) => {
   try {
     const paradas = await Parada.find().sort({ FECHA: -1 });
@@ -251,14 +251,12 @@ app.get('/api/paradas', async (req, res) => {
   }
 });
 
-// ------------------- HTML DEFAULT -------------------
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'mq4.html'));
 });
 
-// ------------------- INICIAR SERVIDOR -------------------
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-  actualizarRoturaEnVagonetas(); // Ejecutar al iniciar
+  actualizarRoturaEnVagonetas();
 });
