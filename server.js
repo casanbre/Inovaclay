@@ -5,14 +5,10 @@ require('dotenv').config();
 const path = require('path');
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-console.log("🔍 URI leída del .env:", process.env.MONGO_URI);
-
-// ------------------- CONEXIÓN MONGODB -------------------
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -20,6 +16,7 @@ mongoose.connect(process.env.MONGO_URI, {
   .catch(err => console.error("❌ Error de conexión:", err));
 
 // ------------------- ESQUEMAS -------------------
+
 const paradaSchema = new mongoose.Schema({
   FECHA: { type: Date, required: true },
   OPERADOR: { type: String, required: true },
@@ -53,7 +50,25 @@ const registroVagonetaSchema = new mongoose.Schema({
 });
 const RegistroVagoneta = mongoose.model('RegistroVagoneta', registroVagonetaSchema);
 
-// ✅ Actualizar registros antiguos con rotura y PNC
+const cuartoSchema = new mongoose.Schema({
+  cuarto: { type: Number, required: true },
+  producto: { type: String },
+  subproducto: { type: String },
+  hornillero1: { type: String },
+  hornillero2: { type: String },
+  horaInicio: { type: Date },
+  horaCierre: { type: Date },
+  horaFinal: { type: Date },
+  duracionIngreso: { type: Number },  // en minutos
+  duracionTotal: { type: Number },    // en minutos
+  observaciones: { type: String },
+  completado: { type: Boolean, default: false }
+});
+cuartoSchema.index({ cuarto: 1, completado: 1 }, { unique: true, partialFilterExpression: { completado: false } });
+const CuartoSecado = mongoose.model('CuartoSecado', cuartoSchema);
+
+// ------------------- FUNCIONES -------------------
+
 async function actualizarRoturaEnVagonetas() {
   try {
     const registros = await RegistroVagoneta.find();
@@ -73,7 +88,7 @@ async function actualizarRoturaEnVagonetas() {
         : 0;
 
       reg.PNC = unidadesAntes > 0
-        ? Number(((((rotura + segunda) / unidadesAntes) * 100)).toFixed(1))
+        ? Number((((rotura + segunda) / unidadesAntes) * 100).toFixed(1))
         : 0;
 
       await reg.save();
@@ -84,23 +99,6 @@ async function actualizarRoturaEnVagonetas() {
     console.error('❌ Error al actualizar porcentaje de rotura y PNC:', error);
   }
 }
-
-const cuartoSchema = new mongoose.Schema({
-  cuarto: { type: Number, required: true },
-  producto: { type: String },
-  subproducto: { type: String },
-  hornillero1: { type: String },
-  hornillero2: { type: String },
-  horaInicio: { type: Date },
-  horaCierre: { type: Date },
-  horaFinal: { type: Date },
-  duracionIngreso: { type: Number },
-  duracionTotal: { type: Number },
-  observaciones: { type: String },
-  completado: { type: Boolean, default: false }
-});
-cuartoSchema.index({ cuarto: 1, completado: 1 }, { unique: true, partialFilterExpression: { completado: false } });
-const CuartoSecado = mongoose.model('CuartoSecado', cuartoSchema);
 
 // ------------------- RUTAS API -------------------
 
@@ -175,7 +173,7 @@ app.get('/api/cuartos', async (req, res) => {
   }
 });
 
-// 👉 POST vagonetas (con PORCENTAJE_ROTURA y PNC)
+// 👉 POST vagonetas
 app.post('/api/vagonetas', async (req, res) => {
   try {
     const datos = req.body;
@@ -209,7 +207,7 @@ app.post('/api/vagonetas', async (req, res) => {
   }
 });
 
-// GET vagonetas
+// 👉 GET vagonetas
 app.get('/api/vagonetas', async (req, res) => {
   try {
     const registros = await RegistroVagoneta.find().sort({ FECHA: -1 });
@@ -224,7 +222,7 @@ app.get('/api/vagonetas', async (req, res) => {
   }
 });
 
-// POST paradas
+// 👉 POST paradas
 app.post('/api/paradas', async (req, res) => {
   try {
     const nuevaParada = new Parada(req.body);
@@ -236,7 +234,7 @@ app.post('/api/paradas', async (req, res) => {
   }
 });
 
-// GET paradas
+// 👉 GET paradas
 app.get('/api/paradas', async (req, res) => {
   try {
     const paradas = await Parada.find().sort({ FECHA: -1 });
@@ -251,6 +249,7 @@ app.get('/api/paradas', async (req, res) => {
   }
 });
 
+// Página principal
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'mq4.html'));
 });
@@ -258,5 +257,5 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-  actualizarRoturaEnVagonetas();
+  actualizarRoturaEnVagonetas(); 
 });
