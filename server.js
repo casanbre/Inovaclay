@@ -10,6 +10,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
+// ------------------- CONEXIÓN MONGODB -------------------
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -17,7 +18,6 @@ mongoose.connect(process.env.MONGO_URI, {
   .catch(err => console.error("❌ Error de conexión:", err));
 
 // ------------------- SCHEMAS -------------------
-
 const paradaSchema = new mongoose.Schema({
   FECHA: { type: Date, required: true },
   OPERADOR: { type: String, required: true },
@@ -60,8 +60,8 @@ const cuartoSchema = new mongoose.Schema({
   horaInicio: { type: Date },
   horaCierre: { type: Date },
   horaFinal: { type: Date },
-  duracionIngreso: { type: Number },  // MINUTOS
-  duracionTotal: { type: Number },    // MINUTOS
+  duracionIngreso: { type: Number },  // en minutos
+  duracionTotal: { type: Number },    // en minutos
   observaciones: { type: String },
   completado: { type: Boolean, default: false }
 });
@@ -69,7 +69,6 @@ cuartoSchema.index({ cuarto: 1, completado: 1 }, { unique: true, partialFilterEx
 const CuartoSecado = mongoose.model('CuartoSecado', cuartoSchema);
 
 // ------------------- FUNCIONES -------------------
-
 async function actualizarRoturaEnVagonetas() {
   try {
     const registros = await RegistroVagoneta.find();
@@ -95,13 +94,24 @@ async function actualizarRoturaEnVagonetas() {
       await reg.save();
     }
 
-    console.log(`✅ ${registros.length} registros de vagonetas actualizados con PORCENTAJE_ROTURA y PNC`);
+    console.log(`✅ ${registros.length} registros actualizados con rotura/PNC`);
   } catch (error) {
-    console.error('❌ Error al actualizar porcentaje de rotura y PNC:', error);
+    console.error('❌ Error actualizando rotura/PNC:', error);
   }
 }
 
-// ------------------- RUTAS -------------------
+// Limpieza de datos con errores (opcional, solo si ya hubo errores)
+async function limpiarDatosInvalidos() {
+  try {
+    const res1 = await CuartoSecado.deleteMany({ duracionIngreso: { $type: "string" } });
+    const res2 = await CuartoSecado.deleteMany({ duracionTotal: { $type: "string" } });
+    console.log(`🧹 Registros corregidos: ${res1.deletedCount + res2.deletedCount}`);
+  } catch (e) {
+    console.error("❌ Error limpiando registros inválidos:", e);
+  }
+}
+
+// ------------------- RUTAS API -------------------
 
 // POST cuartos
 app.post('/api/cuartos', async (req, res) => {
@@ -244,13 +254,15 @@ app.get('/api/paradas', async (req, res) => {
   }
 });
 
-// HTML principal
+// HTML
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'mq4.html'));
 });
 
+// INICIO SERVIDOR
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-  actualizarRoturaEnVagonetas();
+  await actualizarRoturaEnVagonetas();
+  await limpiarDatosInvalidos(); // Puedes comentar esta línea si ya limpiaste
 });
