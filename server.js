@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -11,13 +10,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-console.log("🔍 URI leída del .env:", process.env.MONGO_URI);
-
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log("✅ Conectado a MongoDB Atlas"))
   .catch(err => console.error("❌ Error de conexión:", err));
+
+// ------------------- SCHEMAS -------------------
 
 const paradaSchema = new mongoose.Schema({
   FECHA: { type: Date, required: true },
@@ -52,6 +51,25 @@ const registroVagonetaSchema = new mongoose.Schema({
 });
 const RegistroVagoneta = mongoose.model('RegistroVagoneta', registroVagonetaSchema);
 
+const cuartoSchema = new mongoose.Schema({
+  cuarto: { type: Number, required: true },
+  producto: { type: String },
+  subproducto: { type: String },
+  hornillero1: { type: String },
+  hornillero2: { type: String },
+  horaInicio: { type: Date },
+  horaCierre: { type: Date },
+  horaFinal: { type: Date },
+  duracionIngreso: { type: Number },  // MINUTOS
+  duracionTotal: { type: Number },    // MINUTOS
+  observaciones: { type: String },
+  completado: { type: Boolean, default: false }
+});
+cuartoSchema.index({ cuarto: 1, completado: 1 }, { unique: true, partialFilterExpression: { completado: false } });
+const CuartoSecado = mongoose.model('CuartoSecado', cuartoSchema);
+
+// ------------------- FUNCIONES -------------------
+
 async function actualizarRoturaEnVagonetas() {
   try {
     const registros = await RegistroVagoneta.find();
@@ -83,23 +101,9 @@ async function actualizarRoturaEnVagonetas() {
   }
 }
 
-const cuartoSchema = new mongoose.Schema({
-  cuarto: { type: Number, required: true },
-  producto: { type: String },
-  subproducto: { type: String },
-  hornillero1: { type: String },
-  hornillero2: { type: String },
-  horaInicio: { type: Date },
-  horaCierre: { type: Date },
-  horaFinal: { type: Date },
-  duracionIngreso: { type: Number },
-  duracionTotal: { type: Number },
-  observaciones: { type: String },
-  completado: { type: Boolean, default: false }
-});
-cuartoSchema.index({ cuarto: 1, completado: 1 }, { unique: true, partialFilterExpression: { completado: false } });
-const CuartoSecado = mongoose.model('CuartoSecado', cuartoSchema);
+// ------------------- RUTAS -------------------
 
+// POST cuartos
 app.post('/api/cuartos', async (req, res) => {
   const { cuarto, producto, subproducto, hornillero1, hornillero2, horaInicio, horaCierre, horaFinal, observaciones } = req.body;
   if (!cuarto || isNaN(cuarto)) return res.status(400).json({ mensaje: 'Cuarto inválido' });
@@ -155,6 +159,7 @@ app.post('/api/cuartos', async (req, res) => {
   }
 });
 
+// GET cuartos
 app.get('/api/cuartos', async (req, res) => {
   try {
     const registros = await CuartoSecado.find().sort({ horaInicio: -1 });
@@ -165,6 +170,7 @@ app.get('/api/cuartos', async (req, res) => {
   }
 });
 
+// POST vagonetas
 app.post('/api/vagonetas', async (req, res) => {
   try {
     const datos = req.body;
@@ -178,18 +184,25 @@ app.post('/api/vagonetas', async (req, res) => {
     const totalBuenas = (estibas * porEstiba) + unidadesDespues + segunda;
     const rotura = unidadesAntes - totalBuenas;
 
-    datos.PORCENTAJE_ROTURA = unidadesAntes > 0 ? Number(((rotura / unidadesAntes) * 100).toFixed(1)) : 0;
-    datos.PNC = unidadesAntes > 0 ? Number((((rotura + segunda) / unidadesAntes) * 100).toFixed(1)) : 0;
+    datos.PORCENTAJE_ROTURA = unidadesAntes > 0
+      ? Number(((rotura / unidadesAntes) * 100).toFixed(1))
+      : 0;
+
+    datos.PNC = unidadesAntes > 0
+      ? Number((((rotura + segunda) / unidadesAntes) * 100).toFixed(1))
+      : 0;
 
     const nuevoRegistro = new RegistroVagoneta(datos);
     await nuevoRegistro.save();
-    res.status(201).json({ success: true, message: 'Registro de vagoneta guardado correctamente.', porcentaje: datos.PORCENTAJE_ROTURA, pnc: datos.PNC });
+
+    res.status(201).json({ success: true, message: 'Registro guardado.', porcentaje: datos.PORCENTAJE_ROTURA, pnc: datos.PNC });
   } catch (error) {
     console.error('❌ Error en /api/vagonetas:', error);
     res.status(500).json({ success: false, message: 'Error al guardar vagoneta.' });
   }
 });
 
+// GET vagonetas
 app.get('/api/vagonetas', async (req, res) => {
   try {
     const registros = await RegistroVagoneta.find().sort({ FECHA: -1 });
@@ -200,10 +213,11 @@ app.get('/api/vagonetas', async (req, res) => {
     res.json(formateados);
   } catch (error) {
     console.error('❌ Error al obtener vagonetas:', error);
-    res.status(500).json({ success: false, message: 'Error al obtener registros de vagonetas.' });
+    res.status(500).json({ success: false, message: 'Error al obtener registros.' });
   }
 });
 
+// POST paradas
 app.post('/api/paradas', async (req, res) => {
   try {
     const nuevaParada = new Parada(req.body);
@@ -215,6 +229,7 @@ app.post('/api/paradas', async (req, res) => {
   }
 });
 
+// GET paradas
 app.get('/api/paradas', async (req, res) => {
   try {
     const paradas = await Parada.find().sort({ FECHA: -1 });
@@ -229,6 +244,7 @@ app.get('/api/paradas', async (req, res) => {
   }
 });
 
+// HTML principal
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'mq4.html'));
 });
