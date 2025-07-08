@@ -31,6 +31,16 @@ const opcionesPorMaquina = {
     "CORREAS",
     "ESTRUCTURA",
   ],
+  "Banda 3": [
+    "MOTOR",
+    "REDUCTOR",
+    "TAMBOR MOTRIZ",
+    "TAMBOR CONDUCIDO",
+    "RODILLOS",
+    "BANDA",
+    "CORREAS",
+    "ESTRUCTURA",
+  ],
   "Cajon Alimentador 1": [
     "MOTOR",
     "REDUCTOR",
@@ -144,6 +154,7 @@ const opcionesPorMaquina = {
   Amasadora: ["REDUCTOR", "ESTRUCTURA", "EJE", "PALETAS", "VASTAGO"],
   "Rieles de estanteria": ["RODILLOS", "ESTRUCTURA"],
   "Mantenimiento general": ["MANTENIMIENTO GENERAL"],
+  "Otros":["Otros"]
 };
 
 document.addEventListener("DOMContentLoaded", function () {

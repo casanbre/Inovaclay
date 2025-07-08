@@ -60,8 +60,8 @@ const cuartoSchema = new mongoose.Schema({
   horaInicio: { type: Date },
   horaCierre: { type: Date },
   horaFinal: { type: Date },
-  duracionIngreso: { type: Number },  // en minutos
-  duracionTotal: { type: Number },    // en minutos
+  duracionIngreso: { type: Number },  
+  duracionTotal: { type: Number },    
   observaciones: { type: String },
   completado: { type: Boolean, default: false }
 });
@@ -264,5 +264,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
   await actualizarRoturaEnVagonetas();
-  await limpiarDatosInvalidos(); // Puedes comentar esta línea si ya limpiaste
+  await limpiarDatosInvalidos(); 
 });
