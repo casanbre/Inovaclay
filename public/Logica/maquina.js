@@ -63,6 +63,7 @@ const opcionesPorMaquina = {
   ],
   Extrusora: ["PALETA", "MANITO", "CARACOLES", "VÁSTAGO", "ESTRELLAS"],
   Corte: [
+    "BANDA",
     "PRECORTE",
     "TORNILLO",
     "CORREAS",
