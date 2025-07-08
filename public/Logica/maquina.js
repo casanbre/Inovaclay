@@ -201,19 +201,18 @@ document.addEventListener("DOMContentLoaded", function () {
   function calcularTiempo() {
     const inicio = document.getElementById("horaInicial").value;
     const fin = document.getElementById("horaFinal").value;
-
+  
     if (inicio && fin) {
       const [hi, mi] = inicio.split(":").map(Number);
       const [hf, mf] = fin.split(":").map(Number);
-
+  
       let totalMin = hf * 60 + mf - (hi * 60 + mi);
       if (totalMin < 0) totalMin += 1440;
-
-      const horas = Math.floor(totalMin / 60);
-      const minutos = totalMin % 60;
-      document.getElementById("horaTotal").value = `${horas}h ${minutos}min`;
+  
+      document.getElementById("horaTotal").value = totalMin;
     }
   }
+  
 
   document
     .getElementById("horaInicial")
