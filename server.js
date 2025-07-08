@@ -26,7 +26,7 @@ const paradaSchema = new mongoose.Schema({
   OPCION: { type: String, required: true },
   HORA_INICIAL: { type: String, required: true },
   HORA_FINAL: { type: String, required: true },
-  HORA_TOTAL: { type: String, required: true },
+  VAGONETA: { type: Number, required: true },
   OBSERVACION: { type: String, default: '' }
 });
 const Parada = mongoose.model('Parada', paradaSchema);
