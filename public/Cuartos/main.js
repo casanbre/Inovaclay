@@ -10,7 +10,6 @@ const subproductos = {
   PlacaFacil: ["Bloquelon"]
 };
 
-// Asocia subproductos al producto
 productoSelect.addEventListener("change", () => {
   const selected = productoSelect.value;
   const opciones = subproductos[selected] || [];
@@ -32,7 +31,6 @@ productoSelect.addEventListener("change", () => {
   }
 });
 
-// Devuelve una fecha local en formato ISO sin ajuste de zona horaria
 function toLocalISOString(datetimeStr) {
   if (!datetimeStr) return null;
   const dt = new Date(datetimeStr);
@@ -40,7 +38,6 @@ function toLocalISOString(datetimeStr) {
   return dt.toISOString();
 }
 
-// Envío del formulario
 formulario.addEventListener("submit", async function (e) {
   e.preventDefault();
 
@@ -84,7 +81,6 @@ formulario.addEventListener("submit", async function (e) {
   }
 });
 
-// Verifica si hay un cuarto sin completar y bloquea campos según el paso
 document.getElementById("cuarto").addEventListener("change", async function () {
   const cuartoSeleccionado = parseInt(this.value);
   if (!cuartoSeleccionado) return;
@@ -121,17 +117,15 @@ document.getElementById("cuarto").addEventListener("change", async function () {
       document.getElementById("horaFinal").value = existente.horaFinal?.slice(0, 16) || "";
       document.getElementById("observaciones").value = existente.observaciones || "";
 
-      // Paso 1 completado: bloquear campos de ingreso
       ["producto", "subproducto", "hornillero1", "hornillero2", "horaInicio"].forEach(id => {
         document.getElementById(id).disabled = true;
       });
 
-      // Paso 2 completado: bloquear horaCierre
+
       if (existente.horaCierre) {
         document.getElementById("horaCierre").disabled = true;
       }
 
-      // Paso 3 completado: bloquear horaFinal
       if (existente.horaFinal) {
         document.getElementById("horaFinal").disabled = true;
       }

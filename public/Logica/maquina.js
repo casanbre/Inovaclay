@@ -77,6 +77,7 @@ const opcionesPorMaquina = {
     "ESTRUCTURA",
     "CABLEADO",
     "FLUIDO ELECTRICO",
+    "SENSOR",
   ],
   "Banco de cadena 1": [
     "SENSOR",
