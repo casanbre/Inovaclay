@@ -92,6 +92,17 @@ const opcionesPorMaquina = {
     "ELECTROVÁLVULAS",
     "FLUIDO ELÉCTRICO",
   ],
+  "Banda de subida":[
+    "MOTOR",
+    "REDUCTOR",
+    "TAMBOR MOTRIZ",
+    "TAMBOR CONDUCIDO",
+    "RODILLOS",
+    "BANDA",
+    "CORREAS",
+    "ESTRUCTURA",
+  ],
+
   "Banco de cadena 2": [
     "SENSOR",
     "CABLEADO",
