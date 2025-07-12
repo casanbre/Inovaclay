@@ -61,7 +61,7 @@ const opcionesPorMaquina = {
     "CORREAS",
     "ESTRUCTURA",
   ],
-  Extrusora: ["PALETA", "MANITO", "CARACOLES", "VÁSTAGO", "ESTRELLAS"],
+  Extrusora: ["PALETA", "MANITO", "CARACOLES", "VÁSTAGO", "ESTRELLAS","CAMARA DE VACIO"],
   Corte: [
     "BANDA",
     "PRECORTE",
@@ -93,6 +93,16 @@ const opcionesPorMaquina = {
     "FLUIDO ELÉCTRICO",
   ],
   "Banda de subida":[
+    "MOTOR",
+    "REDUCTOR",
+    "TAMBOR MOTRIZ",
+    "TAMBOR CONDUCIDO",
+    "RODILLOS",
+    "BANDA",
+    "CORREAS",
+    "ESTRUCTURA",
+  ],
+  "Banda larga":[
     "MOTOR",
     "REDUCTOR",
     "TAMBOR MOTRIZ",
