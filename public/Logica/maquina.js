@@ -1,6 +1,6 @@
 const opcionesPorMaquina = {
   Mezclador: ["MOTOR", "REDUCTOR", "PALETAS", "EJE"],
-  Laminador: ["CORREA", "MASA", "PROTECTORES 2", "POLEAS", "MOTOR"],
+  Laminador: ["CORREA", "MASA", "PROTECTORES", "POLEAS", "MOTOR","ESTRUCTURA"],
   "Banda corta": [
     "MOTOR",
     "REDUCTOR",
