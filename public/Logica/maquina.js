@@ -1,4 +1,5 @@
 const opcionesPorMaquina = {
+
   Mezclador: ["MOTOR", "REDUCTOR", "PALETAS", "EJE"],
   Laminador: ["CORREA", "MASA", "PROTECTORES", "POLEAS", "MOTOR","ESTRUCTURA"],
   "Banda corta": [
@@ -11,6 +12,8 @@ const opcionesPorMaquina = {
     "CORREAS",
     "ESTRUCTURA",
   ],
+
+  
   "Banda 1": [
     "MOTOR",
     "REDUCTOR",
@@ -176,7 +179,7 @@ const opcionesPorMaquina = {
   "Falla electrica": ["FALLA ELECTRICA GENERAL"],
   Amasadora: ["REDUCTOR", "ESTRUCTURA", "EJE", "PALETAS", "VASTAGO"],
   "Rieles de estanteria": ["RODILLOS", "ESTRUCTURA"],
-  "Mantenimiento general": ["MANTENIMIENTO GENERAL"],
+  "MANTENIMIENTO GENERAL":["MTTO ELECTRICO-MECANICO"],
   "Otros":["Otros"]
 };
 

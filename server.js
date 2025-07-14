@@ -10,14 +10,14 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// ------------------- CONEXIÓN MONGODB -------------------
+
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log("✅ Conectado a MongoDB Atlas"))
   .catch(err => console.error("❌ Error de conexión:", err));
 
-// ------------------- SCHEMAS -------------------
+
 const paradaSchema = new mongoose.Schema({
   FECHA: { type: Date, required: true },
   OPERADOR: { type: String, required: true },
@@ -68,7 +68,7 @@ const cuartoSchema = new mongoose.Schema({
 cuartoSchema.index({ cuarto: 1, completado: 1 }, { unique: true, partialFilterExpression: { completado: false } });
 const CuartoSecado = mongoose.model('CuartoSecado', cuartoSchema);
 
-// ------------------- FUNCIONES -------------------
+
 async function actualizarRoturaEnVagonetas() {
   try {
     const registros = await RegistroVagoneta.find();
@@ -100,7 +100,7 @@ async function actualizarRoturaEnVagonetas() {
   }
 }
 
-// Limpieza de datos con errores (opcional, solo si ya hubo errores)
+
 async function limpiarDatosInvalidos() {
   try {
     const res1 = await CuartoSecado.deleteMany({ duracionIngreso: { $type: "string" } });
@@ -111,9 +111,7 @@ async function limpiarDatosInvalidos() {
   }
 }
 
-// ------------------- RUTAS API -------------------
 
-// POST cuartos
 app.post('/api/cuartos', async (req, res) => {
   const { cuarto, producto, subproducto, hornillero1, hornillero2, horaInicio, horaCierre, horaFinal, observaciones } = req.body;
   if (!cuarto || isNaN(cuarto)) return res.status(400).json({ mensaje: 'Cuarto inválido' });
@@ -169,7 +167,6 @@ app.post('/api/cuartos', async (req, res) => {
   }
 });
 
-// GET cuartos
 app.get('/api/cuartos', async (req, res) => {
   try {
     const registros = await CuartoSecado.find().sort({ horaInicio: -1 });
@@ -180,7 +177,7 @@ app.get('/api/cuartos', async (req, res) => {
   }
 });
 
-// POST vagonetas
+
 app.post('/api/vagonetas', async (req, res) => {
   try {
     const datos = req.body;
@@ -212,7 +209,7 @@ app.post('/api/vagonetas', async (req, res) => {
   }
 });
 
-// GET vagonetas
+
 app.get('/api/vagonetas', async (req, res) => {
   try {
     const registros = await RegistroVagoneta.find().sort({ FECHA: -1 });
@@ -227,7 +224,6 @@ app.get('/api/vagonetas', async (req, res) => {
   }
 });
 
-// POST paradas
 app.post('/api/paradas', async (req, res) => {
   try {
     const nuevaParada = new Parada(req.body);
@@ -239,7 +235,6 @@ app.post('/api/paradas', async (req, res) => {
   }
 });
 
-// GET paradas
 app.get('/api/paradas', async (req, res) => {
   try {
     const paradas = await Parada.find().sort({ FECHA: -1 });
@@ -254,12 +249,10 @@ app.get('/api/paradas', async (req, res) => {
   }
 });
 
-// HTML
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'mq4.html'));
-});
 
-// INICIO SERVIDOR
+  
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
