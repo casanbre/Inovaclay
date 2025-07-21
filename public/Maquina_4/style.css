@@ -23,13 +23,15 @@ form {
 
 h2 {
   text-align: center;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
 }
 
 .form-group {
   display: flex;
   align-items: center;
   margin: 12px 0;
+  gap: 10px;
 }
 
 .form-group i {
@@ -48,7 +50,9 @@ h2 {
 .form-group textarea {
   flex: 3;
   width: 100%;
-  padding: 8px;
+  min-width: 0;
+  padding: 10px;
+  font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
@@ -56,12 +60,12 @@ h2 {
 
 button {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   background: #007bff;
   border: none;
   color: white;
-  font-size: 16px;
-  border-radius: 5px;
+  font-size: 1.1rem;
+  border-radius: 8px;
   cursor: pointer;
   margin-top: 15px;
 }
@@ -77,6 +81,7 @@ button:hover {
   left: 10px;
 }
 
+/* RESPONSIVE MOBILE */
 @media (max-width: 600px) {
   body {
     align-items: flex-start;
@@ -84,13 +89,14 @@ button:hover {
   }
 
   form {
-    width: 90%;
+    width: 95%;
     padding: 15px;
   }
 
   .form-group {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    gap: 4px;
   }
 
   .form-group i {
@@ -100,6 +106,13 @@ button:hover {
   .form-group label {
     width: 100%;
     margin-bottom: 4px;
+    font-size: 0.9rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 1rem;
   }
 
   h2 {
