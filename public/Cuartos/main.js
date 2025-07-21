@@ -33,9 +33,7 @@ productoSelect.addEventListener("change", () => {
 
 function toLocalISOString(datetimeStr) {
   if (!datetimeStr) return null;
-  const dt = new Date(datetimeStr);
-  dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset());
-  return dt.toISOString();
+  return datetimeStr; // no conviertas nada
 }
 
 formulario.addEventListener("submit", async function (e) {

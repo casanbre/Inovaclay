@@ -19,6 +19,7 @@ form {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   margin: 0 auto;
+  position: relative;
 }
 
 h2 {
@@ -36,8 +37,8 @@ h2 {
 
 .form-group i {
   width: 25px;
-  margin-right: 10px;
   color: #f05513;
+  text-align: center;
 }
 
 .form-group label {
