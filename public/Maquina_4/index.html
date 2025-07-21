@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formulario Máquina 4</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="form-container">
+    <form>
+      <img src="./Logo.png" alt="Logo de la empresa" class="logo-izq" />
+      <h2>Máquina 4</h2>
+
+      <div class="form-group">
+        <label for="nombreSupervisor">Nombre del Supervisor:</label>
+        <select id="nombreSupervisor" name="nombreSupervisor" required>
+          <option value="" disabled selected>Seleccione un supervisor</option>
+          <option value="YONIER RENTERIA">YONIER RENTERIA</option>
+          <option value="JHON ORTEGA">JHON ORTEGA</option>
+          <option value="RICARDO BAHOQUE">RICARDO BAHOQUE</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="estanteriasTrefiladas">Cant. Estanterías trefiladas:</label>
+        <input type="number" id="estanteriasTrefiladas" name="estanteriasTrefiladas" />
+      </div>
+
+      <div class="form-group">
+        <label for="fechaInicioTurno">Fecha de inicio del turno:</label>
+        <input type="datetime-local" id="fechaInicioTurno" name="fechaInicioTurno" />
+      </div>
+
+      <div class="form-group">
+        <label for="fechaFinalTurno">Fecha final del turno:</label>
+        <input type="datetime-local" id="fechaFinalTurno" name="fechaFinalTurno" />
+      </div>
+
+      <div class="form-group">
+        <label for="estanteriasHumedas">Cant. Estanterías húmedas:</label>
+        <input type="number" id="estanteriasHumedas" name="estanteriasHumedas" />
+      </div>
+
+      <h2>Horómetro</h2>
+
+      <div class="form-group">
+        <label for="tiempoProduccion">Tiempo de producción (hr):</label>
+        <input type="number" id="tiempoProduccion" name="tiempoProduccion" />
+      </div>
+
+      <div class="form-group">
+        <label for="tiempoParadas">Tiempo de paradas (hr):</label>
+        <input type="number" id="tiempoParadas" name="tiempoParadas" />
+      </div>
+
+      <div class="form-group">
+        <button type="submit">Enviar</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
