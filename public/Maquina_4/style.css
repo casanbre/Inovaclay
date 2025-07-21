@@ -1,116 +1,115 @@
 body {
-    min-height: 100vh;
-    padding: 20px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(to bottom, #d5d5d5, #FF5722);
-    font-family: Arial, sans-serif;
-    box-sizing: border-box;
-    margin: 0;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom, #d5d5d5, #ff5722);
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+form {
+  width: 100%;
+  max-width: 600px;
+  background: #f8f8f8b5;
+  padding: 20px;
+  border-radius: 25px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.form-group i {
+  width: 25px;
+  margin-right: 10px;
+  color: #f05513;
+}
+
+.form-group label {
+  flex: 1;
+  font-weight: bold;
+}
+
+.form-group select,
+.form-group input,
+.form-group textarea {
+  flex: 3;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.logo-izq {
+  width: 120px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+@media (max-width: 600px) {
+  body {
+    align-items: flex-start;
+    padding-top: 20px;
   }
-  
+
   form {
-    width: 100%;
-    max-width: 600px;
-    background: #f8f8f8b5;
-    padding: 20px;
-    border-radius: 25px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-    box-sizing: border-box;
-    margin: 0 auto;
+    width: 90%;
+    padding: 15px;
   }
-  
-  h2 {
-    text-align: center;
-    font-size: 1.4rem;
-  }
-  
+
   .form-group {
-    display: flex;
-    align-items: center;
-    margin: 12px 0;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
+
   .form-group i {
-    width: 25px;
-    margin-right: 10px;
-    color: #f05513;
+    margin-bottom: 5px;
   }
-  
+
   .form-group label {
-    flex: 1;
-    font-weight: bold;
-  }
-  
-  .form-group select,
-  .form-group input,
-  .form-group textarea {
-    flex: 3;
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
+    margin-bottom: 4px;
   }
-  
-  button {
-    width: 100%;
-    padding: 10px;
-    background: #007bff;
-    border: none;
-    color: white;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 15px;
+
+  h2 {
+    font-size: 1.3rem;
+    text-align: center;
   }
-  
-  button:hover {
-    background: #0056b3;
-  }
-  
+
   .logo-izq {
-    width: 120px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
+    position: static;
+    margin: 0 auto 10px auto;
+    display: block;
   }
-  
-  @media (max-width: 600px) {
-    body {
-      align-items: flex-start; 
-      padding-top: 20px;      
-    }
-  
-    form {
-      width: 90%; 
-      padding: 15px;
-    }
-  
-    .form-group {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .form-group i {
-      margin-bottom: 5px;
-    }
-  
-    .form-group label {
-      width: 100%;
-      margin-bottom: 4px;
-    }
-  
-    h2 {
-      font-size: 1.3rem;
-      text-align: center;
-    }
-  
-    .logo-izq {
-      position: static;
-      margin: 0 auto 10px auto;
-      display: block;
-    }
-  }
-  
+}
