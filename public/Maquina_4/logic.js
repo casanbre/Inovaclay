@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const datos = {
         SUPERVISOR: document.getElementById("nombreSupervisor").value,
         CANTIDAD: document.getElementById("estanteriasTrefiladas").value,
+        CANTIDAD_H: documento.getElementById("estanteriasHumedas").value,
+        CANTIDAD_C: document.getElementById("estanteriasCuarto").value,
         FECHA_INCIAL: document.getElementById("fechaInicioTurno").value,
         FECHA_FINAL: document.getElementById("fechaFinalTurno").value,
         TIEMPO_PRODUCCION: document.getElementById("tiempoProduccion").value,
