@@ -266,7 +266,7 @@ app.get('/', (req, res) => {
 
 
 
-app.post('/api/maquina', async (req, res) => {
+app.post('/api/maquinas', async (req, res) => {
   try {
     const { SUPERVISOR, CANTIDAD, FECHA_INCIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA } = req.body;
 
