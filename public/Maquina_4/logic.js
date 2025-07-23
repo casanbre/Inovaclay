@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         CANTIDAD: document.getElementById("estanteriasTrefiladas").value,
         CANTIDAD_H: document.getElementById("estanteriasHumedas").value,
         CANTIDAD_C: document.getElementById("estanteriasCuarto").value,
-        FECHA_INCIAL: document.getElementById("fechaInicioTurno").value,
+        FECHA_INICIAL: document.getElementById("fechaInicioTurno").value,
         FECHA_FINAL: document.getElementById("fechaFinalTurno").value,
         TIEMPO_PRODUCCION: document.getElementById("tiempoProduccion").value,
         TIEMPO_PARADA: document.getElementById("tiempoParadas").value,

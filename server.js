@@ -36,12 +36,12 @@ const maquinaSchema = new mongoose.Schema({
   CANTIDAD: {type: Number, required: true},
   CANTIDAD_H: {type: Number, required: true},
   CANTIDAD_C: {type: Number, required:true},
-  FECHA_INCIAL: {type: Date, required: true},
+  FECHA_INICIAL: {type: Date, required: true},
   FECHA_FINAL: {type: Date, required: true},
   TIEMPO_PRODUCCION: {type: Number, required: true},
   TIEMPO_PARADA: {type: Number, required: true}
 })
-const Maquina = mongoose.model('Maquinas', maquinaSchema);
+const Maquina = mongoose.model('maquinas', maquinaSchema);
 
 
 const registroVagonetaSchema = new mongoose.Schema({
@@ -276,7 +276,7 @@ app.post('/api/maquinas', async (req, res) => {
       CANTIDAD,
       CANTIDAD_H,
       CANTIDAD_C,
-      FECHA_INCIAL: new Date(FECHA_INCIAL),
+      FECHA_INICIAL: new Date(FECHA_INICIAL),
       FECHA_FINAL: new Date(FECHA_FINAL),
       TIEMPO_PRODUCCION,
       TIEMPO_PARADA
@@ -293,7 +293,7 @@ app.post('/api/maquinas', async (req, res) => {
 
 app.get('/api/maquinas', async (req, res) => {
   try {
-    const maquinas = await Maquina.find().sort({ FECHA_INCIAL: -1 });
+    const maquinas = await Maquina.find().sort({ FECHA_INICIAL: -1 });
     res.json(maquinas);
   } catch (error) {
     console.error('❌ Error al obtener datos de máquina:', error);
