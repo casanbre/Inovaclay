@@ -269,7 +269,7 @@ app.get('/', (req, res) => {
 
 app.post('/api/maquinas', async (req, res) => {
   try {
-    const { SUPERVISOR, CANTIDAD,CANTIDAD_H,CANTIDAD_C, FECHA_INCIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA } = req.body;
+    const { SUPERVISOR, CANTIDAD,CANTIDAD_H,CANTIDAD_C, FECHA_INICIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA } = req.body;
 
     const nuevaMaquina = new Maquina({
       SUPERVISOR,
