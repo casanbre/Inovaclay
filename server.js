@@ -41,7 +41,7 @@ const maquinaSchema = new mongoose.Schema({
   TIEMPO_PRODUCCION: {type: Number, required: true},
   TIEMPO_PARADA: {type: Number, required: true}
 })
-const Maquina = mongoose.model('Maquina', maquinaSchema);
+const Maquina = mongoose.model('Maquinas', maquinaSchema);
 
 
 const registroVagonetaSchema = new mongoose.Schema({
