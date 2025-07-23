@@ -27,7 +27,7 @@ const paradaSchema = new mongoose.Schema({
   HORA_INICIAL: { type: String, required: true },
   HORA_FINAL: { type: String, required: true },
   HORA_TOTAL: { type: Number, required: true },
-  OBSERVACION: { type: String, default: '' }
+  OBSERVACION: { type: String, default: ''}
 });
 const Parada = mongoose.model('Parada', paradaSchema);
 
@@ -287,6 +287,17 @@ app.post('/api/maquinas', async (req, res) => {
   } catch (err) {
     console.error('❌ Error al guardar máquina 4:', err);
     res.status(500).json({ success: false, message: 'Error al guardar máquina 4' });
+  }
+});
+
+
+app.get('/api/maquinas', async (req, res) => {
+  try {
+    const maquinas = await Maquina.find().sort({ FECHA_INCIAL: -1 });
+    res.json(maquinas);
+  } catch (error) {
+    console.error('❌ Error al obtener datos de máquina:', error);
+    res.status(500).json({ success: false, message: 'Error al obtener datos.' });
   }
 });
 
