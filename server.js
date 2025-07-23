@@ -31,6 +31,17 @@ const paradaSchema = new mongoose.Schema({
 });
 const Parada = mongoose.model('Parada', paradaSchema);
 
+const maquinaSchema = new mongoose.Schema({
+  SUPERVISOR: {type: String,required: true},
+  CANTIDAD: {type: Number, required: true},
+  FECHA_INCIAL: {type: Date, required: true},
+  FECHA_FINAL: {type: Date, required: true},
+  TIEMPO_PRODUCCION: {type: String, required: true},
+  TIEMPO_PARADA: {type: Number, required: true}
+})
+const Maquina = mongoose.model('Maquina', maquinaSchema);
+
+
 const registroVagonetaSchema = new mongoose.Schema({
   FECHA: { type: Date, required: true },
   OPERADOR: { type: String, required: true },
@@ -251,6 +262,29 @@ app.get('/api/paradas', async (req, res) => {
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'mq4.html'));
+});
+
+
+
+app.post('/api/maquina', async (req, res) => {
+  try {
+    const { SUPERVISOR, CANTIDAD, FECHA_INCIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA } = req.body;
+
+    const nuevaMaquina = new Maquina({
+      SUPERVISOR,
+      CANTIDAD,
+      FECHA_INCIAL: new Date(FECHA_INCIAL),
+      FECHA_FINAL: new Date(FECHA_FINAL),
+      TIEMPO_PRODUCCION,
+      TIEMPO_PARADA
+    });
+
+    await nuevaMaquina.save();
+    res.status(201).json({ success: true, message: 'Registro guardado en máquina 4' });
+  } catch (err) {
+    console.error('❌ Error al guardar máquina 4:', err);
+    res.status(500).json({ success: false, message: 'Error al guardar máquina 4' });
+  }
 });
 
 // INICIO SERVIDOR
