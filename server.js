@@ -34,6 +34,7 @@ const Parada = mongoose.model('Parada', paradaSchema);
 const maquinaSchema = new mongoose.Schema({
   SUPERVISOR: {type: String,required: true},
   CANTIDAD: {type: Number, required: true},
+  CANTIDAD_H: {type: Number, require: true},
   FECHA_INCIAL: {type: Date, required: true},
   FECHA_FINAL: {type: Date, required: true},
   TIEMPO_PRODUCCION: {type: Number, required: true},
@@ -265,7 +266,6 @@ app.get('/', (req, res) => {
 });
 
 
-
 app.post('/api/maquinas', async (req, res) => {
   try {
     const { SUPERVISOR, CANTIDAD, FECHA_INCIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA } = req.body;
@@ -273,6 +273,7 @@ app.post('/api/maquinas', async (req, res) => {
     const nuevaMaquina = new Maquina({
       SUPERVISOR,
       CANTIDAD,
+      CANTIDAD_H,
       FECHA_INCIAL: new Date(FECHA_INCIAL),
       FECHA_FINAL: new Date(FECHA_FINAL),
       TIEMPO_PRODUCCION,
