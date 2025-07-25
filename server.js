@@ -38,8 +38,8 @@ const maquinaSchema = new mongoose.Schema({
   CANTIDAD_C: {type: Number, required:true},
   FECHA_INICIAL: {type: Date, required: true},
   FECHA_FINAL: {type: Date, required: true},
-  TIEMPO_PRODUCCION: {type: Number, required: true},
-  TIEMPO_PARADA: {type: Number, required: true}
+  TIEMPO_PRODUCCION: {type: Number},
+  TIEMPO_PARADA: {type: Number}
 })
 const Maquina = mongoose.model('maquinas', maquinaSchema);
 
