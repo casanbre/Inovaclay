@@ -41,7 +41,7 @@ const maquinaSchema = new mongoose.Schema({
   TIEMPO_PRODUCCION: {type: Number, required: true},
   TIEMPO_PARADA: {type: Number, required: true}
 })
-const maquinas = mongoose.model('maquinas', maquinaSchema);
+const Maquina = mongoose.model('Maquina', maquinaSchema);
 
 
 const registroVagonetaSchema = new mongoose.Schema({
@@ -269,9 +269,11 @@ app.get('/', (req, res) => {
 
 app.post('/api/maquinas', async (req, res) => {
   try {
+
+    console.log('📥 Datos recibidos:', req.body);
     const { SUPERVISOR, CANTIDAD,CANTIDAD_H,CANTIDAD_C, FECHA_INICIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA } = req.body;
 
-    const nuevaMaquina = new maquinas({
+    const nuevaMaquina = new Maquina({
       SUPERVISOR,
       CANTIDAD,
       CANTIDAD_H,
