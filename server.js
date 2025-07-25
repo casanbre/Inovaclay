@@ -36,6 +36,7 @@ const maquinaSchema = new mongoose.Schema({
   CANTIDAD: {type: Number, required: true},
   CANTIDAD_H: {type: Number, required: true},
   CANTIDAD_C: {type: Number, required:true},
+  CANTIDAD_A: {type: Number, required:true},
   FECHA_INICIAL: {type: Date, required: true},
   FECHA_FINAL: {type: Date, required: true},
   TIEMPO_PRODUCCION: {type: Number, required: true},
@@ -271,13 +272,14 @@ app.post('/api/maquinas', async (req, res) => {
   try {
 
     console.log('📥 Datos recibidos:', req.body);
-    const { SUPERVISOR, CANTIDAD,CANTIDAD_H,CANTIDAD_C, FECHA_INICIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA } = req.body;
+    const { SUPERVISOR, CANTIDAD,CANTIDAD_H,CANTIDAD_C,CANTIDAD_A, FECHA_INICIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA } = req.body;
 
     const nuevaMaquina = new Maquina({
       SUPERVISOR,
       CANTIDAD,
       CANTIDAD_H,
       CANTIDAD_C,
+      CANTIDAD_A,
       FECHA_INICIAL: new Date(FECHA_INICIAL),
       FECHA_FINAL: new Date(FECHA_FINAL),
       TIEMPO_PRODUCCION,
@@ -302,8 +304,7 @@ app.get('/api/maquinas', async (req, res) => {
     res.status(500).json({ success: false, message: 'Error al obtener datos.' });
   }
 });
-
-// INICIO SERVIDOR
+// ARRANQUE FINAL POR FIN
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
