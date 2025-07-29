@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const datos = {
         SUPERVISOR: document.getElementById("nombreSupervisor").value,
+        REFERENCIA: document.getElementById("referencia").value,
         CANTIDAD: document.getElementById("estanteriasTrefiladas").value,
         CANTIDAD_H: document.getElementById("estanteriasHumedas").value,
         CANTIDAD_C: document.getElementById("estanteriasCuarto").value,
