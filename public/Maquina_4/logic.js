@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
         CANTIDAD_H: document.getElementById("estanteriasHumedas").value,
         CANTIDAD_C: document.getElementById("estanteriasCuarto").value,
         CANTIDAD_A: document.getElementById("estanteriasArreglar").value,
-        CANTIDAD_A: document.getElementById("estanteriasCuarto").value,
         FECHA_INICIAL: document.getElementById("fechaInicioTurno").value,
         FECHA_FINAL: document.getElementById("fechaFinalTurno").value,
         TIEMPO_PRODUCCION: document.getElementById("tiempoProduccion").value,
