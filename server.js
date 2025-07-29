@@ -37,6 +37,7 @@ const maquinaSchema = new mongoose.Schema({
   CANTIDAD_H: {type: Number, required: true},
   CANTIDAD_C: {type: Number, required:true},
   CANTIDAD_A: {type: Number, required:true},
+  ESTANTERIA_D: {type: Number, required: true},
   FECHA_INICIAL: {type: Date, required: true},
   FECHA_FINAL: {type: Date, required: true},
   TIEMPO_PRODUCCION: {type: Number, required: true},
@@ -272,7 +273,7 @@ app.post('/api/maquinas', async (req, res) => {
   try {
 
     console.log('📥 Datos recibidos:', req.body);
-    const { SUPERVISOR, CANTIDAD,CANTIDAD_H,CANTIDAD_C,CANTIDAD_A, FECHA_INICIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA } = req.body;
+    const { SUPERVISOR, CANTIDAD,CANTIDAD_H,CANTIDAD_C,CANTIDAD_A,ESTANTERIA_D, FECHA_INICIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA } = req.body;
 
     const nuevaMaquina = new Maquina({
       SUPERVISOR,
@@ -280,6 +281,7 @@ app.post('/api/maquinas', async (req, res) => {
       CANTIDAD_H,
       CANTIDAD_C,
       CANTIDAD_A,
+      ESTANTERIA_D,
       FECHA_INICIAL: new Date(FECHA_INICIAL),
       FECHA_FINAL: new Date(FECHA_FINAL),
       TIEMPO_PRODUCCION,
