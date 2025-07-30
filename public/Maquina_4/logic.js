@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("formulario").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // Recolectar datos y convertir numéricos donde corresponda
     const datos = {
       SUPERVISOR: document.getElementById("nombreSupervisor").value,
       REFERENCIA: document.getElementById("referencia").value,
@@ -16,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
       TIEMPO_PARADA: Number(document.getElementById("tiempoParadas").value),
     };
 
-    // Validación básica (puedes expandirla)
     for (const key in datos) {
       if (datos[key] === "" || datos[key] === null || Number.isNaN(datos[key])) {
         alert("Todos los campos son obligatorios. Por favor, completa el formulario.");
