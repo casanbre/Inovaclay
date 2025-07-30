@@ -33,7 +33,7 @@ const Parada = mongoose.model('Parada', paradaSchema);
 
 const maquinaSchema = new mongoose.Schema({
   SUPERVISOR: {type: String,required: true},
-  REFERENCIA: {type: String,requiered: true},
+  REFERENCIA: {type: String,required: true},
   CANTIDAD: {type: Number, required: true},
   CANTIDAD_H: {type: Number, required: true},
   CANTIDAD_C: {type: Number, required:true},
