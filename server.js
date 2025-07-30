@@ -312,4 +312,6 @@ app.listen(PORT, async () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
   await actualizarRoturaEnVagonetas();
   await limpiarDatosInvalidos(); 
+  console.log("🌐 Base de datos usada:", mongoose.connection.name);
+
 });
