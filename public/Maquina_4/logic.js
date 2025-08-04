@@ -1,22 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById("firmaCanvas");
     const ctx = canvas.getContext("2d");
-    let dibujando = false;
   
-    function getPosicion(e) {
+    // Ajustar resolución interna del canvas para evitar desplazamientos en móviles
+    function ajustarResolucionCanvas() {
+      const ratio = window.devicePixelRatio || 1;
       const rect = canvas.getBoundingClientRect();
-      if (e.touches) {
-        return {
-          x: e.touches[0].clientX - rect.left,
-          y: e.touches[0].clientY - rect.top
-        };
-      } else {
-        return {
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top
-        };
-      }
+  
+      canvas.width = rect.width * ratio;
+      canvas.height = rect.height * ratio;
+  
+      canvas.style.width = rect.width + "px";
+      canvas.style.height = rect.height + "px";
+  
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(ratio, ratio);
     }
+  
+    ajustarResolucionCanvas(); // Ajuste inicial
+  
+    let dibujando = false;
   
     function trazar(x, y) {
       ctx.lineWidth = 2;
@@ -28,42 +31,55 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.moveTo(x, y);
     }
   
-    function comenzarDibujo(e) {
+    // Mouse
+    canvas.addEventListener("mousedown", (e) => {
       dibujando = true;
-      const { x, y } = getPosicion(e);
-      trazar(x, y);
-    }
+      const rect = canvas.getBoundingClientRect();
+      trazar(e.clientX - rect.left, e.clientY - rect.top);
+    });
   
-    function moverDibujo(e) {
-      if (!dibujando) return;
-      const { x, y } = getPosicion(e);
-      trazar(x, y);
-      if (e.cancelable) e.preventDefault(); // Previene desplazamiento en móviles
-    }
-  
-    function finalizarDibujo() {
+    canvas.addEventListener("mouseup", () => {
       dibujando = false;
       ctx.beginPath();
-    }
+    });
   
-    // Eventos mouse
-    canvas.addEventListener("mousedown", comenzarDibujo);
-    canvas.addEventListener("mousemove", moverDibujo);
-    canvas.addEventListener("mouseup", finalizarDibujo);
-    canvas.addEventListener("mouseout", finalizarDibujo);
+    canvas.addEventListener("mouseout", () => (dibujando = false));
   
-    // Eventos touch
-    canvas.addEventListener("touchstart", comenzarDibujo, { passive: false });
-    canvas.addEventListener("touchmove", moverDibujo, { passive: false });
-    canvas.addEventListener("touchend", finalizarDibujo);
+    canvas.addEventListener("mousemove", (e) => {
+      if (!dibujando) return;
+      const rect = canvas.getBoundingClientRect();
+      trazar(e.clientX - rect.left, e.clientY - rect.top);
+    });
   
-    // Limpieza de firma
+    // Touch
+    canvas.addEventListener("touchstart", (e) => {
+      dibujando = true;
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      trazar(touch.clientX - rect.left, touch.clientY - rect.top);
+    });
+  
+    canvas.addEventListener("touchmove", (e) => {
+      if (!dibujando) return;
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      trazar(touch.clientX - rect.left, touch.clientY - rect.top);
+      e.preventDefault(); // Evita scroll al firmar
+    }, { passive: false });
+  
+    canvas.addEventListener("touchend", () => {
+      dibujando = false;
+      ctx.beginPath();
+    });
+  
+    // Función para limpiar la firma
     window.limpiarFirma = function () {
+      ajustarResolucionCanvas(); // Reajustar resolución y limpiar correctamente
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.beginPath();
     };
   
-    // Envío de formulario
+    // Enviar formulario
     document.getElementById("formulario").addEventListener("submit", async (e) => {
       e.preventDefault();
   
