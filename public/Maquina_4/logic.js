@@ -3,19 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const ctx = canvas.getContext("2d");
     let dibujando = false;
   
-    canvas.addEventListener("mousedown", () => (dibujando = true));
-    canvas.addEventListener("mouseup", () => {
-      dibujando = false;
-      ctx.beginPath(); // ← evita trazos encadenados tras soltar
-    });
-    canvas.addEventListener("mouseout", () => (dibujando = false));
-    canvas.addEventListener("mousemove", dibujar);
-  
-    function dibujar(e) {
-      if (!dibujando) return;
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+    // Función común para dibujar
+    function trazar(x, y) {
       ctx.lineWidth = 2;
       ctx.lineCap = "round";
       ctx.strokeStyle = "#000";
@@ -25,11 +14,51 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.moveTo(x, y);
     }
   
+    // Eventos para mouse
+    canvas.addEventListener("mousedown", (e) => {
+      dibujando = true;
+      const rect = canvas.getBoundingClientRect();
+      trazar(e.clientX - rect.left, e.clientY - rect.top);
+    });
+    canvas.addEventListener("mouseup", () => {
+      dibujando = false;
+      ctx.beginPath();
+    });
+    canvas.addEventListener("mouseout", () => (dibujando = false));
+    canvas.addEventListener("mousemove", (e) => {
+      if (!dibujando) return;
+      const rect = canvas.getBoundingClientRect();
+      trazar(e.clientX - rect.left, e.clientY - rect.top);
+    });
+  
+    // Eventos para touch
+    canvas.addEventListener("touchstart", (e) => {
+      dibujando = true;
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      trazar(touch.clientX - rect.left, touch.clientY - rect.top);
+    });
+  
+    canvas.addEventListener("touchmove", (e) => {
+      if (!dibujando) return;
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      trazar(touch.clientX - rect.left, touch.clientY - rect.top);
+      e.preventDefault(); // Evita el desplazamiento mientras se firma
+    }, { passive: false });
+  
+    canvas.addEventListener("touchend", () => {
+      dibujando = false;
+      ctx.beginPath();
+    });
+  
+    // Función limpiar firma
     window.limpiarFirma = function () {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.beginPath();
     };
   
+    // Envío del formulario
     document.getElementById("formulario").addEventListener("submit", async (e) => {
       e.preventDefault();
   
@@ -47,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         FECHA_FINAL: document.getElementById("fechaFinalTurno").value,
         TIEMPO_PRODUCCION: Number(document.getElementById("tiempoProduccion").value),
         TIEMPO_PARADA: Number(document.getElementById("tiempoParadas").value),
-        firma: firmaBase64,
+        FIRMA: firmaBase64,
       };
   
       for (const key in datos) {
@@ -71,16 +100,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const respuesta = await res.json();
   
         if (res.ok) {
-          alert("✅ " + respuesta.message || "Datos guardados correctamente.");
+          alert("✅ " + (respuesta.message || "Datos guardados correctamente."));
           document.getElementById("formulario").reset();
           limpiarFirma();
         } else {
-          alert("❌ Error: " + respuesta.message || "No se pudo guardar.");
+          alert("❌ Error: " + (respuesta.message || "No se pudo guardar."));
         }
       } catch (error) {
         console.error("❌ Error de red:", error);
         alert("❌ Fallo la conexión con el servidor.");
       }
     });
-});
+  });
   
