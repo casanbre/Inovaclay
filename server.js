@@ -41,7 +41,8 @@ const maquinaSchema = new mongoose.Schema({
   FECHA_INICIAL: {type: Date, required: true},
   FECHA_FINAL: {type: Date, required: true},
   TIEMPO_PRODUCCION: {type: Number, required: true},
-  TIEMPO_PARADA: {type: Number, required: true}
+  TIEMPO_PARADA: {type: Number, required: true},
+  FIRMA: {type:String,required: true}
 })
 const Maquina = mongoose.model('Maquina', maquinaSchema);
 
@@ -273,7 +274,7 @@ app.post('/api/maquina', async (req, res) => {
   try {
 
     console.log('📥 Datos recibidos:', req.body);
-    const { SUPERVISOR,REFERENCIA,CANTIDAD,CANTIDAD_H,CANTIDAD_C,CANTIDAD_A, FECHA_INICIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA } = req.body;
+    const { SUPERVISOR,REFERENCIA,CANTIDAD,CANTIDAD_H,CANTIDAD_C,CANTIDAD_A, FECHA_INICIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA,FIRMA } = req.body;
 
     const nuevaMaquina = new Maquina({
       SUPERVISOR,
@@ -285,7 +286,8 @@ app.post('/api/maquina', async (req, res) => {
       FECHA_INICIAL: new Date(FECHA_INICIAL),
       FECHA_FINAL: new Date(FECHA_FINAL),
       TIEMPO_PRODUCCION,
-      TIEMPO_PARADA
+      TIEMPO_PARADA,
+      FIRMA
     });
 
     await nuevaMaquina.save();
