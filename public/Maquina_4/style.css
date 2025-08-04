@@ -99,16 +99,13 @@ canvas {
 
   canvas {
     width: 100%;
-    max-width: 250px;
-    height: 150px; /* Visual height */
+    max-width: 230px;
+    height: 150px; 
     border: 1px solid #000;
     touch-action: none;
     display: block;
     margin: auto;
   }
-  
-  
-
 
   form {
     width: 95%;
