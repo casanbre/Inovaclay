@@ -1,0 +1,58 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./ladrillo.png");
+  background-size: cover;
+  background-position: center;
+  font-family: Arial, sans-serif;
+}
+.container {
+  background-color: rgba(240, 255, 255, 0.826);
+  max-width: 800px;
+  margin: auto;
+  border: 1px solid #000000;
+  padding: 30px;
+  border-radius: 14px;
+}
+.logo {
+  width: 150px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+h2 {
+  text-align: center;
+  margin-top: 10px;
+}
+table {
+  width: 100%;
+  margin-top: 20px;
+}
+td {
+  padding: 8px;
+}
+.label {
+  font-weight: bold;
+}
+.filtro {
+  margin: 20px 0;
+  text-align: center;
+}
+.estado-btn,
+.estado-btn2,
+.estado-btn3 {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 15px;
+  color: white;
+  font-weight: bold;
+}
+.verde {
+  background-color: rgb(14, 210, 14);
+}
+.rojo {
+  background-color: rgb(250, 44, 44);
+}

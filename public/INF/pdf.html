@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Informe de Máquina 4</title>
+    <link rel="stylesheet" href="./estilo.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <img class="logo" src="./Logo.png" alt="Logo La Clay" />
+        <h2>INFORME DE MAQUINA 4</h2>
+        <div style="width: 150px"></div>
+      </div>
+
+      <div class="filtro">
+        <label for="fechaBusqueda">Fecha:</label>
+        <input type="date" id="fechaBusqueda" />
+        <label for="supervisorBusqueda">Supervisor:</label>
+        <select id="supervisorBusqueda">
+          <option value="">GENERAL</option>
+          <option value="JHON ORTEGA">JHON ORTEGA</option>
+          <option value="YONIER RENTERIA">YONIER RENTERIA</option>
+          <option value="RICARDO BAHOQUE">RICARDO BAHOQUE</option>
+          <option value="CARLOS GARCIA">CARLOS GARCIA</option>
+        </select>
+        <button onclick="buscarPorFecha()">Buscar</button>
+      </div>
+
+      <table>
+        <tr>
+          <td class="label">SUPERVISOR:</td>
+          <td id="supervisor"></td>
+        </tr>
+        <tr>
+          <td class="label">FECHA DEL TURNO :</td>
+          <td id="fecha-proyecto"></td>
+        </tr>
+        <tr>
+          <td class="label">ESTANTERIAS TREFILADAS:</td>
+          <td id="cantidad"></td>
+          <td><button id="btne" class="estado-btn3"></button></td>
+        </tr>
+
+        <tr>
+          <td class="label">CUARTOS:</td>
+          <td id="cantidadcuartos"></td>
+        </tr>
+        <tr>
+          <td class="label">VAGONETAS ESPERADA:</td>
+          <td id="cantidadVagoneta"></td>
+          <td><button id="btnVagoneta" class="estado-btn2"></button></td>
+        </tr>
+
+        <tr>
+          <td class="label">ESTANTERIAS HUMEDAS:</td>
+          <td id="cantidad_h"></td>
+        </tr>
+        <tr>
+          <td class="label">FECHA Y HORA INICIAL DEL TURNO:</td>
+          <td id="fecha_inicial"></td>
+        </tr>
+        <tr>
+          <td class="label">FECHA Y HORA FINAL DEL TURNO:</td>
+          <td id="fecha_final"></td>
+        </tr>
+        <tr>
+          <td class="label">TIEMPO PRODUCTIVO:</td>
+          <td id="tiempo_prod"></td>
+        </tr>
+        <tr>
+          <td class="label">TIEMPO PARADAS:</td>
+          <td id="tiempo_parada"></td>
+        </tr>
+        <tr>
+          <td class="label">EFICIENCIA:</td>
+          <td id="eficiencia"></td>
+          <td><button id="btnEficiencia" class="estado-btn"></button></td>
+        </tr>
+
+        <tr>
+          <td class="label">FIRMA:</td>
+          <td colspan="2">
+            <img
+              id="firmaImagen"
+              style="max-width: 300px; border: 1px solid #000"
+              alt="Firma del supervisor"
+            />
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <script>
+      let informes = [];
+
+      async function cargarInformes() {
+        try {
+          const res = await fetch(
+            "https://inovaclay-1.onrender.com/api/maquinas"
+          );
+          informes = await res.json();
+        } catch (error) {
+          alert("Error al cargar datos: " + error.message);
+        }
+      }
+
+      function buscarPorFecha() {
+        const fechaSeleccionada =
+          document.getElementById("fechaBusqueda").value;
+        const supervisorSeleccionado =
+          document.getElementById("supervisorBusqueda").value;
+
+        if (!fechaSeleccionada) {
+          alert("Selecciona una fecha.");
+          return;
+        }
+
+        const resultados = informes.filter((item) => {
+          const fechaObj = new Date(item.FECHA_INICIAL);
+          const fechaFormateada = fechaObj.toISOString().slice(0, 10);
+          const coincideFecha = fechaFormateada === fechaSeleccionada;
+          const coincideSupervisor =
+            supervisorSeleccionado === "" ||
+            item.SUPERVISOR === supervisorSeleccionado;
+          return coincideFecha && coincideSupervisor;
+        });
+
+        if (resultados.length > 0) {
+          mostrarInformeAgrupado(resultados);
+        } else {
+          alert("No se encontraron informes para esa fecha y supervisor.");
+          limpiarCampos();
+        }
+      }
+
+      function mostrarInformeAgrupado(resultados) {
+        let totalCantidad = 0;
+        let totalHumedas = 0;
+        let totalProd = 0;
+        let totalParadas = 0;
+
+        resultados.forEach((i) => {
+          totalCantidad += Number(i.CANTIDAD || 0);
+          totalHumedas += Number(i.CANTIDAD_H || 0);
+          totalProd += Number(i.TIEMPO_PRODUCCION || 0);
+          totalParadas += Number(i.TIEMPO_PARADA || 0);
+        });
+
+        const eficienciaValor =
+          totalProd + totalParadas > 0
+            ? (totalProd / (totalProd + totalParadas)) * 100
+            : 0;
+
+        const eficienciaTexto = eficienciaValor.toFixed(1) + "%";
+        const primerInforme = resultados[0];
+        const supervisorSeleccionado =
+          document.getElementById("supervisorBusqueda").value;
+
+        document.getElementById("supervisor").textContent =
+          supervisorSeleccionado === ""
+            ? [...new Set(resultados.map((r) => r.SUPERVISOR))].join(", ")
+            : primerInforme.SUPERVISOR;
+
+        document.getElementById("fecha_inicial").textContent = new Date(
+          primerInforme.FECHA_INICIAL
+        ).toLocaleString("es-CO", { timeZone: "UTC" });
+
+        document.getElementById("fecha_final").textContent = new Date(
+          primerInforme.FECHA_FINAL
+        ).toLocaleString("es-CO", { timeZone: "UTC" });
+
+        document.getElementById("fecha-proyecto").textContent =
+          primerInforme.FECHA_INICIAL.slice(0, 10);
+        document.getElementById("cantidad").textContent = totalCantidad;
+        document.getElementById("cantidadcuartos").textContent = (
+          totalCantidad / 16
+        ).toFixed(0);
+        document.getElementById("cantidad_h").textContent = totalHumedas;
+        document.getElementById("cantidadVagoneta").textContent = (
+          (totalCantidad * 405) /
+          1700
+        ).toFixed(0);
+        document.getElementById("tiempo_prod").textContent =
+          totalProd.toFixed(2);
+        document.getElementById("tiempo_parada").textContent =
+          totalParadas.toFixed(2);
+        document.getElementById("eficiencia").textContent = eficienciaTexto;
+
+        console.log("Firma recibida:", primerInforme.FIRMA);
+
+        // ✅ VALIDACIÓN SEGURA DE LA FIRMA
+        const firma = primerInforme.FIRMA;
+        const firmaImg = document.getElementById("firmaImagen");
+        if (firma && typeof firma === "string") {
+          firmaImg.src = firma.startsWith("data:image")
+            ? firma
+            : "data:image/png;base64," + firma;
+        } else {
+          firmaImg.src = "";
+        }
+
+        // Indicadores visuales
+        const btn = document.getElementById("btnEficiencia");
+        btn.textContent = eficienciaValor > 70 ? "✔️" : "❌";
+        btn.className =
+          "estado-btn " + (eficienciaValor > 70 ? "verde" : "rojo");
+
+        const btnV = document.getElementById("btnVagoneta");
+        const cantVag = Number(
+          document.getElementById("cantidadVagoneta").textContent
+        );
+        btnV.textContent = cantVag > 20 ? "✔️" : "❌";
+        btnV.className = "estado-btn2 " + (cantVag > 20 ? "verde" : "rojo");
+
+        const btnM = document.getElementById("btne");
+        const cant = Number(document.getElementById("cantidad").textContent);
+        btnM.textContent = cant >= 80 ? "✔️" : "❌";
+        btnM.className = "estado-btn3 " + (cant >= 80 ? "verde" : "rojo");
+      }
+
+      function limpiarCampos() {
+        document
+          .querySelectorAll("td:not(.label)")
+          .forEach((td) => (td.textContent = ""));
+        document.getElementById("btnEficiencia").textContent = "";
+        document.getElementById("btnEficiencia").className = "estado-btn";
+        document.getElementById("firmaImagen").src = "";
+      }
+
+      window.onload = cargarInformes;
+    </script>
+  </body>
+</html>

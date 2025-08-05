@@ -51,7 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
       trazar(e.clientX - rect.left, e.clientY - rect.top);
     });
   
-    // Touch
     canvas.addEventListener("touchstart", (e) => {
       dibujando = true;
       const touch = e.touches[0];
@@ -72,14 +71,13 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.beginPath();
     });
   
-    // Función para limpiar la firma
+   
     window.limpiarFirma = function () {
-      ajustarResolucionCanvas(); // Reajustar resolución y limpiar correctamente
+      ajustarResolucionCanvas(); 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.beginPath();
     };
   
-    // Enviar formulario
     document.getElementById("formulario").addEventListener("submit", async (e) => {
       e.preventDefault();
   
