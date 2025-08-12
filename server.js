@@ -50,6 +50,8 @@ const maquinaSchema = new mongoose.Schema({
   IMPULSOS:{type: Number, required:true},
   CANTIDAD_V_A_D: {type: Number, required:true},
   CANTIDAD_V_M_D: {type: Number, required:true},
+
+
   FIRMA: {type:String,required: true}
 })
 const Maquina = mongoose.model('Maquina', maquinaSchema);
@@ -303,6 +305,7 @@ app.post('/api/maquina', async (req, res) => {
       IMPULSOS,
       CANTIDAD_V_A_D,
       CANTIDAD_V_M_D,
+      COMENTARIOS: req.body.COMENTARIOS,
       FIRMA
     });
 
@@ -333,4 +336,3 @@ app.listen(PORT, async () => {
   console.log("🌐 Base de datos usada:", mongoose.connection.name); // <-- ESTO
   console.log("🧩 URI conectada:", mongoose.connection.client.s.url); // <-- Y ESTO
 });
-
