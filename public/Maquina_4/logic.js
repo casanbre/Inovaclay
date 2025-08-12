@@ -95,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         FECHA_FINAL: document.getElementById("fechaFinalTurno").value,
         TIEMPO_PRODUCCION: Number(document.getElementById("tiempoProduccion").value),
         TIEMPO_PARADA: Number(document.getElementById("tiempoParadas").value),
+        ESTANTERIAMQ: Number(document.getElementById("estanteriasCuartoQ").value),
         FIRMA: firmaBase64,
       };
   
