@@ -278,7 +278,7 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/api/maquinas', async (req, res) => {
+app.post('/api/maquina', async (req, res) => {
   try {
 
     console.log('📥 Datos recibidos:', req.body);
