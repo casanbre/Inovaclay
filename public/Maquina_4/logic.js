@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
         CANTIDAD_V_A_A: Number(document.getElementById("AvagonetasA").value),
         CANTIDAD_V_M_A: Number(document.getElementById("AvagonetasM").value),
         CARPAS: Number(document.getElementById("carpas").value),
-        IMPULSOS : Number(document.getElementById("impulso").value),
+        IMPULSOS : Number(document.getElementById("impulsos").value),
         CANTIDAD_V_A_D: Number(document.getElementById("DvagonetasA").value),
         CANTIDAD_V_M_D: Number(document.getElementById("DvagonetasM").value),
 
