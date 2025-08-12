@@ -284,7 +284,7 @@ app.post('/api/maquinas', async (req, res) => {
 
     console.log('📥 Datos recibidos:', req.body);
     const { SUPERVISOR,REFERENCIA,CANTIDAD,CANTIDAD_H,CANTIDAD_C,CANTIDAD_A, FECHA_INICIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA,ESTANTERIAMQ,CANTIDAD_V_A_A,
-      CANTIDAD_V_M_A,CARPAS,IMPULSOS,CANTIDAD_V_A_D,CANTIDAD_V_M_D,FIRMA } = req.body;
+      CANTIDAD_V_M_A,CARPAS,IMPULSOS,CANTIDAD_V_A_D,CANTIDAD_V_M_D,COMENTARIO,FIRMA } = req.body;
 
     const nuevaMaquina = new Maquina({
       SUPERVISOR,
