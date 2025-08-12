@@ -50,8 +50,7 @@ const maquinaSchema = new mongoose.Schema({
   IMPULSOS:{type: Number, required:true},
   CANTIDAD_V_A_D: {type: Number, required:true},
   CANTIDAD_V_M_D: {type: Number, required:true},
-
-
+  COMENTARIO: {type: String, required: true},
   FIRMA: {type:String,required: true}
 })
 const Maquina = mongoose.model('Maquina', maquinaSchema);
@@ -280,7 +279,7 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/api/maquina', async (req, res) => {
+app.post('/api/maquinas', async (req, res) => {
   try {
 
     console.log('📥 Datos recibidos:', req.body);
@@ -305,6 +304,7 @@ app.post('/api/maquina', async (req, res) => {
       IMPULSOS,
       CANTIDAD_V_A_D,
       CANTIDAD_V_M_D,
+      COMENTARIO,
       FIRMA
     });
 

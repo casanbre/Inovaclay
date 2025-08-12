@@ -105,9 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
         IMPULSOS : Number(document.getElementById("impulsos").value),
         CANTIDAD_V_A_D: Number(document.getElementById("DvagonetasA").value),
         CANTIDAD_V_M_D: Number(document.getElementById("DvagonetasM").value),
-
-
-
+        COMENTARIO: String (document.getElementById("comentario").value),
         FIRMA: firmaBase64,
       };
   

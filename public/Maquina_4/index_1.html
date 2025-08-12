@@ -134,11 +134,13 @@
           />
         </div>
 
-        <h2>MAQUINA 1 Y 3 </h2>
+        <h2>MAQUINA 1 Y 3</h2>
 
         <div class="form-group">
           <i class="fa-solid fa-building-circle-check"></i>
-          <label for="estanteriasCuarto">Cant. Estanterías en cuarto (MQ 1 Y 3):</label>
+          <label for="estanteriasCuarto"
+            >Cant. Estanterías en cuarto (MQ 1 Y 3):</label
+          >
           <input
             type="number"
             id="estanteriasCuartoQ"
@@ -147,29 +149,18 @@
           />
         </div>
 
-
         <h2>ROBOT APILADO</h2>
 
         <div class="form-group">
           <i class="fa-solid fa-robot"></i>
           <label for="AvagonetasA">Cant. Vagonetas automaticas Apilado:</label>
-          <input
-            type="number"
-            id="AvagonetasA"
-            name="DvagonetasA"
-            min="1"
-          />
+          <input type="number" id="AvagonetasA" name="DvagonetasA" min="1" />
         </div>
 
         <div class="form-group">
           <i class="fa-solid fa-people-carry-box"></i>
           <label for="AvagonetasM">Cant. Vagonetas Manuales Apilado :</label>
-          <input
-            type="number"
-            id="AvagonetasM"
-            name="AvagonetasM"
-            min="1"
-          />
+          <input type="number" id="AvagonetasM" name="AvagonetasM" min="1" />
         </div>
 
         <h2>HORNO TUNEL</h2>
@@ -177,50 +168,40 @@
         <div class="form-group">
           <i class="fa-solid fa-fire"></i>
           <label for="carpas">Cant. Vagonetas en carpas :</label>
-          <input
-            type="number"
-            id="carpas"
-            name="carpas"
-
-          />
+          <input type="number" id="carpas" name="carpas" />
         </div>
 
         <div class="form-group">
           <i class="fa-solid fa-rectangle-list"></i>
           <label for="impulsos">Cant. impulsos Horno:</label>
-          <input
-            type="number"
-            id="impulsos"
-            name="impulsos"
-            min="1"
-          />
+          <input type="number" id="impulsos" name="impulsos" min="1" />
         </div>
 
-
-
-
-        <h2>ROBOT DESAPILADO </h2>
+        <h2>ROBOT DESAPILADO</h2>
         <div class="form-group">
           <i class="fa-solid fa-robot"></i>
-          <label for="DvagonetasA">Cant. Vagonetas automaticas Desapilado:</label>
-          <input
-            type="number"
-            id="DvagonetasA"
-            name="DvagonetasA"
-            min="1"
-          />
+          <label for="DvagonetasA"
+            >Cant. Vagonetas automaticas Desapilado:</label
+          >
+          <input type="number" id="DvagonetasA" name="DvagonetasA" min="1" />
         </div>
 
         <div class="form-group">
           <i class="fa-solid fa-people-carry-box"></i>
           <label for="DvagonetasM">Cant. Vagonetas Manuales Desapilado :</label>
-          <input
-            type="number"
-            id="DvagonetasM"
-            name="DvagonetasM"
-            min="1"
-          />
+          <input type="number" id="DvagonetasM" name="DvagonetasM" min="1" />
         </div>
+
+        <h2>OBSERVACIONES DEL TURNO</h2>
+        <textarea
+          id="comentario"
+          name="comentario"
+          minlength="1000"
+          required
+          placeholder="Escribe al menos 1000 caracteres aquí..."
+          rows="6"
+          cols="50"
+        ></textarea>
 
         <h2>Firma del Supervisor:</h2>
         <canvas
