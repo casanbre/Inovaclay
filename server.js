@@ -32,28 +32,38 @@ const paradaSchema = new mongoose.Schema({
 const Parada = mongoose.model('Parada', paradaSchema);
 
 const maquinaSchema = new mongoose.Schema({
-  SUPERVISOR: {type: String,required: true},
-  REFERENCIA: {type: String,required: true},
-  CANTIDAD: {type: Number, required: true},
-  CANTIDAD_H: {type: Number, required: true},
-  CANTIDAD_C: {type: Number, required:true},
-  CANTIDAD_A: {type: Number, required:true},
-  FECHA_INICIAL: {type: Date, required: true},
-  FECHA_FINAL: {type: Date, required: true},
-  TIEMPO_PRODUCCION: {type: Number, required: true},
-  TIEMPO_PARADA: {type: Number, required: true},
-  ESTANTERIAMQ: {type:Number, required: true},
+  SUPERVISOR: { type: String, required: true },
+  REFERENCIA: { type: String, required: true },
+  CANTIDAD: { type: Number, required: true },
+  CANTIDAD_H: { type: Number, required: true },
+  CANTIDAD_C: { type: Number, required: true },
+  CANTIDAD_A: { type: Number, required: true },
+  FECHA_INICIAL: { type: Date, required: true },
+  FECHA_FINAL: { type: Date, required: true },
+  TIEMPO_PRODUCCION: { type: Number, required: true },
+  TIEMPO_PARADA: { type: Number, required: true },
+  ESTANTERIAMQ: { type: Number, required: true },
 
-  CANTIDAD_V_A_A:{type: Number, required:true},
-  CANTIDAD_V_M_A:{type: Number, required:true},
-  CARPAS: {type: Number, required:true},
-  IMPULSOS:{type: Number, required:true},
-  CANTIDAD_V_A_D: {type: Number, required:true},
-  CANTIDAD_V_M_D: {type: Number, required:true},
-  COMENTARIO: {type: String, required: true},
-  FIRMA: {type:String,required: true}
-})
-const Maquina = mongoose.model('Maquina', maquinaSchema);
+  CANTIDAD_V_A_A: { type: Number, required: true },
+  CANTIDAD_V_M_A: { type: Number, required: true },
+  CARPAS: { type: Number, required: true },
+  IMPULSOS: { type: Number, required: true },
+  CANTIDAD_V_A_D: { type: Number, required: true },
+  CANTIDAD_V_M_D: { type: Number, required: true },
+
+  comentarios: [
+    {
+      numero: { type: Number, required: true },
+      texto: { type: String, required: true, minlength: 10, maxlength: 1700 },
+      fecha: { type: Date, default: Date.now }
+    }
+  ],
+
+  FIRMA: { type: String, required: true }
+});
+
+const Maquina = mongoose.model("Maquina", maquinaSchema);
+
 
 
 const registroVagonetaSchema = new mongoose.Schema({
@@ -279,53 +289,69 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/api/maquinas', async (req, res) => {
+// 📌 POST - Crear registro nuevo
+app.post("/api/maquina", async (req, res) => {
   try {
-
-    console.log('📥 Datos recibidos:', req.body);
-    const { SUPERVISOR,REFERENCIA,CANTIDAD,CANTIDAD_H,CANTIDAD_C,CANTIDAD_A, FECHA_INICIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA,ESTANTERIAMQ,CANTIDAD_V_A_A,
-      CANTIDAD_V_M_A,CARPAS,IMPULSOS,CANTIDAD_V_A_D,CANTIDAD_V_M_D,COMENTARIO,FIRMA } = req.body;
-
     const nuevaMaquina = new Maquina({
-      SUPERVISOR,
-      REFERENCIA,
-      CANTIDAD,
-      CANTIDAD_H,
-      CANTIDAD_C,
-      CANTIDAD_A,
-      FECHA_INICIAL: new Date(FECHA_INICIAL),
-      FECHA_FINAL: new Date(FECHA_FINAL),
-      TIEMPO_PRODUCCION,
-      TIEMPO_PARADA,
-      ESTANTERIAMQ,
-      CANTIDAD_V_A_A,
-      CANTIDAD_V_M_A,
-      CARPAS,
-      IMPULSOS,
-      CANTIDAD_V_A_D,
-      CANTIDAD_V_M_D,
-      COMENTARIO,
-      FIRMA
+      SUPERVISOR: req.body.SUPERVISOR,
+      REFERENCIA: req.body.REFERENCIA,
+      CANTIDAD: req.body.CANTIDAD,
+      CANTIDAD_H: req.body.CANTIDAD_H,
+      CANTIDAD_C: req.body.CANTIDAD_C,
+      CANTIDAD_A: req.body.CANTIDAD_A,
+      FECHA_INICIAL: req.body.FECHA_INICIAL,
+      FECHA_FINAL: req.body.FECHA_FINAL,
+      TIEMPO_PRODUCCION: req.body.TIEMPO_PRODUCCION,
+      TIEMPO_PARADA: req.body.TIEMPO_PARADA,
+      ESTANTERIAMQ: req.body.ESTANTERIAMQ,
+      CANTIDAD_V_A_A: req.body.CANTIDAD_V_A_A,
+      CANTIDAD_V_M_A: req.body.CANTIDAD_V_M_A,
+      CARPAS: req.body.CARPAS,
+      IMPULSOS: req.body.IMPULSOS,
+      CANTIDAD_V_A_D: req.body.CANTIDAD_V_A_D,
+      CANTIDAD_V_M_D: req.body.CANTIDAD_V_M_D,
+      comentarios: [
+        {
+          numero: 1,
+          texto: req.body.COMENTARIO
+        }
+      ],
+      FIRMA: req.body.FIRMA
     });
 
     await nuevaMaquina.save();
-    res.status(201).json({ success: true, message: 'Registro guardado en máquina 4' });
-  } catch (err) {
-    console.error('❌ Error al guardar máquina 4:', err);
-    res.status(500).json({ success: false, message: 'Error al guardar máquina 4' });
-  }
-});
-
-
-app.get('/api/maquinas', async (req, res) => {
-  try {
-    const maquinas = await Maquina.find().sort({ FECHA_INICIAL: -1 });
-    res.json(maquinas);
+    res.status(201).json({ message: "Registro creado correctamente" });
   } catch (error) {
-    console.error('❌ Error al obtener datos de máquina:', error);
-    res.status(500).json({ success: false, message: 'Error al obtener datos.' });
+    console.error(error);
+    res.status(500).json({ message: "Error al guardar el registro" });
   }
 });
+
+
+// 📌 PUT - Agregar nuevo comentario al mismo documento
+app.put("/api/maquina/:id/comentario", async (req, res) => {
+  try {
+    const maquina = await Maquina.findById(req.params.id);
+    if (!maquina) {
+      return res.status(404).json({ message: "Registro no encontrado" });
+    }
+
+    // Calcular número de comentario
+    const nuevoNumero = maquina.comentarios.length + 1;
+
+    maquina.comentarios.push({
+      numero: nuevoNumero,
+      texto: req.body.texto
+    });
+
+    await maquina.save();
+    res.json({ message: "Comentario agregado correctamente", maquina });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al agregar el comentario" });
+  }
+});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {

@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Formulario Máquina 4</title>
     <link rel="stylesheet" href="./style.css" />
-    <link
-      rel="stylesheet"
+    <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
   </head>
@@ -16,10 +15,11 @@
         <img src="./Logo.png" alt="Logo de la empresa" class="logo-izq" />
         <h2>Máquina 4</h2>
 
+        <!-- Supervisor -->
         <div class="form-group">
           <i class="fa-solid fa-user"></i>
-          <label for="nombreSupervisor">Nombre del Supervisor:</label>
-          <select id="nombreSupervisor" name="nombreSupervisor" required>
+          <label for="SUPERVISOR">Nombre del Supervisor:</label>
+          <select id="SUPERVISOR" name="SUPERVISOR" required>
             <option value="" disabled selected>Seleccione un supervisor</option>
             <option value="LUIS MARQUEZ">LUIS MARQUEZ</option>
             <option value="JHON ORTEGA">JHON ORTEGA</option>
@@ -28,192 +28,131 @@
           </select>
         </div>
 
+        <!-- Referencia -->
         <div class="form-group">
           <i class="fa-solid fa-trowel-bricks"></i>
-          <label for="referencia">Referencia del material:</label>
-          <select id="referencia" name="referencia" required>
+          <label for="REFERENCIA">Referencia del material:</label>
+          <select id="REFERENCIA" name="REFERENCIA" required>
             <option value="" disabled selected>Referencia</option>
             <option value="Ladrillo #4">Ladrillo #4</option>
             <option value="Ladrillo #5">Ladrillo #5</option>
           </select>
         </div>
 
+        <!-- Producción -->
         <div class="form-group">
           <i class="fa-solid fa-hammer"></i>
-          <label for="estanteriasTrefiladas"
-            >Cant. Estanterías trefiladas:</label
-          >
-          <input
-            type="number"
-            id="estanteriasTrefiladas"
-            name="estanteriasTrefiladas"
-            min="1"
-          />
+          <label for="CANTIDAD_H">Cant. Estanterías trefiladas:</label>
+          <input type="number" id="CANTIDAD_H" name="CANTIDAD_H" min="0" />
         </div>
 
         <div class="form-group">
           <i class="fa-solid fa-building-circle-check"></i>
-          <label for="estanteriasHumedas">Cant. Estanterías Humedas:</label>
-          <input
-            type="number"
-            id="estanteriasHumedas"
-            name="estanteriasHumedas"
-            min="1"
-          />
+          <label for="CANTIDAD_C">Cant. Estanterías húmedas:</label>
+          <input type="number" id="CANTIDAD_C" name="CANTIDAD_C" min="0" />
         </div>
 
         <div class="form-group">
           <i class="fa-solid fa-building-circle-check"></i>
-          <label for="estanteriasCuarto">Cant. Estanterías en cuarto:</label>
-          <input
-            type="number"
-            id="estanteriasCuarto"
-            name="estanteriasCuarto"
-            min="1"
-          />
+          <label for="ESTANTERIAMQ">Cant. Estanterías en cuarto:</label>
+          <input type="number" id="ESTANTERIAMQ" name="ESTANTERIAMQ" min="0" />
         </div>
 
         <div class="form-group">
           <i class="fa-solid fa-hammer"></i>
-          <label for="estanteriasArreglar"
-            >Cant. Estanterías por arreglar:</label
-          >
-          <input
-            type="number"
-            id="estanteriasArreglar"
-            name="estanteriasArreglar"
-            min="1"
-          />
+          <label for="CANTIDAD_A">Cant. Estanterías por arreglar:</label>
+          <input type="number" id="CANTIDAD_A" name="CANTIDAD_A" min="0" />
+        </div>
+
+        <!-- Fechas -->
+        <div class="form-group">
+          <i class="fa-solid fa-calendar-days"></i>
+          <label for="FECHA_INICIAL">Fecha y hora de inicio del turno:</label>
+          <input type="datetime-local" id="FECHA_INICIAL" name="FECHA_INICIAL" />
         </div>
 
         <div class="form-group">
           <i class="fa-solid fa-calendar-days"></i>
-          <label for="fechaInicioTurno"
-            >Fecha y hora de inicio del turno:</label
-          >
-          <input
-            type="datetime-local"
-            id="fechaInicioTurno"
-            name="fechaInicioTurno"
-          />
+          <label for="FECHA_FINAL">Fecha y hora final del turno:</label>
+          <input type="datetime-local" id="FECHA_FINAL" name="FECHA_FINAL" />
         </div>
 
-        <div class="form-group">
-          <i class="fa-solid fa-calendar-days"></i>
-          <label for="fechaFinalTurno">Fecha y hora final del turno:</label>
-          <input
-            type="datetime-local"
-            id="fechaFinalTurno"
-            name="fechaFinalTurno"
-          />
-        </div>
-
-        <h2>HOROMETRO</h2>
-
+        <!-- Horómetro -->
+        <h2>HORÓMETRO</h2>
         <div class="form-group">
           <i class="fa-solid fa-clock"></i>
-          <label for="tiempoProduccion">Tiempo de producción (hr):</label>
-          <input
-            type="number"
-            id="tiempoProduccion"
-            name="tiempoProduccion"
-            step="any"
-            min="1"
-          />
+          <label for="TIEMPO_PRODUCCION">Tiempo de producción (hr):</label>
+          <input type="number" id="TIEMPO_PRODUCCION" name="TIEMPO_PRODUCCION" step="any" min="0" />
         </div>
 
         <div class="form-group">
           <i class="fa-solid fa-stopwatch"></i>
-          <label for="tiempoParadas">Tiempo de paradas (hr):</label>
-          <input
-            type="number"
-            id="tiempoParadas"
-            name="tiempoParadas"
-            step="any"
-            min="1"
-          />
+          <label for="TIEMPO_PARADA">Tiempo de paradas (hr):</label>
+          <input type="number" id="TIEMPO_PARADA" name="TIEMPO_PARADA" step="any" min="0" />
         </div>
 
-        <h2>MAQUINA 1 Y 3</h2>
-
-        <div class="form-group">
-          <i class="fa-solid fa-building-circle-check"></i>
-          <label for="estanteriasCuarto"
-            >Cant. Estanterías en cuarto (MQ 1 Y 3):</label
-          >
-          <input
-            type="number"
-            id="estanteriasCuartoQ"
-            name="estanteriasCuartoQ"
-            min="1"
-          />
-        </div>
-
+        <!-- Robot Apilado -->
         <h2>ROBOT APILADO</h2>
-
         <div class="form-group">
           <i class="fa-solid fa-robot"></i>
-          <label for="AvagonetasA">Cant. Vagonetas automaticas Apilado:</label>
-          <input type="number" id="AvagonetasA" name="DvagonetasA" min="1" />
+          <label for="CANTIDAD_V_A_A">Cant. Vagonetas automáticas Apilado:</label>
+          <input type="number" id="CANTIDAD_V_A_A" name="CANTIDAD_V_A_A" min="0" />
         </div>
 
         <div class="form-group">
           <i class="fa-solid fa-people-carry-box"></i>
-          <label for="AvagonetasM">Cant. Vagonetas Manuales Apilado :</label>
-          <input type="number" id="AvagonetasM" name="AvagonetasM" min="1" />
+          <label for="CANTIDAD_V_M_A">Cant. Vagonetas manuales Apilado :</label>
+          <input type="number" id="CANTIDAD_V_M_A" name="CANTIDAD_V_M_A" min="0" />
         </div>
 
-        <h2>HORNO TUNEL</h2>
-
+        <!-- Horno -->
+        <h2>HORNO TÚNEL</h2>
         <div class="form-group">
           <i class="fa-solid fa-fire"></i>
-          <label for="carpas">Cant. Vagonetas en carpas :</label>
-          <input type="number" id="carpas" name="carpas" />
+          <label for="CARPAS">Cant. Vagonetas en carpas :</label>
+          <input type="number" id="CARPAS" name="CARPAS" min="0" />
         </div>
 
         <div class="form-group">
           <i class="fa-solid fa-rectangle-list"></i>
-          <label for="impulsos">Cant. impulsos Horno:</label>
-          <input type="number" id="impulsos" name="impulsos" min="1" />
+          <label for="IMPULSOS">Cant. impulsos Horno:</label>
+          <input type="number" id="IMPULSOS" name="IMPULSOS" min="0" />
         </div>
 
+        <!-- Robot Desapilado -->
         <h2>ROBOT DESAPILADO</h2>
         <div class="form-group">
           <i class="fa-solid fa-robot"></i>
-          <label for="DvagonetasA"
-            >Cant. Vagonetas automaticas Desapilado:</label
-          >
-          <input type="number" id="DvagonetasA" name="DvagonetasA" min="1" />
+          <label for="CANTIDAD_V_A_D">Cant. Vagonetas automáticas Desapilado:</label>
+          <input type="number" id="CANTIDAD_V_A_D" name="CANTIDAD_V_A_D" min="0" />
         </div>
 
         <div class="form-group">
           <i class="fa-solid fa-people-carry-box"></i>
-          <label for="DvagonetasM">Cant. Vagonetas Manuales Desapilado :</label>
-          <input type="number" id="DvagonetasM" name="DvagonetasM" min="1" />
+          <label for="CANTIDAD_V_M_D">Cant. Vagonetas manuales Desapilado :</label>
+          <input type="number" id="CANTIDAD_V_M_D" name="CANTIDAD_V_M_D" min="0" />
         </div>
 
+        <!-- Comentarios -->
         <h2>OBSERVACIONES DEL TURNO</h2>
         <textarea
-          id="comentario"
-          name="comentario"
-          minlength="1000"
+          id="COMENTARIO"
+          name="COMENTARIO"
+          minlength="10"
+          maxlength="1700"
           required
-          placeholder="Escribe al menos 1000 caracteres aquí..."
+          placeholder="Escribe al menos 10 caracteres aquí..."
           rows="6"
-          cols="50"
         ></textarea>
 
+        <!-- Firma -->
         <h2>Firma del Supervisor:</h2>
-        <canvas
-          id="firmaCanvas"
-          width="550"
-          height="150"
-          style="border: 1px solid #000"
-        ></canvas>
+        <canvas id="firmaCanvas" width="550" height="150" style="border: 1px solid #000"></canvas>
         <br />
         <button type="button" onclick="limpiarFirma()">Limpiar Firma</button>
-        <input type="hidden" name="firma" id="firmaInput" />
+        <input type="hidden" name="FIRMA" id="firmaInput" />
 
+        <!-- Botón -->
         <div class="form-group">
           <button type="submit">Enviar</button>
         </div>
