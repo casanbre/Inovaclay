@@ -32,20 +32,38 @@ const paradaSchema = new mongoose.Schema({
 const Parada = mongoose.model('Parada', paradaSchema);
 
 const maquinaSchema = new mongoose.Schema({
-  SUPERVISOR: {type: String,required: true},
-  REFERENCIA: {type: String,required: true},
-  CANTIDAD: {type: Number, required: true},
-  CANTIDAD_H: {type: Number, required: true},
-  CANTIDAD_C: {type: Number, required:true},
-  CANTIDAD_A: {type: Number, required:true},
-  FECHA_INICIAL: {type: Date, required: true},
-  FECHA_FINAL: {type: Date, required: true},
-  TIEMPO_PRODUCCION: {type: Number, required: true},
-  TIEMPO_PARADA: {type: Number, required: true},
-  ESTANTERIAMQ: {type:Number, required: true},
-  FIRMA: {type:String,required: true}
-})
-const Maquina = mongoose.model('Maquina', maquinaSchema);
+  SUPERVISOR: { type: String, required: true },
+  REFERENCIA: { type: String, required: true },
+  CANTIDAD: { type: Number, required: true },
+  CANTIDAD_H: { type: Number, required: true },
+  CANTIDAD_C: { type: Number, required: true },
+  CANTIDAD_A: { type: Number, required: true },
+  FECHA_INICIAL: { type: Date, required: true },
+  FECHA_FINAL: { type: Date, required: true },
+  TIEMPO_PRODUCCION: { type: Number, required: true },
+  TIEMPO_PARADA: { type: Number, required: true },
+  ESTANTERIAMQ: { type: Number, required: true },
+
+  CANTIDAD_V_A_A: { type: Number, required: true },
+  CANTIDAD_V_M_A: { type: Number, required: true },
+  CARPAS: { type: Number, required: true },
+  IMPULSOS: { type: Number, required: true },
+  CANTIDAD_V_A_D: { type: Number, required: true },
+  CANTIDAD_V_M_D: { type: Number, required: true },
+
+  COMENTARIOS: [
+    {
+      problema: { type: String, required: true },
+      solucion_corto: { type: String, required: true },
+      solucion_largo: { type: String, required: true }
+    }
+  ],
+
+  FIRMA: { type: String, required: true }
+});
+
+const Maquina = mongoose.model("Maquina", maquinaSchema);
+
 
 
 const registroVagonetaSchema = new mongoose.Schema({
@@ -275,7 +293,8 @@ app.post('/api/maquina', async (req, res) => {
   try {
 
     console.log('📥 Datos recibidos:', req.body);
-    const { SUPERVISOR,REFERENCIA,CANTIDAD,CANTIDAD_H,CANTIDAD_C,CANTIDAD_A, FECHA_INICIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA,ESTANTERIAMQ,FIRMA } = req.body;
+    const { SUPERVISOR,REFERENCIA,CANTIDAD,CANTIDAD_H,CANTIDAD_C,CANTIDAD_A, FECHA_INICIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA,ESTANTERIAMQ,CANTIDAD_V_A_A,
+      CANTIDAD_V_M_A,CARPAS,IMPULSOS,CANTIDAD_V_A_D,CANTIDAD_V_M_D,FIRMA } = req.body;
 
     const nuevaMaquina = new Maquina({
       SUPERVISOR,
@@ -289,6 +308,13 @@ app.post('/api/maquina', async (req, res) => {
       TIEMPO_PRODUCCION,
       TIEMPO_PARADA,
       ESTANTERIAMQ,
+      CANTIDAD_V_A_A,
+      CANTIDAD_V_M_A,
+      CARPAS,
+      IMPULSOS,
+      CANTIDAD_V_A_D,
+      CANTIDAD_V_M_D,
+      COMENTARIOS: req.body.COMENTARIOS,
       FIRMA
     });
 
