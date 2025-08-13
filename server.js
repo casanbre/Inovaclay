@@ -318,7 +318,7 @@ app.post('/api/maquina', async (req, res) => {
 });
 
 
-app.get('/api/maquinas', async (req, res) => {
+app.get('/api/maquina', async (req, res) => {
   try {
     const maquinas = await Maquina.find().sort({ FECHA_INICIAL: -1 });
     res.json(maquinas);
