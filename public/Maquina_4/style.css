@@ -82,6 +82,68 @@ button:hover {
   left: 10px;
 }
 
+.btnAgregarComentario{
+  width: 200px;
+}
+
+
+h2 {
+  margin-top: 20px;
+  color: #333;
+  font-size: 20px;
+  border-bottom: 2px solid #e74c3c;
+  padding-bottom: 5px;
+}
+
+#nuevoComentario {
+  width: 100%;
+  min-height: 60px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+  margin-top: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+#nuevoComentario:focus {
+  outline: none;
+  border-color: #e74c3c;
+  box-shadow: 0 0 5px rgba(231, 76, 60, 0.4);
+}
+
+#btnAgregarComentario {
+  background-color: #e74c3c;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+#btnAgregarComentario:hover {
+  background-color: #c0392b;
+}
+
+#listaComentarios {
+  list-style: none;
+  padding: 0;
+  margin-top: 12px;
+}
+
+#listaComentarios li {
+  background: #f9f9f9;
+  border-left: 4px solid #e74c3c;
+  padding: 8px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
 canvas {
     width: 100%;
     max-width: 600px;
@@ -143,5 +205,9 @@ canvas {
     position: static;
     margin: 0 auto 10px auto;
     display: block;
+  }
+
+  .btnAgregarComentario{
+    width: auto;
   }
 }
