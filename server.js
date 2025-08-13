@@ -7,11 +7,26 @@ const path = require('path');
 const app = express();
 
 
+const cors = require("cors");
+
+const allowedOrigins = [
+  "https://inovaclay.onrender.com", 
+  "http://127.0.0.1:5502",          
+  "http://localhost:5502"
+];
+
 app.use(cors({
-  origin: "https://inovaclay.onrender.com", 
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("No permitido por CORS"));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
 
 app.use(express.json());
 app.use(express.static('public'));
