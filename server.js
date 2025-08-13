@@ -12,7 +12,8 @@ const cors = require("cors");
 const allowedOrigins = [
   "https://inovaclay.onrender.com", 
   "http://127.0.0.1:5502",          
-  "http://localhost:5502"
+  "http://localhost:5502",
+  "https://inovaclay-1.onrender.com/api/paradas"
 ];
 
 app.use(cors({
