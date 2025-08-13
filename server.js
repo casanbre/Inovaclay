@@ -51,6 +51,13 @@ const maquinaSchema = new mongoose.Schema({
   CANTIDAD_V_A_D: {type: Number, required:true},
   CANTIDAD_V_M_D: {type: Number, required:true},
 
+  comentarios: [
+    {
+      numero: { type: Number },
+      texto: { type: String }
+    }
+  ],
+
 
   FIRMA: {type:String,required: true}
 })
@@ -285,7 +292,7 @@ app.post('/api/maquina', async (req, res) => {
 
     console.log('📥 Datos recibidos:', req.body);
     const { SUPERVISOR,REFERENCIA,CANTIDAD,CANTIDAD_H,CANTIDAD_C,CANTIDAD_A, FECHA_INICIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA,ESTANTERIAMQ,CANTIDAD_V_A_A,
-      CANTIDAD_V_M_A,CARPAS,IMPULSOS,CANTIDAD_V_A_D,CANTIDAD_V_M_D,FIRMA } = req.body;
+      CANTIDAD_V_M_A,CARPAS,IMPULSOS,CANTIDAD_V_A_D,CANTIDAD_V_M_D,comentarios,FIRMA } = req.body;
 
     const nuevaMaquina = new Maquina({
       SUPERVISOR,
@@ -305,6 +312,8 @@ app.post('/api/maquina', async (req, res) => {
       IMPULSOS,
       CANTIDAD_V_A_D,
       CANTIDAD_V_M_D,
+
+      comentarios: comentarios || [],
       
       FIRMA
     });
