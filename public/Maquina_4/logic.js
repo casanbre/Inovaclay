@@ -98,25 +98,34 @@ document.addEventListener("DOMContentLoaded", () => {
     const firmaBase64 = canvas.toDataURL("image/png");
 
     const datos = {
-      SUPERVISOR: document.getElementById("SUPERVISOR").value,
-      REFERENCIA: document.getElementById("REFERENCIA").value,
-      CANTIDAD: Number(document.getElementById("CANTIDAD_H").value) + Number(document.getElementById("CANTIDAD_C").value),
-      CANTIDAD_H: Number(document.getElementById("CANTIDAD_H").value),
-      CANTIDAD_C: Number(document.getElementById("CANTIDAD_C").value),
-      CANTIDAD_A: Number(document.getElementById("CANTIDAD_A").value),
-      FECHA_INICIAL: document.getElementById("FECHA_INICIAL").value,
-      FECHA_FINAL: document.getElementById("FECHA_FINAL").value,
-      TIEMPO_PRODUCCION: Number(document.getElementById("TIEMPO_PRODUCCION").value),
-      TIEMPO_PARADA: Number(document.getElementById("TIEMPO_PARADA").value),
-      ESTANTERIAMQ: Number(document.getElementById("ESTANTERIAMQ").value),
-      CANTIDAD_V_A_A: Number(document.getElementById("CANTIDAD_V_A_A").value),
-      CANTIDAD_V_M_A: Number(document.getElementById("CANTIDAD_V_M_A").value),
-      CARPAS: Number(document.getElementById("CARPAS").value),
-      IMPULSOS: Number(document.getElementById("IMPULSOS").value),
-      CANTIDAD_V_A_D: Number(document.getElementById("CANTIDAD_V_A_D").value),
-      CANTIDAD_V_M_D: Number(document.getElementById("CANTIDAD_V_M_D").value),
-      comentarios: comentarios,
-      FIRMA: firmaBase64
+      SUPERVISOR: document.getElementById("nombreSupervisor").value,
+        REFERENCIA: document.getElementById("referencia").value,
+        CANTIDAD: Number(
+          document.getElementById("estanteriasTrefiladas").value
+        ),
+        CANTIDAD_H: Number(document.getElementById("estanteriasHumedas").value),
+        CANTIDAD_C: Number(document.getElementById("estanteriasCuarto").value),
+        CANTIDAD_A: Number(
+          document.getElementById("estanteriasArreglar").value
+        ),
+        FECHA_INICIAL: document.getElementById("fechaInicioTurno").value,
+        FECHA_FINAL: document.getElementById("fechaFinalTurno").value,
+        TIEMPO_PRODUCCION: Number(
+          document.getElementById("tiempoProduccion").value
+        ),
+        TIEMPO_PARADA: Number(document.getElementById("tiempoParadas").value),
+        ESTANTERIAMQ: Number(
+          document.getElementById("estanteriasCuartoQ").value
+        ),
+
+        CANTIDAD_V_A_A: Number(document.getElementById("AvagonetasA").value),
+        CANTIDAD_V_M_A: Number(document.getElementById("AvagonetasM").value),
+        CARPAS: Number(document.getElementById("carpas").value),
+        IMPULSOS: Number(document.getElementById("impulsos").value),
+        CANTIDAD_V_A_D: Number(document.getElementById("DvagonetasA").value),
+        CANTIDAD_V_M_D: Number(document.getElementById("DvagonetasM").value),
+        comentarios: comentarios,
+        FIRMA: firmaBase64,
     };
 
     // Validación
