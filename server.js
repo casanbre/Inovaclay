@@ -280,7 +280,7 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/api/maquina', async (req, res) => {
+app.post('/api/maquinas', async (req, res) => {
   try {
 
     console.log('📥 Datos recibidos:', req.body);
@@ -305,7 +305,7 @@ app.post('/api/maquina', async (req, res) => {
       IMPULSOS,
       CANTIDAD_V_A_D,
       CANTIDAD_V_M_D,
-      COMENTARIOS: req.body.COMENTARIOS,
+      
       FIRMA
     });
 
