@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const firmaBase64 = canvas.toDataURL("image/png");
 
     const datos = {
-      SUPERVISOR: document.getElementById("nombreSupervisor").value,
+        SUPERVISOR: document.getElementById("nombreSupervisor").value,
         REFERENCIA: document.getElementById("referencia").value,
         CANTIDAD: Number(
           document.getElementById("estanteriasTrefiladas").value
@@ -110,13 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
         ),
         FECHA_INICIAL: document.getElementById("fechaInicioTurno").value,
         FECHA_FINAL: document.getElementById("fechaFinalTurno").value,
-        TIEMPO_PRODUCCION: Number(
-          document.getElementById("tiempoProduccion").value
-        ),
+        TIEMPO_PRODUCCION: Number(document.getElementById("tiempoProduccion").value),
         TIEMPO_PARADA: Number(document.getElementById("tiempoParadas").value),
-        ESTANTERIAMQ: Number(
-          document.getElementById("estanteriasCuartoQ").value
-        ),
+        ESTANTERIAMQ: Number(document.getElementById("estanteriasCuartoQ").value),
 
         CANTIDAD_V_A_A: Number(document.getElementById("AvagonetasA").value),
         CANTIDAD_V_M_A: Number(document.getElementById("AvagonetasM").value),
@@ -124,6 +120,20 @@ document.addEventListener("DOMContentLoaded", () => {
         IMPULSOS: Number(document.getElementById("impulsos").value),
         CANTIDAD_V_A_D: Number(document.getElementById("DvagonetasA").value),
         CANTIDAD_V_M_D: Number(document.getElementById("DvagonetasM").value),
+
+        MOLINO1_ESTADO: (document.getElementById("disponibleM3").value),
+        MOLINO1_TONELADA: Number(document.getElementById("molino1").value),
+
+        MOLINO2_ESTADO: (document.getElementById("disponibleM2").value),
+        MOLINO2_TONELADA: Number(document.getElementById("molino2")),
+
+        MOLINO3_ESTADO: (document.getElementById("disponibleM3").value),
+        MOLINO3_TONELADA: Number(document.getElementById("molino3").value),
+
+        MOLINO_CARBON_ESTADO: (document.getElementById("disponibleCR").value),
+        MOLINO_CAR_TONE: Number(document.getElementById("molinocarbon").value),
+
+
         comentarios: comentarios,
         FIRMA: firmaBase64,
     };

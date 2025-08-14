@@ -73,6 +73,20 @@ const maquinaSchema = new mongoose.Schema({
   CANTIDAD_V_A_D: {type: Number, required:true},
   CANTIDAD_V_M_D: {type: Number, required:true},
 
+  MOLINO1_ESTADO: {type: String, required:true},
+  MOLINO1_TONELADA: {type: Number, required:true},
+
+  MOLINO2_ESTADO: {type: String, required:true},
+  MOLINO2_TONELADA: {type: Number, required:true},
+
+  MOLINO3_ESTADO: {type: String, required:true},
+  MOLINO3_TONELADA: {type: Number, required:true},
+
+  MOLINO_CARBON_ESTADO: {type: String, required:true},
+  MOLINO_CAR_TONE: {type: String, required:true},
+
+
+
   comentarios: [
     {
       numero: { type: Number },
@@ -334,6 +348,19 @@ app.post('/api/maquina', async (req, res) => {
       IMPULSOS,
       CANTIDAD_V_A_D,
       CANTIDAD_V_M_D,
+
+      MOLINO1_ESTADO,
+      MOLINO1_TONELADA,
+
+      MOLINO2_ESTADO,
+      MOLINO2_TONELADA,
+
+      MOLINO3_ESTADO,
+      MOLINO3_TONELADA,
+
+      MOLINO_CARBON_ESTADO,
+      MOLINO_CAR_TONE,
+
 
       comentarios: comentarios || [],
       

@@ -151,7 +151,9 @@ canvas {
     touch-action: none; 
     background-color: #c2d6eb57;
     border-radius: 25px;
-    }
+}
+
+
 
 @media (max-width: 600px) {
   body {
