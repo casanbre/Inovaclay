@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
         MOLINO1_TONELADA: Number(document.getElementById("molino1").value),
 
         MOLINO2_ESTADO: (document.getElementById("disponibleM2").value),
-        MOLINO2_TONELADA: Number(document.getElementById("molino2")),
+        MOLINO2_TONELADA: Number(document.getElementById("molino2").value),
 
         MOLINO3_ESTADO: (document.getElementById("disponibleM3").value),
         MOLINO3_TONELADA: Number(document.getElementById("molino3").value),
