@@ -323,12 +323,13 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/api/maquina', async (req, res) => {
+app.post('/api/maquinas', async (req, res) => {
   try {
 
     console.log('📥 Datos recibidos:', req.body);
     const { SUPERVISOR,REFERENCIA,CANTIDAD,CANTIDAD_H,CANTIDAD_C,CANTIDAD_A, FECHA_INICIAL, FECHA_FINAL, TIEMPO_PRODUCCION, TIEMPO_PARADA,ESTANTERIAMQ,CANTIDAD_V_A_A,
-      CANTIDAD_V_M_A,CARPAS,IMPULSOS,CANTIDAD_V_A_D,CANTIDAD_V_M_D,comentarios,FIRMA } = req.body;
+      CANTIDAD_V_M_A,CARPAS,IMPULSOS,CANTIDAD_V_A_D,CANTIDAD_V_M_D,MOLINO1_ESTADO,
+      MOLINO1_TONELADA,MOLINO2_ESTADO,MOLINO2_TONELADA,MOLINO3_ESTADO,MOLINO3_TONELADA,MOLINO_CARBON_ESTADO,MOLINO_CAR_TONE,comentarios,FIRMA } = req.body;
 
     const nuevaMaquina = new Maquina({
       SUPERVISOR,
