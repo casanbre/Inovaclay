@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const res = await fetch("https://inovaclay-1.onrender.com/api/maquinas", {
+      const res = await fetch("https://inovaclay-1.onrender.com/api/maquina", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(datos),
