@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
         comentarios = [];
         mostrarComentarios();
       } else {
-        alert("❌ Error: " + (respuesta.message || "No se pudo guardar."));
+        alert("❌ Error: " + (respuesta.message || "No se pudo guardar ."));
       }
     } catch (error) {
       console.error("❌ Error de red:", error);
