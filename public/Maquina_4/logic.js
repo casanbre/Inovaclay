@@ -90,8 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
     lista.innerHTML = comentarios.map((c) => `<li>${c.numero}. ${c.texto}</li>`).join("");
   }
 
-  // -------------------------------
-  // Enviar formulario
+ 
   document.getElementById("formulario").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -151,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const res = await fetch("https://inovaclay-1.onrender.com/api/maquina", {
+      const res = await fetch("https://inovaclay-1.onrender.com/api/maquinas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(datos),
