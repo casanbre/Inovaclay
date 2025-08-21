@@ -1,23 +1,20 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
 require('dotenv').config();
 const path = require('path');
+const cors = require("cors");
 
 const app = express();
 
-
-const cors = require("cors");
-
+// ✅ Lista de orígenes permitidos (solo dominios, NO rutas /api/..)
 const allowedOrigins = [
-  "https://inovaclay.onrender.com", 
-  "http://127.0.0.1:5502",          
-  "http://localhost:5502",
-  "https://inovaclay-1.onrender.com/api/paradas",
-  "https://inovaclay-1.onrender.com/api/maquinas"
-
+  "https://inovaclay.onrender.com",   // frontend principal
+  "https://inovaclay-1.onrender.com", // backend en Render
+  "http://127.0.0.1:5502",            // pruebas local
+  "http://localhost:5502"             // pruebas local
 ];
 
+// ✅ Configuración CORS
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -29,7 +26,6 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
-
 
 app.use(express.json());
 app.use(express.static('public'));
