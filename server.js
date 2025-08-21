@@ -13,7 +13,9 @@ const allowedOrigins = [
   "https://inovaclay.onrender.com", 
   "http://127.0.0.1:5502",          
   "http://localhost:5502",
-  "https://inovaclay-1.onrender.com/api/paradas"
+  "https://inovaclay-1.onrender.com/api/paradas",
+  "https://inovaclay-1.onrender.com/api/maquinas"
+
 ];
 
 app.use(cors({
