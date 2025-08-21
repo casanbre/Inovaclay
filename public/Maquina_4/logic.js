@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
         CANTIDAD_V_A_D: Number(document.getElementById("DvagonetasA").value),
         CANTIDAD_V_M_D: Number(document.getElementById("DvagonetasM").value),
 
-        MOLINO1_ESTADO: (document.getElementById("disponibleM3").value),
+        MOLINO1_ESTADO: (document.getElementById("disponibleM1").value),
         MOLINO1_TONELADA: Number(document.getElementById("molino1").value),
 
         MOLINO2_ESTADO: (document.getElementById("disponibleM2").value),
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const res = await fetch("https://inovaclay-1.onrender.com/api/maquina", {
+      const res = await fetch("https://inovaclay-1.onrender.com/api/maquinas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(datos),
