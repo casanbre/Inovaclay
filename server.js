@@ -450,7 +450,7 @@ app.post('/api/super', async (req, res) => {
       OBSERVACIONES_A
     } = req.body;
 
-    const controlsuper = new control({
+    const controlsuper = new Super({
       SUPERVISOR,
       MACHIN,
       FECHA,
@@ -463,7 +463,7 @@ app.post('/api/super', async (req, res) => {
       ALTO,
       AMPERAJE,
       CORTES,
-      CRITERIO,
+      CRITERIO: CRITERIO === "SI" ? true : false,
       OBSERVACIONES,
       ASPECTOCORTADO,
       ASPECTOESTANTERIA,
@@ -486,13 +486,14 @@ app.post('/api/super', async (req, res) => {
 
 app.get('/api/super', async (req, res) => {
   try {
-    const registros = await control.find().sort({ FECHA: -1 });
+    const registros = await Super.find().sort({ FECHA: -1 });
     res.json(registros);
   } catch (err) {
     console.error('❌ Error al obtener supervisiones:', err);
     res.status(500).json({ success: false, message: 'Error al obtener supervisiones' });
   }
 });
+
 
 
 const PORT = process.env.PORT || 3000;
