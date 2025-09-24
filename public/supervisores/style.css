@@ -1,63 +1,61 @@
 body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(to bottom, #d5d5d5, #ff5722);
-  margin: 0;
+  min-height: 100vh;
   padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  background: linear-gradient(to bottom, #d5d5d5, #ff5722);
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
 }
 
 form {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   background: #f8f8f8b5;
   padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 25px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  margin: 0 auto;
   position: relative;
 }
 
 h2 {
   text-align: center;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   margin-bottom: 20px;
-  color: #333;
-  border-bottom: 2px solid #e74c3c;
-  padding-bottom: 5px;
 }
 
 .form-group {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  margin: 12px 0;
   gap: 10px;
 }
 
 .form-group i {
   width: 25px;
+  color: #f05513;
   text-align: center;
-  font-size: 18px;
-  color: #e74c3c;
 }
 
 .form-group label {
-  flex: 1.5;
+  flex: 1;
   font-weight: bold;
-  font-size: 14px;
-  color: #333;
 }
 
-.form-group input,
 .form-group select,
+.form-group input,
 .form-group textarea {
-  flex: 2.5;
+  flex: 3;
   width: 100%;
-  padding: 8px;
-  font-size: 14px;
+  min-width: 0;
+  padding: 10px;
+  font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 5px;
   box-sizing: border-box;
 }
 
@@ -66,9 +64,9 @@ button {
   padding: 12px;
   background: #007bff;
   border: none;
-  color: #fff;
+  color: white;
   font-size: 1.1rem;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   margin-top: 15px;
 }
@@ -79,6 +77,166 @@ button:hover {
 
 .logo-izq {
   width: 120px;
-  display: block;
-  margin: 0 auto 10px auto;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.btnAgregarComentario{
+  width: 200px;
+}
+
+
+h2 {
+  margin-top: 20px;
+  color: #333;
+  font-size: 20px;
+  border-bottom: 2px solid #e74c3c;
+  padding-bottom: 5px;
+}
+
+#nuevoComentario {
+  width: 100%;
+  min-height: 60px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+  margin-top: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+#nuevoComentario:focus {
+  outline: none;
+  border-color: #e74c3c;
+  box-shadow: 0 0 5px rgba(231, 76, 60, 0.4);
+}
+
+#btnAgregarComentario {
+  background-color: #e74c3c;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+#btnAgregarComentario:hover {
+  background-color: #c0392b;
+}
+
+#listaComentarios {
+  list-style: none;
+  padding: 0;
+  margin-top: 12px;
+}
+
+#listaComentarios li {
+  background: #f9f9f9;
+  border-left: 4px solid #e74c3c;
+  padding: 8px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+canvas {
+    width: 100%;
+    max-width: 600px;
+    height: 150px;
+    touch-action: none; 
+    background-color: #c2d6eb57;
+    border-radius: 25px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 200px; /* Espacio entre SI y NO */
+  }
+
+  .radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Espacio entre el radio y el texto */
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+
+
+@media (max-width: 600px) {
+  body {
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+
+  canvas {
+    width: 100%;
+    max-width: 230px;
+    height: 150px; 
+    border: 1px solid #000;
+    touch-action: none;
+    display: block;
+    margin: auto;
+  }
+
+  form {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .form-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+
+  .form-group i {
+    margin-bottom: 5px;
+  }
+
+  .form-group label {
+    width: 100%;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 1rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .logo-izq {
+    position: static;
+    margin: 0 auto 10px auto;
+    display: block;
+  }
+
+  .btnAgregarComentario{
+    width: auto;
+  }
+
+  .radio-group {
+  display: flex;
+  gap: 200px; /* Espacio entre SI y NO */
+  }
+
+  .radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Espacio entre el radio y el texto */
+    font-weight: bold;
+    cursor: pointer;
+  }
+
 }
