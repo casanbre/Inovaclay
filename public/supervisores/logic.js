@@ -57,8 +57,6 @@ maquinaSelect.addEventListener("change", () => {
   }
 });
 
-
-// logic.js
 document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.getElementById("formulario");
 
@@ -79,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ALTO: document.getElementById("alto").value,
       AMPERAJE: document.getElementById("amperaje").value,
       CORTES: document.getElementById("cortes").value,
-      CRITERIO: document.querySelector('input[name="prueba_1"]:checked')?.value || "",
+      CRITERIO: document.querySelector('input[name="prueba_1"]:checked')?.value || "NO",
       OBSERVACIONES: document.getElementById("observaciones_1").value,
       ASPECTOCORTADO: document.getElementById("apariencia").value,
       ASPECTOESTANTERIA: document.getElementById("aparienciaEstanteria").value,
@@ -89,7 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/super", {
+      // 👇 Aquí cambias el localhost por tu dominio en la nube
+      const response = await fetch("https://inovaclay-1.onrender.com/api/super", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
