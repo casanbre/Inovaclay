@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LADRILLERA LA CLAY</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="form-container">
+      <form id="formulario">
+        
+        <h2>CONTROL DE SUPERVICION LADRILLERA LA CLAY</h2>
+        <h2>ENDAGUE</h2>
+        <div class="form-group">
+          <i class="fa-solid fa-user"></i>
+          <label for="nombreSupervisor">SUPERVISOR</label>
+          <select id="nombreSupervisor" name="nombreSupervisor" required>
+            <option value="" disabled selected>Seleccione un supervisor</option>
+            <option value="LUIS MARQUEZ">LUIS MARQUEZ</option>
+            <option value="JHON ORTEGA">JHON ORTEGA</option>
+            <option value="RICARDO BAHOQUE">RICARDO BAHOQUE</option>
+            <option value="JERSON PIMIENTA">JERSON PIMIENTA</option>
+            <option value="JUAN CARLOS PAEZ">JUAN CARLOS PAEZ</option>
+            <option value="VICTOR CASTAÑO">VICTOR CASTAÑO</option>
+            <option value="CARLOS GARCIA">CARLOS GARCIA</option>
+          </select>
+        </div>
+
+
+        <div class="form-group">
+          <i class="fa-solid fa-calendar-days"></i>
+          <label for="fechaInicioTurno">FECHA: </label>
+          <input type="date" id="fechaInicioTurno" name="fechaInicioTurno" />
+        </div>
+
+        <div class="form-group">
+          <i class="fa-solid fa-clock"></i>
+          <label for="horaInicioTurno">HORA: </label>
+          <input type="time" id="horaInicioTurno" name="horaInicioTurno" />
+        </div>
+
+        <div class="form-group">
+          <i class="fa-solid fa-wrench"></i>
+          <label for="maquina">MAQUINA: </label>
+          <select id="nombreMaquina" name="nombreMaquina" required>
+            <option value="" disabled selected>Seleccione Maquina</option>
+            <option value="Maquina 1">Maquina 1</option>
+            <option value="Maquina 3">Maquina 3</option>
+            <option value="Maquina 4">Maquina 4</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <i class="fa-solid fa-clock"></i>
+          <label for="Tiempo_cronometrado">TIEMPO CRO:</label>
+          <input type="number" id="tiempo_cronometrado" name="tiempo_cronometrado" min="1" />
+        </div>
+
+        
+        <div class="form-group">    
+          <i class="fa-solid fa-ruler-horizontal"></i>
+          <label for="largo">LARGO:</label>
+          <input type="number" id="largo" name="largo" min="1" />
+        </div>
+
+        <div class="form-group">
+          <i class="fa-solid fa-hammer"></i>
+          <label for="ancho">ANCHO:</label>
+          <input type="number" id="ancho" name="ancho" min="1" />
+        </div>
+
+        <div class="form-group">
+          <i class="fa-solid fa-ruler-vertical"></i>
+          <label for="alto">ALTO:</label>
+          <input type="number" id="alto" name="alto" min="1" />
+        </div>
+
+        <div class="form-group">
+          <i class="fa-solid fa-weight-scale"></i>
+          <label for="peso">PESO</label>
+          <input type="number" id="peso" name="peso" min="1" />
+        </div>
+
+    
+
+        <div class="form-group">
+            <i class="fa-solid fa-broom"></i>
+            <label for="orden">VERIFICAR ORDEN Y ASEO</label>
+            <div class="radio-group">
+                <label><input type="radio" name="prueba_1" value="SI"> SI</label>
+                <label><input type="radio" name="prueba_1" value="NO"> NO</label>
+            </div>
+        </div> 
+
+        <div class="form-group">
+            <i class="fa-solid fa-comment"></i>
+            <label for="observaciones">Observaciones:</label>
+            <textarea 
+                id="observaciones_1" 
+                name="observaciones_1" 
+                rows="4" 
+                placeholder="Escriba aquí sus observaciones..."
+            ></textarea>
+        </div>
+        <button type="submit">ENVIAR</button>
+      </form>
+      
+    </div>
+    
+    <script src="./logic.endague.js"></script>
+  </body>
+</html>

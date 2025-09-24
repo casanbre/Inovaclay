@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const path = require('path');
 const cors = require("cors");
+const { type } = require('os');
 
 const app = express();
 
@@ -96,6 +97,39 @@ const maquinaSchema = new mongoose.Schema({
   FIRMA: {type:String,required: true}
 })
 const Maquina = mongoose.model('Maquina', maquinaSchema);
+
+
+
+const controlsuperSchema = new mongoose.Schema({
+  SUPERVISOR: { type: String, required: true},
+  MACHIN: { type: String, required: true},
+  FECHA: { type: Date, required: true},
+  HORA: {type: String , required:  true},
+  REFERENCIA: { type: String, required: true},
+  VACIO : { type: Number, required: true },
+  DUROMETRO: { type: Number, required: true },
+  LARGO: { type: Number, required: true },
+  ANCHO: { type: Number, required: true },
+  ALTO: { type: Number, required: true },
+  AMPERAJE: { type: Number, required: true },
+  CORTES: { type: Number, required: true },
+  CRITERIO: {type: Boolean, required: true},
+  OBSERVACIONES:{type:String , required: true},
+
+  ASPECTOCORTADO: { type: String, required: true},
+  ASPECTOESTANTERIA: { type: String , required: true},
+  LAMINILLA: {type: String, required: true },
+  REVISION: {type: String, required: true},
+  OBSERVACIONES_A : {type: String , required: true}
+})
+
+const Super = mongoose.model('Super', controlsuperSchema);
+
+
+
+
+
+
 
 
 const registroVagonetaSchema = new mongoose.Schema({
@@ -321,6 +355,12 @@ app.get('/', (req, res) => {
 });
 
 
+
+
+
+
+
+
 app.post('/api/maquinas', async (req, res) => {
   try {
 
@@ -385,11 +425,81 @@ app.get('/api/maquinas', async (req, res) => {
   }
 });
 
+
+app.post('/api/super', async (req, res) => {
+  try {
+    const {
+      SUPERVISOR,
+      MACHIN,
+      FECHA,
+      HORA,
+      REFERENCIA,
+      VACIO,
+      DUROMETRO,
+      LARGO,
+      ANCHO,
+      ALTO,
+      AMPERAJE,
+      CORTES,
+      CRITERIO,
+      OBSERVACIONES,
+      ASPECTOCORTADO,
+      ASPECTOESTANTERIA,
+      LAMINILLA,
+      REVISION,
+      OBSERVACIONES_A
+    } = req.body;
+
+    const controlsuper = new control({
+      SUPERVISOR,
+      MACHIN,
+      FECHA,
+      HORA,
+      REFERENCIA,
+      VACIO,
+      DUROMETRO,
+      LARGO,
+      ANCHO,
+      ALTO,
+      AMPERAJE,
+      CORTES,
+      CRITERIO,
+      OBSERVACIONES,
+      ASPECTOCORTADO,
+      ASPECTOESTANTERIA,
+      LAMINILLA,
+      REVISION,
+      OBSERVACIONES_A
+    });
+
+    await controlsuper.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'Registro guardado en control de supervisores'
+    });
+  } catch (err) {
+    console.error('❌ Error al guardar supervisión:', err);
+    res.status(500).json({ success: false, message: 'Error al guardar supervisión' });
+  }
+});
+
+app.get('/api/super', async (req, res) => {
+  try {
+    const registros = await control.find().sort({ FECHA: -1 });
+    res.json(registros);
+  } catch (err) {
+    console.error('❌ Error al obtener supervisiones:', err);
+    res.status(500).json({ success: false, message: 'Error al obtener supervisiones' });
+  }
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
   await actualizarRoturaEnVagonetas();
   await limpiarDatosInvalidos(); 
-  console.log("🌐 Base de datos usada:", mongoose.connection.name); // <-- ESTO
-  console.log("🧩 URI conectada:", mongoose.connection.client.s.url); // <-- Y ESTO
+  console.log("🌐 Base de datos usada:", mongoose.connection.name); 
+  console.log("🧩 URI conectada:", process.env.MONGO_URI); 
 });
